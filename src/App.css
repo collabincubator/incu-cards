@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  font: normal normal 1.6rem/1 Roboto, sans-serif;
 }
 
 .App-logo {
@@ -35,4 +36,8 @@
   to {
     transform: rotate(360deg);
   }
+}
+.login > span, .registration > span, .profile > span, .changePass > span, .restorePass > span {
+  font-size: 4rem;
+  line-height: 1.2;
 }
