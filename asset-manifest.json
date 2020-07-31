@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/incu-cards/static/css/main.719068f8.chunk.css",
+    "main.js": "/incu-cards/static/js/main.00d9ec65.chunk.js",
+    "main.js.map": "/incu-cards/static/js/main.00d9ec65.chunk.js.map",
+    "runtime-main.js": "/incu-cards/static/js/runtime-main.ddcbfd7b.js",
+    "runtime-main.js.map": "/incu-cards/static/js/runtime-main.ddcbfd7b.js.map",
+    "static/js/2.cf7dd3ae.chunk.js": "/incu-cards/static/js/2.cf7dd3ae.chunk.js",
+    "static/js/2.cf7dd3ae.chunk.js.map": "/incu-cards/static/js/2.cf7dd3ae.chunk.js.map",
+    "index.html": "/incu-cards/index.html",
+    "precache-manifest.912bd5fd6dc5efab0f07dc73cca511e8.js": "/incu-cards/precache-manifest.912bd5fd6dc5efab0f07dc73cca511e8.js",
+    "service-worker.js": "/incu-cards/service-worker.js",
+    "static/css/main.719068f8.chunk.css.map": "/incu-cards/static/css/main.719068f8.chunk.css.map",
+    "static/js/2.cf7dd3ae.chunk.js.LICENSE.txt": "/incu-cards/static/js/2.cf7dd3ae.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.ddcbfd7b.js",
+    "static/js/2.cf7dd3ae.chunk.js",
+    "static/css/main.719068f8.chunk.css",
+    "static/js/main.00d9ec65.chunk.js"
+  ]
+}
