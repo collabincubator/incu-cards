@@ -1,11 +1,11 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
-import testReducer from './testReducer';
+import testReducer from './testReducer/testReducer';
 import thunk from 'redux-thunk';
-import loginReducer from './loginReducer';
-import profileReducer from './profileReducer';
-import registrationReducer from './registrationReducer';
-import restorePassReducer from './restorePassReducer';
-import changePassReducer from './changePassReducer';
+import loginReducer from './loginReducer/loginReducer';
+import profileReducer from './profileReducer/profileReducer';
+import registrationReducer from './registrationReducer/registrationReducer';
+import restorePassReducer from './restorePassReducer/restorePassReducer';
+import changePassReducer from './changePassReducer/changePassReducer';
 
 export const rootReducer = combineReducers({
     testReducer,
