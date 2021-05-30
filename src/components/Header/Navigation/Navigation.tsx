@@ -4,7 +4,13 @@ import { NavLink } from 'react-router-dom';
 
 const Navigation = (props: any) => {
 
-    let [tempState, setTempState] = useState( [{name: 'Login'}, {name: 'Registration'}, {name: 'RestorePass'}, {name: 'ChangePass'}, {name: 'Profile'}]);
+    let [tempState, setTempState] = useState( [
+        {name: 'Main'},
+        {name: 'Login'},
+        {name: 'Registration'},
+        {name: 'RestorePass'},
+        {name: 'ChangePass'},
+        {name: 'Profile'}]);
 
     let navLinks = tempState.map((link:{name:string}, index:number) => {
         return <li key={index} className={styles.navLinkItem}>

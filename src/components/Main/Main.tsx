@@ -1,22 +1,19 @@
 import React from 'react';
-import styles from './Main.module.css';
+import styles from './Main.module.scss';
 import Button from '../common/Button/Button';
 import Input from '../common/Input/Input';
-
-
-
-
 
 const Main = (props: any) => {
 
     return(
-        <div className={styles.wrap}>
-            <p className={styles.testText}>Main</p>
-            <div className={styles.col}>
-                <Input/>
-                <Button />
+        <section className={styles.wrap}>
+            <div className={styles.container}>
+                <div className={styles.box}>
+                    <Input/>
+                    <Button />
+                </div>
             </div>
-        </div>
+        </section>
     )
 }
 

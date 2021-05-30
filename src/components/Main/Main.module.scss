@@ -1,0 +1,24 @@
+.wrap {
+    width: 100%;
+    display: block;
+    overflow: hidden;
+    background-color: #5e7fdc;
+    .container {
+        max-width: 100.8rem;
+        margin: 0 auto;
+        background-color: #eb6d6d;
+        .box {
+            width: calc(42.1% - 1.2rem);
+            height: 50rem;
+            margin: 0 auto;
+            background-color: #fff;
+        }
+    }
+}
+.col {
+    display: inline-block;
+}
+
+.testText {
+    font: normal normal 1.6rem/1 Roboto, sans-serif;
+}
