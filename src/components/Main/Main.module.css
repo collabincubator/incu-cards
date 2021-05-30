@@ -1,0 +1,10 @@
+.wrap {
+    display: block;
+}
+.col {
+    display: inline-block;
+}
+
+.testText {
+    font: normal normal 1.6rem/1 Roboto, sans-serif;
+}

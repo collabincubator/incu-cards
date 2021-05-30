@@ -1,0 +1,19 @@
+.navList {
+    display: inline-block;
+    padding: 0.8rem;
+    list-style-type: none;
+    text-align: right;
+}
+
+.navLinkItem {
+    display: inline-block;
+    padding: 0.8rem;
+}
+
+.menuLink {
+    color: #61dafb;
+}
+
+.menuLinkActive {
+    color: red;
+}

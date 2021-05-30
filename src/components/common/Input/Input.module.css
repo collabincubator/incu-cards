@@ -1,0 +1,7 @@
+.mainInput {
+    display: block;
+    min-width: 20rem;
+    padding: 0.8rem;
+    margin: 0.4rem 0;
+    cursor: text;
+}

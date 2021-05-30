@@ -1,0 +1,7 @@
+.mainButton{
+    display: inline-block;
+    width: 100%;
+    margin: 0.4rem 0;
+    padding: 0.4rem;
+    text-align: center;
+}
