@@ -6,6 +6,11 @@ export const REGISTRATION_ACTION: string = 'registrationReducer/REG-ACTION';
 type InitialStateType = {
     registrationSuccess: boolean
 }
+const initialState = {
+    registrationSuccess:false
+}
+type PropertiesType<ActionType> = ActionType extends {[key: string]: infer ResponseType } ? ResponseType : never;
+type ActionsType = ReturnType<PropertiesType<typeof actions>>
 
 const registrationReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
