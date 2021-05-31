@@ -1,3 +1,6 @@
+@import './styles/mixins.module.scss';
+@import './styles/variables.module.scss';
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -34,6 +37,8 @@ body {
   sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: $bgcolor;
+  box-sizing: border-box;
 }
 ol, ul {
   list-style: none;
@@ -54,4 +59,27 @@ table {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+h1 {
+  font: $typoHeader1;
+  color: $primary
+}
+h2 {
+  font: $typoHeader2;
+  color: $primary
+}
+h3 {
+  font: $typoHeader3;
+  color: $third
+}
+p {
+  font: $typoParagraph;
+  color: $primary;
+}
+
+
+.login > span, .registration > span, .profile > span, .changePass > span, .restorePass > span {
+  font-size: 4rem;
+  line-height: 1.2;
 }

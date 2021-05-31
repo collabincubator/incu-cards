@@ -7,14 +7,6 @@ type InitialStateType = {
     registrationSuccess: boolean
 }
 
-
-type PropertiesType<ActionType> = ActionType extends { [key: string]: infer ResponseType } ? ResponseType : never;
-type ActionsType = ReturnType<PropertiesType<typeof actions>>
-
-export const initialState: InitialStateType = {
-    registrationSuccess: false
-}
-
 const registrationReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case 'REGISTRATION': {

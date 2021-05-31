@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import Header from './components/Header/Header';
 import {Redirect, Route, Switch} from "react-router-dom";
 import Login from "./components/Main/Login/Login";
@@ -24,20 +23,20 @@ const PATH = {
 const App = (props: any) => {
 
   return (
-    <div className="App">
-        <Header />
-        <Switch>
-            <Route path={'/main'} exact render={() => <Main />}/>
-            <Route path={'/'} exact render={() => <Redirect to={PATH.LOGIN}/>}/>
-            <Route path={PATH.LOGIN} render={() => <Login/>}/>
-            <Route path={PATH.PROFILE} render={() => <Profile/>}/>
-            <Route path={PATH.RESTORE_PASS} render={() => <RestorePass/>}/>
-            <Route path={PATH.NEW_PASSWORD} render={() => <ChangePass/>}/>
-            <Route path={PATH.REGISTER} render={() => <Registration/>}/>
-            <Route render={() => <PageNotFounded/>}/>
-        </Switch>
+      <div>
+          <Header/>
+          <Switch>
+              <Route path={'/main'} exact render={() => <Main/>}/>
+              <Route path={'/'} exact render={() => <Redirect to={PATH.LOGIN}/>}/>
+              <Route path={PATH.LOGIN} render={() => <Login/>}/>
+              <Route path={PATH.PROFILE} render={() => <Profile/>}/>
+              <Route path={PATH.RESTORE_PASS} render={() => <RestorePass/>}/>
+              <Route path={PATH.NEW_PASSWORD} render={() => <ChangePass/>}/>
+              <Route path={PATH.REGISTER} render={() => <Registration/>}/>
+              <Route render={() => <PageNotFounded/>}/>
+          </Switch>
 
-    </div>
+      </div>
   );
 }
 
