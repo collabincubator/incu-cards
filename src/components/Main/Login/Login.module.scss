@@ -1,0 +1,40 @@
+@import '../../../styles/variables.module';
+@import './src/styles/mixins.module';
+
+.container {
+  @include gridContainer (100.8rem, $bgcolor);
+  .box {
+    @include gridBox(5, 9, #0aa);
+    margin: 0 auto;
+    padding: 3.6rem;
+    font-size: 0;
+    line-height: 1;
+    overflow: hidden;
+    .forms {
+      width: 100%;
+      display: block;
+      margin: 0 auto;
+      overflow: hidden;
+      .inner {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: stretch;
+        h1, h2 {
+          text-align: center;
+        }
+        h3 {
+          text-align: left;
+        }
+        .textInput {
+          @include textInputs()
+        }
+        .btn {
+          display: block;
+          margin: 0;
+        }
+      }
+    }
+
+  }
+}

@@ -15,7 +15,7 @@ type InitialStateType = {
 type ActionsType = RegActionType;
 
 export const initialState: InitialStateType =  {
-    profileInfo: { email: 'valakas@gmail.com', sex: 'male', dateOfBirth: '29.02.1966', city: 'Samara', country: 'Ukraine' }
+    profileInfo: { email: 'valakas@gmail.com', sex: 'male', dateOfBirth: '29.02.1967', city: 'Samara', country: 'Ukraine' }
 }
 
 const registrationReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
