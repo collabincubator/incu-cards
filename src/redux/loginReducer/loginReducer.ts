@@ -14,8 +14,8 @@ export type UserResponeType = {
     name: string;
     avatar?: string;
     publicCardPacksCount: number; // количество колод
-    created: Date;
-    updated: Date;
+    created: number;
+    updated: number;
     isAdmin: boolean;
     verified: boolean; // подтвердил ли почту
     rememberMe: boolean;
@@ -35,7 +35,7 @@ export const initialState: InitialStateType =  {
 type PropertiesType<ActionType> = ActionType extends {[key: string]: infer ResponseType } ? ResponseType : never;
 type ActionsType = ReturnType<PropertiesType<typeof actions>>
 
-const loginReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+export const loginReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case LOGIN: {
             return ({
@@ -53,7 +53,7 @@ const loginReducer = (state: InitialStateType = initialState, action: ActionsTyp
     }
 }
 
-const actions = {
+export const actions = {
     loginAC:(data: any) => {
         let [email, password, rememberMe, _id, publicCardPacksCount, avatar] = data;
         return ({

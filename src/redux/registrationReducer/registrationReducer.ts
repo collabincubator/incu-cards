@@ -1,35 +1,50 @@
+import {authAPI} from "../../api/cards-api";
+
 export const REGISTRATION_ACTION: string = 'registrationReducer/REG-ACTION';
 
-type RegistrationDataType = {
-    email: string
-    sex: string
-    dateOfBirth: string
-    city: string
-    country: string
-}
 
 type InitialStateType = {
-    profileInfo: RegistrationDataType
-}
-
-type ActionsType = RegActionType;
-
-export const initialState: InitialStateType =  {
-    profileInfo: { email: 'valakas@gmail.com', sex: 'male', dateOfBirth: '29.02.1967', city: 'Samara', country: 'Ukraine' }
+    registrationSuccess: boolean
 }
 
 const registrationReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        default: return state
+        case 'REGISTRATION': {
+            return {
+                ...state,
+                registrationSuccess: action.payload.registrationSuccess
+            }
+        }
+        default:
+            return state
     }
 }
 
-type RegActionType = {
-    type: typeof REGISTRATION_ACTION
+
+export const actions = {
+    registrationAC: () => {
+        return ({
+            type: 'REGISTRATION',
+            payload: {
+                registrationSuccess: true
+            }
+        })
+    }
+
 }
 
-const regAction: RegActionType = {
-    type: REGISTRATION_ACTION
+
+export const RegistrationTC = (email: string, password: string) => (dispatch: any) => {
+    return (
+        authAPI.registration(email, password)
+            .then((data) => {
+                console.log(data)
+                dispatch(actions.registrationAC())
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    )
 }
 
 export default registrationReducer;
