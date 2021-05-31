@@ -1,35 +1,58 @@
+import {authAPI} from "../../api/cards-api";
+
 export const REGISTRATION_ACTION: string = 'registrationReducer/REG-ACTION';
 
-type RegistrationDataType = {
-    email: string
-    sex: string
-    dateOfBirth: string
-    city: string
-    country: string
-}
 
 type InitialStateType = {
-    profileInfo: RegistrationDataType
+    registrationSuccess: boolean
 }
 
-type ActionsType = RegActionType;
 
-export const initialState: InitialStateType =  {
-    profileInfo: { email: 'valakas@gmail.com', sex: 'male', dateOfBirth: '29.02.1966', city: 'Samara', country: 'Ukraine' }
+type PropertiesType<ActionType> = ActionType extends { [key: string]: infer ResponseType } ? ResponseType : never;
+type ActionsType = ReturnType<PropertiesType<typeof actions>>
+
+export const initialState: InitialStateType = {
+    registrationSuccess: false
 }
 
 const registrationReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        default: return state
+        case 'REGISTRATION': {
+            return {
+                ...state,
+                registrationSuccess: action.payload.registrationSuccess
+            }
+        }
+        default:
+            return state
     }
 }
 
-type RegActionType = {
-    type: typeof REGISTRATION_ACTION
+
+export const actions = {
+    registrationAC: () => {
+        return ({
+            type: 'REGISTRATION',
+            payload: {
+                registrationSuccess: true
+            }
+        })
+    }
+
 }
 
-const regAction: RegActionType = {
-    type: REGISTRATION_ACTION
+
+export const RegistrationTC = (email: string, password: string) => (dispatch: any) => {
+    return (
+        authAPI.registration(email, password)
+            .then((data) => {
+                console.log(data)
+                dispatch(actions.registrationAC())
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    )
 }
 
 export default registrationReducer;
