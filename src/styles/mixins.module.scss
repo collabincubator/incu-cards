@@ -10,10 +10,8 @@
   background: $gradient
 }
 
-@mixin gridBox($start, $end, $boxBg){
-  display: grid;
-  grid-column-start: $start;
-  grid-column-end: $end;
+@mixin gridBox($gridCol, $boxBg){
+  grid-column: 5 / span 6;
   background-color: $boxBg;
 }
 
@@ -21,8 +19,10 @@
   box-sizing: border-box;
   width: 100%;
   margin: 0 auto;
-  padding: 1.2rem;
+  outline: none;
+  padding: 0.8rem 0;
   font: $typoInputs;
   border: none;
+  color: $primary;
   border-bottom: 0.2rem solid $borderInputColor
 }

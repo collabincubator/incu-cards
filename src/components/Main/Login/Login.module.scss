@@ -2,26 +2,28 @@
 @import './src/styles/mixins.module';
 
 .container {
-  @include gridContainer (100.8rem, $bgcolor);
+  @include gridContainer (100.8rem, transparent);
   .box {
-    @include gridBox(5, 9, #0aa);
+    width: 100%;
+    background-color: #fff;
     margin: 0 auto;
-    padding: 3.6rem;
+    padding: 3.2rem;
+    border-radius: 0.8rem;
+    grid-column: 5 /span 4;
     font-size: 0;
     line-height: 1;
     overflow: hidden;
-    .forms {
-      width: 100%;
-      display: block;
-      margin: 0 auto;
-      overflow: hidden;
-      .inner {
+    .inner {
+        @include gridBox(5 / span 6, $bgcolor);
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: stretch;
         h1, h2 {
           text-align: center;
+        }
+        h1 {
+          line-height: 1;
         }
         h3 {
           text-align: left;
@@ -31,10 +33,23 @@
         }
         .btn {
           display: block;
-          margin: 0;
+          margin: 0 2.4rem;
+          border: none;
+          border-radius: 0.8rem;
+          padding: 1rem;
+          outline: none;
+          font: normal normal 1.6rem/1 Poppins, sans-serif;
+          color: rgb(255, 255, 255);
+          background-color: $third;
+          box-shadow: $btnBoxShadow;
+        }
+        .navLinkForgotBox {
+          display: block;
+          text-align: right;
+        }
+        .signUpBox {
+          text-align: center;
         }
       }
-    }
-
   }
 }
