@@ -37,7 +37,8 @@ body {
   sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #383a41;
+  background: $bgcolor;
+  box-sizing: border-box;
 }
 ol, ul {
   list-style: none;
@@ -70,7 +71,7 @@ h2 {
 }
 h3 {
   font: $typoHeader3;
-  color: rgb(255, 255, 255)
+  color: $third
 }
 p {
   font: $typoParagraph;
