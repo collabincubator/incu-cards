@@ -28,8 +28,14 @@
         h3 {
           text-align: left;
         }
-        .textInput {
-          @include textInputs()
+        .inputsLabel {
+          margin: 2rem 0;
+        }
+        .eyeToggleIcon {
+          font-size: 1.6rem;
+          line-height: 1;
+          color: $primary;
+          cursor: pointer;
         }
         .btn {
           display: block;
@@ -49,7 +55,15 @@
         }
         .signUpBox {
           text-align: center;
+          .signUpLink {
+            text-decoration: none;
+            & span {
+              font: $typoHeader3;
+            }
+
+          }
         }
+
       }
   }
 }
