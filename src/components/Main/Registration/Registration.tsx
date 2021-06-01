@@ -4,6 +4,8 @@ import {RegistrationTC} from '../../../redux/registrationReducer/registrationRed
 import styles from "./Registration.module.scss";
 import {Redirect, useHistory} from 'react-router-dom';
 import {AppStateType} from "../../../redux/store";
+import preloader from '../../../assets/icons/preloader.svg'
+import classNames from "classnames";
 
 
 
@@ -14,7 +16,9 @@ const Registration = (props: any) => {
     const [passSecond, setPassSecond] = useState('');
     const dispatch = useDispatch()
     const history = useHistory()
-    const registration = useSelector<AppStateType,boolean>(state => state.registrationReducer.registrationSuccess)
+    const succeess = useSelector<AppStateType,boolean>(state => state.registrationReducer.registrationSuccess)
+    const loading = useSelector<AppStateType,boolean>(state => state.registrationReducer.loading)
+    const err = useSelector<AppStateType,string>(state => state.registrationReducer.error)
 
     const onClickHandler = () => {
         pass === passSecond &&
@@ -25,7 +29,7 @@ const Registration = (props: any) => {
        history.goBack()
     }
 
-    if(registration) {
+    if(succeess) {
         return <Redirect to={'/login'}/>
     }
 
@@ -36,7 +40,9 @@ const Registration = (props: any) => {
                 <h1>Cards</h1>
                 <h2>Sign Up</h2>
                 <span>Email</span>
-                <input className={styles.textInput} value={email} onChange={(e) => {
+                <input className={classNames(styles.textInput,{
+
+                })} value={email} onChange={(e) => {
                     setEmail(e.currentTarget.value)
                 }}/>
                 <span>Password</span>
@@ -44,15 +50,18 @@ const Registration = (props: any) => {
                        value={pass} onChange={(e) => {
                     setPass(e.currentTarget.value)
                 }}/>
+
                 <span>Confirm password</span>
                 <input type='password' className={`${styles.textInput} ${styles.passInput}`}
                        value={passSecond} onChange={(e) => {
                     setPassSecond(e.currentTarget.value)
                 }}/>
-
+                {err !==  '' && <span style={{color:"red"}}> {err}</span>}
                 <div className={styles.btn_group}>
                     <button className={styles.btnSecond} onClick={onClickRedirect}>Cancel</button>
-                    <button className={styles.btn} onClick={onClickHandler}>Registr</button>
+                    <button className={classNames(styles.btn,{
+                        [styles.disable] : loading
+                    })} disabled={loading} onClick={onClickHandler}>Registr  {loading && <img src={preloader} className={styles.preloader} alt=""/>  }</button>
                 </div>
             </div>
         </div>
