@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Main.module.scss';
 import Button from '../common/Button/Button';
-import Input from '../common/Input/Input';
+import {Input} from '../common/Input/Input';
 
 const Main = (props: any) => {
 
