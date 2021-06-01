@@ -33,6 +33,7 @@ const App = (props: any) => {
               <Route path={PATH.RESTORE_PASS} render={() => <RestorePass/>}/>
               <Route path={PATH.NEW_PASSWORD} render={() => <ChangePass/>}/>
               <Route path={PATH.REGISTER} render={() => <Registration/>}/>
+              <Route path={PATH.REGISTER} render={() => <Registration/>}/>
               <Route render={() => <PageNotFounded/>}/>
           </Switch>
 

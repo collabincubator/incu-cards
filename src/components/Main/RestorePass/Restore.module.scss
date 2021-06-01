@@ -1,0 +1,61 @@
+@import './src/styles/variables.module';
+@import './src/styles/mixins.module';
+
+
+.container {
+  @include gridContainer (100.8rem, transparent);
+  .box {
+    width: 100%;
+    background-color: #fff;
+    margin: 0 auto;
+    padding: 3.2rem;
+    border-radius: 0.8rem;
+    grid-column: 5 /span 4;
+    font-size: 0;
+    line-height: 1;
+    overflow: hidden;
+    .inner {
+        @include gridBox(5 / span 6, $bgcolor);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: stretch;
+        h1, h2 {
+          text-align: center;
+        }
+        h1 {
+          line-height: 1;
+          padding: 0 3.2rem;
+        }
+      .svg {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+        h3 {
+          text-align: left;
+          padding-bottom: 3.8rem;
+        }
+        .textInput {
+          @include textInputs()
+        }
+      .describe{
+        padding: 2.6rem 0 2.6rem;
+      }
+      .btn {
+          cursor: pointer;
+          display: block;
+          margin: 0 2.4rem;
+          border: none;
+          border-radius: 0.8rem;
+          padding: 1rem;
+          outline: none;
+          font: normal normal 1.6rem/1 Poppins, sans-serif;
+          color: rgb(255, 255, 255);
+          background-color: $third;
+          box-shadow: $btnBoxShadow;
+        }
+
+      }
+  }
+}
