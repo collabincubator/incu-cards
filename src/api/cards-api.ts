@@ -7,7 +7,7 @@ const cardsRequest = axios.create({
 
 export const pingAPI = {
     pingBack() {
-        const response = cardsRequest.get<number>(`/ping?frontTime=${Date.now()}`) // если правильно понял
+        const response = cardsRequest.get<number>(`/ping?frontTime=${Date.now()}`) //
         return response
     }
 }
@@ -18,27 +18,27 @@ export const authAPI = {
             .then(res => res.data)
     },
     logIn(email: string, password: string, rememberMe: boolean) {
-        return cardsRequest.post(`auth/login`, {email, password, rememberMe})
+        return cardsRequest.post(`/auth/login`, {email, password, rememberMe})
             .then(res => res.data)
     },
     authMe() {
-        return cardsRequest.post(`auth/me`, {})
+        return cardsRequest.post(`/auth/me`, {})
             .then(res => res.data)
     },
     logOut(){
-        return cardsRequest.delete(`auth/me`)
+        return cardsRequest.delete(`/auth/me`)
             .then(res => res.data)
     },
     updateMe(name: string, avatar: string) {
-        return cardsRequest.put(`auth/me`, {name, avatar})
+        return cardsRequest.put(`/auth/me`, {name, avatar})
             .then(res => res.data)
     },
     setNewPassword(password: string, resetPasswordToken: string) {
-        return cardsRequest.post(`auth/set-new-password`, {password, resetPasswordToken})
+        return cardsRequest.post(`/auth/set-new-password`, {password, resetPasswordToken})
             .then(res => res.data)
     },
     restorePassword(email: string, from: string, message: string) {
-        return cardsRequest.post(`auth/forgot`, {email, from, message})
+        return cardsRequest.post(`https://neko-back.herokuapp.com/2.0/auth/forgot`, {email, from, message})
             .then(res => res.data)
     }
 

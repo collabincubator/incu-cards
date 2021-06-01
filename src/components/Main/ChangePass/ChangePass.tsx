@@ -11,7 +11,6 @@ const ChangePass = (props: any) => {
     const dispatch = useDispatch()
     const {token} = useParams<{ token: string }>()
 
-
     const onClickHandler = () => {
         dispatch(RestorePassTC(pass,token))
         if(success) {
