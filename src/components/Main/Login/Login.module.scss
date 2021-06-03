@@ -32,6 +32,10 @@
         h3 {
           text-align: left;
         }
+        form {
+          display: flex;
+          flex-direction: column;
+        }
         .controlInputs {
           margin-bottom: 2.4rem;
           color: $primary
