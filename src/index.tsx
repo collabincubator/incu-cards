@@ -7,12 +7,29 @@ import * as serviceWorker from './serviceWorker';
 import { HashRouter} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import {store} from './redux/store';
+import {ThemeProvider} from '@material-ui/core/styles';
+import {createMuiTheme} from '@material-ui/core';
+
+const theme = createMuiTheme({
+    typography: {
+        htmlFontSize: 10
+    },
+    overrides: {
+        MuiInputBase: {
+            root: {
+                color: "rgb(45, 46, 70)"
+            }
+        }
+    }
+});
 
 ReactDOM.render(
   <React.StrictMode>
     <HashRouter>
         <Provider store={store}>
+            <ThemeProvider theme={theme}>
             <App/>
+            </ThemeProvider>
         </Provider>
     </HashRouter>
   </React.StrictMode>,

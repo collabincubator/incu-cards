@@ -7,10 +7,10 @@
     width: 100%;
     background-color: #fff;
     margin: 0 auto;
-    padding: 3.2rem;
+    padding: 2.4rem 3.2rem;
     border-radius: 0.8rem;
     grid-column: 5 /span 4;
-    font-size: 0;
+    font-size: 1.6rem;
     line-height: 1;
     overflow: hidden;
     .inner {
@@ -21,21 +21,23 @@
         align-items: stretch;
         h1, h2 {
           text-align: center;
+          color: $primary
         }
         h1 {
-          line-height: 1;
+          line-height: 3.6rem;
+        }
+        h2 {
+          @include formHeader2();
         }
         h3 {
           text-align: left;
         }
-        .inputsLabel {
-          margin: 2rem 0;
+        .controlInputs {
+          margin-bottom: 2.4rem;
+          color: $primary
         }
-        .eyeToggleIcon {
-          font-size: 1.6rem;
-          line-height: 1;
-          color: $primary;
-          cursor: pointer;
+        .formButtons {
+          margin: 3.6rem;
         }
         .btn {
           display: block;
@@ -49,16 +51,31 @@
           background-color: $third;
           box-shadow: $btnBoxShadow;
         }
-        .navLinkForgotBox {
-          display: block;
+        .forgotBox {
+          margin: 1.2rem 0 4.6rem;
           text-align: right;
+        }
+        a.navLinkForgotBox {
+          display: inline-block;
+          padding: 0.8rem 1.2rem;
+          text-align: right;
+          font: $typoLinkForms;
+          text-decoration: none;
+          color: $third
         }
         .signUpBox {
           text-align: center;
+          p {
+            font: $typoGuideForms;
+            margin-bottom: 0.8rem;
+          }
           .signUpLink {
+            display: inline-block;
             text-decoration: none;
+            padding: 0.6rem 1.2rem;
             & span {
-              font: $typoHeader3;
+              font: $typoHeader3LinkForms;
+              color: $third
             }
 
           }

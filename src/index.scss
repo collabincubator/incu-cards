@@ -17,8 +17,6 @@ time, mark, audio, video {
   margin: 0;
   padding: 0;
   border: 0;
-  font-size: 10px;
-  line-height: 1;
   vertical-align: baseline;
   box-sizing: border-box;
 }
@@ -29,12 +27,12 @@ footer, header, hgroup, menu, nav, section {
 }
 html {
   height: 100%;
+  font-size: 10px;
+  line-height: 1;
 }
 body {
   min-height: 100%;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-  sans-serif;
+  font-family: sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: $bgcolor;

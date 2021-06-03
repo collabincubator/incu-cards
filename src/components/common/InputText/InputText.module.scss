@@ -1,0 +1,33 @@
+@import 'src/styles/mixins.module';
+@import 'src/styles/variables.module';
+
+.passInputBox {
+    display: flex;
+    justify-content: space-between;
+    align-content: stretch;
+}
+.inputText {
+    @include textInputs();
+    flex-grow: 1;
+
+    &::placeholder {
+        font: normal normal 1.3rem/1 Poppins, sans-serif;
+        color: $secondary;
+    }
+}
+
+.passToggleBtn {
+    @include textInputs;
+    flex-basis: content;
+    padding: 1rem 1.2rem;
+    align-self: flex-end;
+    text-align: center;
+    background-color: #fff;
+    .eyeToggleIcon {
+        width: 2rem;
+        font-size: 1.3rem;
+        line-height: 15px;
+        color: $primary;
+        cursor: pointer;
+    }
+}
