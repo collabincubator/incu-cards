@@ -3,15 +3,19 @@ import {useDispatch} from 'react-redux';
 import {loginTC} from '../../../redux/loginReducer/loginReducer';
 import styles from './Login.module.scss';
 import {NavLink} from 'react-router-dom';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
-import {Input} from '../../common/Input/Input';
+import {
+    FormControl,
+    IconButton,
+    Input,
+    InputLabel,
+    InputAdornment, Button,
+} from '@material-ui/core';
+import {Visibility, VisibilityOff} from '@material-ui/icons';
 
-const Login = (props: any) => {
+export const Login = (props: any) => {
 
     let [email, setEmail] = useState('')
     let [pass, setPass] = useState('')
-    let [isBlind, setIsBlind] = useState(true)
     const dispatch = useDispatch();
 
     const onClickHandler = () => {
@@ -25,32 +29,51 @@ const Login = (props: any) => {
         setPass(e.currentTarget.value)
     }, [pass])
 
+    let [isBlind, setIsBlind] = useState(true)
+
     const eyeToggle = () => {
         setIsBlind(prev => !prev)
     }
 
-
     return <div className={styles.container}>
         <div className={styles.box}>
                 <div className={styles.inner}>
+
                     <h1>Cards</h1>
                     <h2>Sign In</h2>
-                    <label className={styles.inputsLabel}>
-                        <span>Email</span>
-                        <Input className={styles.textInput} value={email} onChange={setEmailHandler} />
-                    </label>
-                    <label className={styles.inputsLabel}>
-                        <span>Password</span>
-                        <button><FontAwesomeIcon icon={isBlind ? faEye : faEyeSlash} className={styles.eyeToggleIcon} onClick={eyeToggle}/></button>
-                        <Input type={isBlind ? 'password' : 'text'} className={styles.textInput} value={pass} onChange={setPassHandler} />
-                    </label>
-
+                    <FormControl className={styles.controlInputs}>
+                        <InputLabel htmlFor="component-simple">Email</InputLabel>
+                        <Input error={false} id={"component-simple"} value={email} onChange={setEmailHandler}/>
+                    </FormControl>
+                    <FormControl className={styles.controlInputs}>
+                        <InputLabel htmlFor={"password"}>Password</InputLabel>
+                        <Input
+                            color={'primary'}
+                            error={false}
+                            id={"password"}
+                            type={isBlind ? 'text' : 'password'}
+                            value={pass}
+                            onChange={setPassHandler}
+                            endAdornment={
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label={"toggle password visibility"}
+                                        onClick={eyeToggle}
+                                    >
+                                        {isBlind ? <Visibility/> : <VisibilityOff/>}
+                                    </IconButton>
+                                </InputAdornment>
+                            }
+                        />
+                    </FormControl>
                     <div className={styles.forgotBox}>
                         <NavLink className={styles.navLinkForgotBox} to={'/restorepass'} >
                             <span>Forgot Password</span>
                         </NavLink>
                     </div>
-                    <button className={styles.btn} onClick={onClickHandler}>Login</button>
+                    <Button className={styles.formButtons} variant="contained" color="primary" onClick={onClickHandler} >
+                        Primary
+                    </Button>
                     <div className={styles.signUpBox}>
                         <p>Don't have an account?</p>
                         <NavLink to={'registration'} className={styles.signUpLink}>

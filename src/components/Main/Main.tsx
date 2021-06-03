@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Main.module.scss';
 import Button from '../common/Button/Button';
-import {Input} from '../common/Input/Input';
+import {InputPass} from '../common/InputPass/InputPass';
 
 const Main = (props: any) => {
 
@@ -9,7 +9,7 @@ const Main = (props: any) => {
         <section className={styles.wrap}>
             <div className={styles.container}>
                 <div className={styles.box}>
-                    <Input/>
+                    <InputPass/>
                     <Button />
                 </div>
             </div>
