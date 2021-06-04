@@ -12,7 +12,10 @@ const Profile = (props: any) => {
     const profileState = useSelector<AppStateType>( state => state.profileReducer.profileInfo);
 
     useEffect(()=> {
-        dispatch(fetchProfileTC())
+        if (!isLoggedIn) {
+            dispatch(fetchProfileTC())
+        }1
+
     }, [isLoggedIn])
 
     console.log(profileState)
