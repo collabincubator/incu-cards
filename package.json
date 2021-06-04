@@ -1,6 +1,7 @@
 {
   "name": "friday1",
   "version": "0.1.0",
+  "homepage": "https://collabincubator.github.io/incu-cards",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
@@ -22,6 +23,7 @@
     "classnames": "^2.3.1",
     "clsx": "^1.1.1",
     "formik": "^2.2.9",
+    "gh-pages": "^3.2.0",
     "node-sass": "4.14.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -38,7 +40,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
