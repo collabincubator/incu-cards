@@ -63,7 +63,7 @@ const actions = {
             }
         })
     },
-    loagingAC (loading:boolean) {
+    loadingAC (loading:boolean) {
         return ({
             type:LOADING,
             payload: {
@@ -81,12 +81,12 @@ const actions = {
     }
 }
 export const RestorePassTC = (password:string,resetPasswordToken:string) => (dispatch: any) => {
-        dispatch(actions.loagingAC(true))
+        dispatch(actions.loadingAC(true))
         authAPI.setNewPassword(password,resetPasswordToken)
             .then( data => {
                 console.log(`${data.data.info}`)
                dispatch(actions.successChangePassAC(true))
-                dispatch(actions.loagingAC(false))
+                dispatch(actions.loadingAC(false))
             }).catch((error)=>{
             dispatch(actions.errorAc('error'))
         })

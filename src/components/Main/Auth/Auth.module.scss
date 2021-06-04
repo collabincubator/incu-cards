@@ -32,9 +32,20 @@
         h3 {
           text-align: left;
         }
+        p {
+          font: $typoGuideForms;
+          margin-bottom: 0.8rem;
+          text-align: center;
+        }
         form {
           display: flex;
           flex-direction: column;
+        }
+        .imgSuccessAction {
+            margin: 3.6rem 0 0;
+            align-self: center;
+            max-width: 50%;
+            height: auto;
         }
         .controlInputs {
           margin-bottom: 2.4rem;
@@ -75,10 +86,6 @@
         }
         .signUpBox {
           text-align: center;
-          p {
-            font: $typoGuideForms;
-            margin-bottom: 0.8rem;
-          }
           .signUpLink {
             display: inline-block;
             text-decoration: none;

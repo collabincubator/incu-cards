@@ -21,7 +21,7 @@ export const authAPI = {
         return cardsRequest.post(`/auth/login`, {email, password, rememberMe})
             .then(res => res.data)
     },
-    authMe() {
+    me() {
         return cardsRequest.post(`/auth/me`, {})
             .then(res => res.data)
     },

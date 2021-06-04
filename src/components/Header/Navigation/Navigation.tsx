@@ -1,27 +1,39 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styles from './Navigation.module.css';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
+import {Button} from '@material-ui/core';
+import {useDispatch, useSelector} from 'react-redux';
+import {LogoutTC} from '../../../redux/loginReducer/loginReducer';
+import {AppStateType} from '../../../redux/store';
 
 const Navigation = (props: any) => {
 
-    let [tempState, setTempState] = useState( [
-        {name: 'Main'},
-        {name: 'Login'},
-        {name: 'Registration'},
-        {name: 'RestorePass'},
-        {name: 'ChangePass'},
-        {name: 'Profile'}]);
+    const dispatch = useDispatch();
 
-    let navLinks = tempState.map((link:{name:string}, index:number) => {
+    let [tempState, setTempState] = useState( [
+
+        {name: 'Login', path: 'auth/login'},
+        {name: 'Registration', path: 'auth/registration'},
+        {name: 'Restore Password', path: 'auth/restore-password'},
+        {name: 'Change Password', path: 'auth/change-password'},
+        {name: 'Profile', path: 'profile'}]);
+
+    let navLinks = tempState.map((link:{name: string, path:string}, index:number) => {
         return <li key={index} className={styles.navLinkItem}>
-            <NavLink to={`/${(link.name).toLowerCase()}`} className={styles.menuLink} activeClassName={styles.menuLinkActive}>
+            <NavLink to={`/${(link.path).toLowerCase()}`} className={styles.menuLink} activeClassName={styles.menuLinkActive}>
                 <span>{link.name}</span>
             </NavLink>
         </li>
     })
 
+    const onClickLogoutHandler = () => {
+        dispatch(LogoutTC())
+    }
     return <ul className={styles.navList}>
         {navLinks}
+        <Button variant="contained" color="primary" onClick={onClickLogoutHandler}>
+            Logout
+        </Button>
     </ul>
 }
 
