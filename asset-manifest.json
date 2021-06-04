@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/incu-cards/static/css/main.d72aabb6.chunk.css",
-    "main.js": "/incu-cards/static/js/main.c8a3696f.chunk.js",
-    "main.js.map": "/incu-cards/static/js/main.c8a3696f.chunk.js.map",
+    "main.js": "/incu-cards/static/js/main.c2941bde.chunk.js",
+    "main.js.map": "/incu-cards/static/js/main.c2941bde.chunk.js.map",
     "runtime-main.js": "/incu-cards/static/js/runtime-main.1f123cba.js",
     "runtime-main.js.map": "/incu-cards/static/js/runtime-main.1f123cba.js.map",
     "static/js/2.e3669a5c.chunk.js": "/incu-cards/static/js/2.e3669a5c.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.1f123cba.js",
     "static/js/2.e3669a5c.chunk.js",
     "static/css/main.d72aabb6.chunk.css",
-    "static/js/main.c8a3696f.chunk.js"
+    "static/js/main.c2941bde.chunk.js"
   ]
 }
