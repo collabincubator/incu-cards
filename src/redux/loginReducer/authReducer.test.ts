@@ -1,4 +1,4 @@
-import main, {actions, loginReducer} from './loginReducer'
+import main, {authActions, authReducer} from './authReducer'
 
 let startValue:any = {}
 beforeEach(() => {
@@ -22,9 +22,9 @@ beforeEach(() => {
 describe('login  reducer', ()=> {
     test('correct value', () => {
 
-        const action = actions.loginAC(startValue.users)
+        const action = authActions.loginAC(startValue.users)
 
-        const endValue = loginReducer(startValue,action)
+        const endValue = authReducer(startValue,action)
 
         expect(endValue.users).toBeDefined()
 

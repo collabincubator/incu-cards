@@ -23,7 +23,7 @@ export const initialState: InitialStateType = {
     from: 'test-front-admin <valtika>',
     message: `<div style="background-color: lime; padding: 15px">	
 	password recovery link: 
-	<a href='https://collabincubator/incu-cards/auth/change-password/$token$'>
+	<a href='http://localhost:3000/#/auth/change-password/$token$'>
 	link</a></div>` // хтмп-письмо, вместо $token$ бэк вставит токен
 }
 

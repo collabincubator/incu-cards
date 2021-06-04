@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useCallback, useEffect, useReducer, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {loginTC} from '../../../redux/loginReducer/loginReducer';
+import {loginTC} from '../../../redux/loginReducer/authReducer';
 import {NavLink, Redirect} from 'react-router-dom';
 import {
     FormControl,
@@ -16,16 +16,19 @@ import {AppStateType} from '../../../redux/store';
 type PropsType = {
     styles: any
 }
+type FormikErrorType = {
+    email?: string
+    password?: string
+    rememberMe?: boolean
+}
 
 export const Login: React.FC<PropsType> = ({styles, ...props}) => {
 
-    let [email, setEmail] = useState('')
-    let [pass, setPass] = useState('')
+    let [email, setEmail] = useState('collabincubator@gmail.com')
+    let [pass, setPass] = useState('collaborators')
     const dispatch = useDispatch();
-    const isLoggedIn = useSelector<AppStateType, boolean>(state => state.loginReducer.isLoggedIn);
-    const onClickHandler = () => {
-        dispatch(loginTC(email, pass, true))
-    }
+    const isLoggedIn = useSelector<AppStateType, boolean>(state => state.authReducer.isLoggedIn);
+
 
     const setEmailHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setEmail(e.currentTarget.value)
@@ -42,30 +45,32 @@ export const Login: React.FC<PropsType> = ({styles, ...props}) => {
 
     const formik = useFormik({
         initialValues: {
-            email: '',
-            password: ''
+            email: 'collabincubator@gmail.com',
+            password: 'collaborators'
         },
         validate: values => {
+            const errors: FormikErrorType = {};
             if (!values.email) {
-                return {
-                    email: 'email is required'
-                }
+                errors.email = 'email is required';
+            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+                errors.email = 'Invalid email address';
             }
             if (!values.password) {
-                return {
-                    password: 'password is required'
-                }
+                errors.password = 'password is required';
+            } else if (values.password.length <= 7) {
+                errors.password = 'password must be at least 7 letters long';
             }
+            return errors;
         },
         onSubmit: values => {
             dispatch(loginTC(values.email, values.password))
+            formik.resetForm()
         }
     })
-
     if (isLoggedIn) {
         return <Redirect to={'/profile'}/>
     }
-    return(
+    return (
         <>
             <h1>Cards</h1>
             <h2>Sign In</h2>
@@ -109,7 +114,7 @@ export const Login: React.FC<PropsType> = ({styles, ...props}) => {
                     </NavLink>
                 </div>
                 <Button disabled={false} type={'submit'} className={styles.formButtons} variant="contained"
-                        color="primary" onClick={onClickHandler}>
+                        color="primary">
                     Login
                 </Button>
             </form>
