@@ -71,7 +71,7 @@ const actions = {
             }
         })
     },
-    errorAc (error:string) {
+    errorAC (error:string) {
         return ({
             type:ERROR,
             payload: {
@@ -88,7 +88,7 @@ export const RestorePassTC = (password:string,resetPasswordToken:string) => (dis
                dispatch(actions.successChangePassAC(true))
                 dispatch(actions.loadingAC(false))
             }).catch((error)=>{
-            dispatch(actions.errorAc('error'))
+            dispatch(actions.errorAC('error'))
         })
 }
 

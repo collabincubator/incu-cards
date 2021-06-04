@@ -1,5 +1,3 @@
-import {authAPI} from '../../api/cards-api';
-import {actions} from '../loginReducer/loginReducer';
 
 export const PROFILE_ACTION = 'profileReducer/SET-PROFILE' as const;
 
@@ -44,14 +42,14 @@ const setProfileAC = (data: any) => {
     })
 }
 
-export const fetchProfileTC = () => (dispatch: any) => {
-    console.log('fetch')
-    authAPI.me()
-        .then(data => {
-            dispatch(setProfileAC(data))
-            console.log(data)
-            dispatch(actions.logFlowAC(true))
-        })
-}
+// export const fetchProfileTC = () => (dispatch: any) => {
+//     console.log('fetch')
+//     authAPI.me()
+//         .then(data => {
+//             dispatch(setProfileAC(data))
+//             console.log(data)
+//             dispatch(actions.logFlowAC(true))
+//         })
+// }
 
 export default profileReducer;

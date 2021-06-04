@@ -1,14 +1,12 @@
 import {authAPI} from '../../api/cards-api';
+import {appActions} from "../appReducer/appReducer";
 
-// export enum ACTIONS {
-//     LOGIN = 'loginReducer/LOG-IN',
-//     LOGOUT = 'loginReducer/LOG-OUT'
-// }
 
-export const LOGIN = 'loginReducer/LOG-IN' as const;
-export const LOGOUT = 'loginReducer/LOG-OUT' as const;
-export const ERROR = 'loginReducer/ERROR' as const;
-export const LOG_FLOW = 'loginReducer/LOG-FLOW' as const;
+
+export const LOGIN = 'authReducer/SET-LOGIN' as const;
+export const LOGOUT = 'authReducer/SET-LOGOUT' as const;
+export const LOG_FLOW = 'authReducer/SET-LOG_FLOW' as const;
+
 
 export type UserResponeType = {
     _id: string;
@@ -27,91 +25,97 @@ export type UserResponeType = {
 type InitialStateType = {
     users: UserResponeType[],
     isLoggedIn: boolean,
-    error:string | null
+    info: string
+
 }
 
 export const initialState: InitialStateType =  {
     users: [],
     isLoggedIn: false,
-    error:''
+    info: '',
+
 }
 
 type PropertiesType<ActionType> = ActionType extends {[key: string]: infer ResponseType } ? ResponseType : never;
-type ActionsType = ReturnType<PropertiesType<typeof actions>>
+type ActionsType = ReturnType<PropertiesType<typeof authActions>>
 
-export const loginReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+export const authReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case LOG_FLOW: {
-            return ({
-                ...state,
-                isLoggedIn: action.payload.isLoggedIn
-            })
-        }
         case LOGIN: {
             return ({
                 ...state,
-                users: [{...action.payload.data}]
+                users: [{...action.payload.data}],
+                isLoggedIn: action.payload.isLoggedIn
+            })
+        }
+        case LOGOUT: {
+            return ({
+                ...state,
+                info: action.payload.info,
+                isLoggedIn: action.payload.isLoggedIn,
+
+            })
+        }
+        case LOG_FLOW: {
+            return ({
+                ...state,
+                isLoggedIn: action.payload.isLoggedIn,
             })
         }
 
-        case ERROR: {
-            return ({
-                ...state,
-                isLoggedIn: false,
-                error: action.payload.error
-            })
-        }
         default: return state
     }
 }
 
-export const actions = {
-    logFlowAC: (isLoggedIn: boolean) => {
-        return ({
-            type: LOG_FLOW,
-            payload: {
-                isLoggedIn
-            }
-        })
-    },
-    loginAC:(data: any) => {
+export const authActions = {
+    loginAC:(data:UserResponeType,isLoggedIn:boolean) => {
         return ({
             type: LOGIN,
             payload: {
-                data
+                data,
+                isLoggedIn
             },
         })
     },
-    LoginErrorAC: (error: string) => {
+    logoutAC : (info:string,isLoggedIn:boolean) => {
         return ({
-            type: ERROR,
+            type: LOGOUT,
             payload: {
-                error
-            }
+                info,
+                isLoggedIn,
+
+            },
+        })
+    },
+    logFlowAC : (isLoggedIn:boolean) => {
+        return ({
+            type: LOG_FLOW,
+            payload: {
+                isLoggedIn,
+            },
         })
     }
+
 }
 
 
 export const loginTC = (email: string, password: string, rememberMe?: boolean) => (dispatch: any) => {
     authAPI.logIn(email, password, rememberMe = true)
         .then(data => {
-            dispatch(actions.loginAC(data))
-            dispatch(actions.logFlowAC(true))
+            dispatch(authActions.loginAC(data, true))
         }).catch((error) => {
-        console.log(error)
-        dispatch(actions.LoginErrorAC(error))
+        dispatch(appActions.setAppErrorAC(error.message))
     })
 }
 export const LogoutTC = () => (dispatch: any) => {
     authAPI.logOut()
         .then((data) => {
-            dispatch(actions.logFlowAC(false))
+            dispatch(authActions.logoutAC(data.info,false))
         })
         .catch((error) => {
-            console.log(error)
+            dispatch(appActions.setAppErrorAC(error.error))
         })
 }
 
 
-export default loginReducer;
+export default authReducer;

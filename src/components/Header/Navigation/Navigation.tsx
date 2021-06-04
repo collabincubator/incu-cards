@@ -3,7 +3,7 @@ import styles from './Navigation.module.css';
 import { NavLink, Redirect } from 'react-router-dom';
 import {Button} from '@material-ui/core';
 import {useDispatch, useSelector} from 'react-redux';
-import {LogoutTC} from '../../../redux/loginReducer/loginReducer';
+import {LogoutTC} from '../../../redux/loginReducer/authReducer';
 import {AppStateType} from '../../../redux/store';
 
 const Navigation = (props: any) => {

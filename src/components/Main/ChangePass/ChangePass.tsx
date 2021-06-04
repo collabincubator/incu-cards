@@ -8,17 +8,17 @@ import {AppStateType} from "../../../redux/store";
 const ChangePass = (props: any) => {
     const [pass, setPass] = useState('');
     const success = useSelector<AppStateType,boolean>(state => state.changePassReducer.successChangePass)
+    const error = useSelector<AppStateType,string>(state => state.changePassReducer.error)
     const dispatch = useDispatch()
     const {token} = useParams<{ token: string }>()
 
     const onClickHandler = () => {
         dispatch(RestorePassTC(pass,token))
-        if(success) {
-            return <Redirect to={'/login'}/>
-        }
-
     }
-    debugger
+
+    if(success) {
+        return <Redirect to={'/login'}/>
+    }
     return (
         <>
             <h1>Cards</h1>
@@ -29,17 +29,13 @@ const ChangePass = (props: any) => {
                    onChange={(e) => setPass(e.currentTarget.value)}
                    className={`${styles.textInput} ${styles.passInput}`}
                    placeholder={'password'}/>
-            <input type='passwordConfirm'
-                   value={pass}
-                   onChange={(e) => setPass(e.currentTarget.value)}
-                   className={`${styles.textInput} ${styles.passInput}`}
-                   placeholder={'passwordConfirm'}/>
             <div className={styles.describe}>
                 Create new password and we will send you further instructions to email
             </div>
             <button className={styles.btn}
                     onClick={onClickHandler}>Create new password
             </button>
+            <span>{error}</span>
         </>
     )
 }
