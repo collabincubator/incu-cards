@@ -1,7 +1,6 @@
 import React, {ChangeEvent, useCallback, useReducer, useRef, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {loginTC} from '../../../redux/loginReducer/loginReducer';
-import styles from './Login.module.scss';
 import {NavLink} from 'react-router-dom';
 import {
     FormControl,
@@ -13,7 +12,11 @@ import {
 import {Visibility, VisibilityOff} from '@material-ui/icons';
 import {useFormik} from 'formik';
 
-export const Login = (props: any) => {
+type PropsType = {
+    styles: any
+}
+
+export const Login: React.FC<PropsType> = ({styles, ...props}) => {
 
     let [email, setEmail] = useState('')
     let [pass, setPass] = useState('')
@@ -58,63 +61,63 @@ export const Login = (props: any) => {
         }
     })
 
-    return <div className={styles.container}>
-        <div className={styles.box}>
-                <div className={styles.inner}>
+    return(
+        <>
+            <h1>Cards</h1>
+            <h2>Sign In</h2>
+            <form onSubmit={formik.handleSubmit}>
+                <FormControl {...formik.getFieldProps('email')}
+                             error={!!formik.errors.email}
+                             className={styles.controlInputs}>
+                    <InputLabel htmlFor="email">Email</InputLabel>
+                    <Input id={"email"} value={email} onChange={setEmailHandler} aria-describedby={'email-error'}/>
+                    {!!formik.errors.email && <FormHelperText id="email-error">{formik.errors.email}</FormHelperText>}
+                </FormControl>
+                <FormControl {...formik.getFieldProps('password')}
+                             error={!!formik.errors.password}
+                             className={styles.controlInputs}>
+                    <InputLabel htmlFor={"password"}>Password</InputLabel>
+                    <Input
 
-                    <h1>Cards</h1>
-                    <h2>Sign In</h2>
-                    <form onSubmit={formik.handleSubmit}>
-                        <FormControl {...formik.getFieldProps('email')}
-                                     error={!!formik.errors.email}
-                                     className={styles.controlInputs}>
-                            <InputLabel htmlFor="email">Email</InputLabel>
-                            <Input id={"email"} value={email} onChange={setEmailHandler} aria-describedby={'email-error'}/>
-                            {!!formik.errors.email && <FormHelperText id="email-error">{formik.errors.email}</FormHelperText>}
-                        </FormControl>
-                        <FormControl {...formik.getFieldProps('password')}
-                                     error={!!formik.errors.password}
-                                     className={styles.controlInputs}>
-                            <InputLabel htmlFor={"password"}>Password</InputLabel>
-                            <Input
-
-                                color={'primary'}
-                                id={"password"}
-                                type={isBlind ? 'text' : 'password'}
-                                value={pass}
-                                onChange={setPassHandler}
-                                aria-describedby={'password-error'}
-                                endAdornment={
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            aria-label={"toggle password visibility"}
-                                            onClick={eyeToggle}
-                                        >
-                                            {isBlind ? <Visibility/> : <VisibilityOff/>}
-                                        </IconButton>
-                                    </InputAdornment>
-                                }
-                            />
-                            {!!formik.errors.password && <FormHelperText id="password-error">{formik.errors.password}</FormHelperText>}
-                        </FormControl>
-                        <div className={styles.forgotBox}>
-                            <NavLink className={styles.navLinkForgotBox} to={'/restorepass'} >
-                                <span>Forgot Password</span>
-                            </NavLink>
-                        </div>
-                        <Button disabled={false} type={'submit'} className={styles.formButtons} variant="contained" color="primary" onClick={onClickHandler} >
-                            Login
-                        </Button>
-                    </form>
-                    <div className={styles.signUpBox}>
-                        <p>Don't have an account?</p>
-                        <NavLink to={'registration'} className={styles.signUpLink}>
-                            <span>Sign Up</span>
-                        </NavLink>
-                    </div>
+                        color={'primary'}
+                        id={"password"}
+                        type={isBlind ? 'text' : 'password'}
+                        value={pass}
+                        onChange={setPassHandler}
+                        aria-describedby={'password-error'}
+                        endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label={"toggle password visibility"}
+                                    onClick={eyeToggle}
+                                >
+                                    {isBlind ? <Visibility/> : <VisibilityOff/>}
+                                </IconButton>
+                            </InputAdornment>
+                        }
+                    />
+                    {!!formik.errors.password &&
+                    <FormHelperText id="password-error">{formik.errors.password}</FormHelperText>}
+                </FormControl>
+                <div className={styles.forgotBox}>
+                    <NavLink className={styles.navLinkForgotBox} to={'/restorepass'}>
+                        <span>Forgot Password</span>
+                    </NavLink>
                 </div>
-        </div>
-    </div>
+                <Button disabled={false} type={'submit'} className={styles.formButtons} variant="contained"
+                        color="primary" onClick={onClickHandler}>
+                    Login
+                </Button>
+            </form>
+            <div className={styles.signUpBox}>
+                <p>Don't have an account?</p>
+                <NavLink to={'registration'} className={styles.signUpLink}>
+                    <span>Sign Up</span>
+                </NavLink>
+            </div>
+        </>
+    )
+
 }
 
 export default Login;
