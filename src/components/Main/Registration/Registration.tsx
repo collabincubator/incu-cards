@@ -79,7 +79,6 @@ const Registration: React.FC<PropsType> = ({styles, ...props}) => {
     if(succeess) {
         return <Redirect to={'/auth/login'}/>
     }
-    debugger
     return (
         <>
             <h1>Cards</h1>

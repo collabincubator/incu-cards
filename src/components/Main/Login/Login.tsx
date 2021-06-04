@@ -1,7 +1,7 @@
-import React, {ChangeEvent, useCallback, useReducer, useRef, useState} from 'react';
-import {useDispatch} from 'react-redux';
+import React, {ChangeEvent, useCallback, useEffect, useReducer, useRef, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {loginTC} from '../../../redux/loginReducer/loginReducer';
-import {NavLink} from 'react-router-dom';
+import {NavLink, Redirect} from 'react-router-dom';
 import {
     FormControl,
     IconButton,
@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core';
 import {Visibility, VisibilityOff} from '@material-ui/icons';
 import {useFormik} from 'formik';
+import {AppStateType} from '../../../redux/store';
 
 type PropsType = {
     styles: any
@@ -21,7 +22,7 @@ export const Login: React.FC<PropsType> = ({styles, ...props}) => {
     let [email, setEmail] = useState('')
     let [pass, setPass] = useState('')
     const dispatch = useDispatch();
-
+    const isLoggedIn = useSelector<AppStateType, boolean>(state => state.loginReducer.isLoggedIn);
     const onClickHandler = () => {
         dispatch(loginTC(email, pass, true))
     }
@@ -57,10 +58,13 @@ export const Login: React.FC<PropsType> = ({styles, ...props}) => {
             }
         },
         onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
+            dispatch(loginTC(values.email, values.password))
         }
     })
 
+    if (isLoggedIn) {
+        return <Redirect to={'/profile'}/>
+    }
     return(
         <>
             <h1>Cards</h1>
@@ -81,7 +85,7 @@ export const Login: React.FC<PropsType> = ({styles, ...props}) => {
 
                         color={'primary'}
                         id={"password"}
-                        type={isBlind ? 'text' : 'password'}
+                        type={isBlind ? 'password' : 'text'}
                         value={pass}
                         onChange={setPassHandler}
                         aria-describedby={'password-error'}
@@ -91,7 +95,7 @@ export const Login: React.FC<PropsType> = ({styles, ...props}) => {
                                     aria-label={"toggle password visibility"}
                                     onClick={eyeToggle}
                                 >
-                                    {isBlind ? <Visibility/> : <VisibilityOff/>}
+                                    {isBlind ? <VisibilityOff/> : <Visibility/>}
                                 </IconButton>
                             </InputAdornment>
                         }
@@ -100,7 +104,7 @@ export const Login: React.FC<PropsType> = ({styles, ...props}) => {
                     <FormHelperText id="password-error">{formik.errors.password}</FormHelperText>}
                 </FormControl>
                 <div className={styles.forgotBox}>
-                    <NavLink className={styles.navLinkForgotBox} to={'/restorepass'}>
+                    <NavLink className={styles.navLinkForgotBox} to={'/auth/restore-password'}>
                         <span>Forgot Password</span>
                     </NavLink>
                 </div>

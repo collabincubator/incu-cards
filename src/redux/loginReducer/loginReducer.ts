@@ -5,8 +5,10 @@ import {authAPI} from '../../api/cards-api';
 //     LOGOUT = 'loginReducer/LOG-OUT'
 // }
 
-const LOGIN = 'loginReducer/LOG-IN' as const;
-const LOGOUT = 'loginReducer/LOG-OUT' as const;
+export const LOGIN = 'loginReducer/LOG-IN' as const;
+export const LOGOUT = 'loginReducer/LOG-OUT' as const;
+export const ERROR = 'loginReducer/ERROR' as const;
+export const LOG_FLOW = 'loginReducer/LOG-FLOW' as const;
 
 export type UserResponeType = {
     _id: string;
@@ -24,12 +26,14 @@ export type UserResponeType = {
 
 type InitialStateType = {
     users: UserResponeType[],
-    isLoggedIn: boolean
+    isLoggedIn: boolean,
+    error:string | null
 }
 
 export const initialState: InitialStateType =  {
     users: [],
-    isLoggedIn: false
+    isLoggedIn: false,
+    error:''
 }
 
 type PropertiesType<ActionType> = ActionType extends {[key: string]: infer ResponseType } ? ResponseType : never;
@@ -37,16 +41,24 @@ type ActionsType = ReturnType<PropertiesType<typeof actions>>
 
 export const loginReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
+        case LOG_FLOW: {
+            return ({
+                ...state,
+                isLoggedIn: action.payload.isLoggedIn
+            })
+        }
         case LOGIN: {
             return ({
                 ...state,
-                ...action.payload
+                users: [{...action.payload.data}]
             })
         }
-        case LOGOUT: {
+
+        case ERROR: {
             return ({
                 ...state,
-                isLoggedIn: action.payload.value
+                isLoggedIn: false,
+                error: action.payload.error
             })
         }
         default: return state
@@ -54,50 +66,51 @@ export const loginReducer = (state: InitialStateType = initialState, action: Act
 }
 
 export const actions = {
-    loginAC:(data: any) => {
-        let [email, password, rememberMe, _id, publicCardPacksCount, avatar] = data;
+    logFlowAC: (isLoggedIn: boolean) => {
         return ({
-            type: LOGIN,
+            type: LOG_FLOW,
             payload: {
-                email,
-                password,
-                rememberMe,
-                _id,
-                publicCardPacksCount,
-                avatar
+                isLoggedIn
             }
         })
     },
-    logOutAC: (value: boolean) => {
+    loginAC:(data: any) => {
         return ({
-            type: LOGOUT,
+            type: LOGIN,
             payload: {
-                value
+                data
+            },
+        })
+    },
+    LoginErrorAC: (error: string) => {
+        return ({
+            type: ERROR,
+            payload: {
+                error
             }
         })
     }
 }
 
-export const loginTC = (email: string, password: string, rememberMe: boolean) => (dispatch: any) => {
-    return (
-        authAPI.logIn(email, password, rememberMe)
-            .then( data => {
-                dispatch(actions.loginAC(data))
-            }).catch((error)=>{
-                console.log(error)
-        })
-    )
+
+export const loginTC = (email: string, password: string, rememberMe?: boolean) => (dispatch: any) => {
+    authAPI.logIn(email, password, rememberMe = true)
+        .then(data => {
+            dispatch(actions.loginAC(data))
+            dispatch(actions.logFlowAC(true))
+        }).catch((error) => {
+        console.log(error)
+        dispatch(actions.LoginErrorAC(error))
+    })
 }
 export const LogoutTC = () => (dispatch: any) => {
-    return (
-        authAPI.logOut()
-            .then((data) => {
-                dispatch(actions.logOutAC(true))
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-    )
+    authAPI.logOut()
+        .then((data) => {
+            dispatch(actions.logFlowAC(false))
+        })
+        .catch((error) => {
+            console.log(error)
+        })
 }
 
 

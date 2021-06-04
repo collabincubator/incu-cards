@@ -1,4 +1,7 @@
-export const PROFILE_ACTION: string = 'profileReducer/TEST-REDUCER';
+import {authAPI} from '../../api/cards-api';
+import {actions} from '../loginReducer/loginReducer';
+
+export const PROFILE_ACTION = 'profileReducer/SET-PROFILE' as const;
 
 type ProfileInfoType = {
     id: number,
@@ -14,7 +17,7 @@ type InitialStateType = {
     profileInfo: ProfileInfoType
 }
 
-type ActionsType = loginAction;
+type ActionsType = ReturnType<typeof setProfileAC>;
 
 
 export const initialState: InitialStateType =  {
@@ -23,16 +26,32 @@ export const initialState: InitialStateType =  {
 
 const profileReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        default: return state
+        case PROFILE_ACTION: {
+            return({
+                ...state,
+                profileInfo: action.data
+            })
+        }
+        default:
+            return state
     }
 }
 
-type loginAction = {
-    type: typeof PROFILE_ACTION
+const setProfileAC = (data: any) => {
+    return({
+        type: PROFILE_ACTION,
+        data
+    })
 }
 
-const loginAction = {
-    type: PROFILE_ACTION
+export const fetchProfileTC = () => (dispatch: any) => {
+    console.log('fetch')
+    authAPI.me()
+        .then(data => {
+            dispatch(setProfileAC(data))
+            console.log(data)
+            dispatch(actions.logFlowAC(true))
+        })
 }
 
 export default profileReducer;

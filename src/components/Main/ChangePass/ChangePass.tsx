@@ -18,28 +18,30 @@ const ChangePass = (props: any) => {
         }
 
     }
-
+    debugger
     return (
-        <div className={styles.container}>
-            <div className={styles.box}>
-                <div className={styles.inner}>
-                    <h1>Cards</h1>
-                    <h2>Sign Up</h2>
-                    <span>Password</span>
-                    <input type='password'
-                           value={pass}
-                           onChange={(e) => setPass(e.currentTarget.value)}
-                           className={`${styles.textInput} ${styles.passInput}`}
-                           placeholder={'password'}/>
-                    <div className={styles.describe}>
-                        Create new password and we will send you further instructions to email
-                    </div>
-                    <button className={styles.btn}
-                            onClick={onClickHandler}>Create new password
-                    </button>
-                </div>
+        <>
+            <h1>Cards</h1>
+            <h2>Sign Up</h2>
+            <span>Password</span>
+            <input type='password'
+                   value={pass}
+                   onChange={(e) => setPass(e.currentTarget.value)}
+                   className={`${styles.textInput} ${styles.passInput}`}
+                   placeholder={'password'}/>
+            <input type='passwordConfirm'
+                   value={pass}
+                   onChange={(e) => setPass(e.currentTarget.value)}
+                   className={`${styles.textInput} ${styles.passInput}`}
+                   placeholder={'passwordConfirm'}/>
+            <div className={styles.describe}>
+                Create new password and we will send you further instructions to email
             </div>
-        </div>)
+            <button className={styles.btn}
+                    onClick={onClickHandler}>Create new password
+            </button>
+        </>
+    )
 }
 
 export default ChangePass;
