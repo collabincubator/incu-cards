@@ -1,7 +1,7 @@
-import React, {ChangeEvent, useCallback, useEffect, useReducer, useRef, useState} from 'react';
+import React, {ChangeEvent, useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {loginTC} from '../../../redux/loginReducer/authReducer';
-import {NavLink, Redirect} from 'react-router-dom';
+import {loginTC} from '../../../redux/authReducer/authReducer';
+import {NavLink} from 'react-router-dom';
 import {
     FormControl,
     IconButton,
@@ -27,8 +27,9 @@ export const Login: React.FC<PropsType> = ({styles, ...props}) => {
     let [email, setEmail] = useState('collabincubator@gmail.com')
     let [pass, setPass] = useState('collaborators')
     const dispatch = useDispatch();
-    const isLoggedIn = useSelector<AppStateType, boolean>(state => state.authReducer.isLoggedIn);
+    // const isLoggedIn = useSelector<AppStateType, boolean>(state => state.authReducer.isLoggedIn);
 
+    const error = useSelector<AppStateType, string>(state => state.authReducer.error);
 
     const setEmailHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setEmail(e.currentTarget.value)
@@ -67,9 +68,7 @@ export const Login: React.FC<PropsType> = ({styles, ...props}) => {
             formik.resetForm()
         }
     })
-    if (isLoggedIn) {
-        return <Redirect to={'/profile'}/>
-    }
+
     return (
         <>
             <h1>Cards</h1>
@@ -113,6 +112,7 @@ export const Login: React.FC<PropsType> = ({styles, ...props}) => {
                         <span>Forgot Password</span>
                     </NavLink>
                 </div>
+                <div>{error && 'email or password invalid' }</div>
                 <Button disabled={false} type={'submit'} className={styles.formButtons} variant="contained"
                         color="primary">
                     Login
