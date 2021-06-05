@@ -1,25 +1,21 @@
-import {authAPI} from '../../api/cards-api';
-import {Dispatch} from "redux";
-
-
 export const STATUS = 'appReducer/SET-STATUS' as const;
 export const ERROR = 'appReducer/SET-ERROR' as const;
-export const INITIALIZE = 'appReducer/SET-INITIALIZE' as const;
-export const SET_PROFILE_DATA = 'appReducer/SET-PROFILE-DATA' as const;
+export const INITIALIZING = 'appReducer/SET-INITIALIZING' as const;
+
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
 export type InitialStateType = {
     status: RequestStatusType
     error: string
-    isInitialized: boolean
+    initializing: boolean
 }
 
 
 const initialState: InitialStateType = {
     status: 'idle',
     error: '',
-    isInitialized: false
+    initializing: false
 }
 
 
@@ -28,9 +24,10 @@ type ActionsType = ReturnType<PropertiesType<typeof appActions>>
 
 export const appReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case INITIALIZE: {
+        case INITIALIZING: {
             return ({
                 ...state,
+                initializing: action.payload.value
             })
         }
         case ERROR: {
@@ -67,9 +64,9 @@ export const appActions = {
             }
         })
     },
-    setInitializedAC(value: boolean) {
+    setInitializingAC(value: boolean) {
         return ({
-            type: INITIALIZE,
+            type: INITIALIZING,
             payload: {
                 value
             }

@@ -13,22 +13,17 @@ export const Auth: React.FC = (props) => {
     // const dispatch = useDispatch()
     const isLoggedIn = useSelector<AppStateType, boolean>(state => state.authReducer.isLoggedIn)
 
-
-    if(isLoggedIn) {
-        return <Redirect to={'/profile'}/>
-    }
-    // const userData = useSelector<AppStateType, serverUserType | null>(state => state.authReducer.user)
-
-    // useEffect(() => {
-    //
-    // }, [])
-
     return (
         <div className={styles.container}>
             <div className={styles.box}>
                 <div className={styles.inner}>
                     <Switch>
-                        <Route path={'/auth/login'} render={(props) => <Login styles={styles}/>}/>
+                        <Route path={'/auth/login'} render={(props) => {
+                            if (isLoggedIn) {
+                                return (<Redirect to={'/profile'}/>)
+                            }
+                            return (<Login styles={styles}/>)
+                        }}/>
                         <Route path={'/auth/registration'}
                                render={(props) => <Registration styles={styles}/>}/>
                         <Route path={'/auth/restore-password'}

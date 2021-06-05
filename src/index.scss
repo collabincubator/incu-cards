@@ -76,6 +76,16 @@ p {
   color: $primary;
 }
 
+.initializePreloader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  img {
+    max-width: 5.2rem;
+    height: auto;
+  }
+}
 
 .login > span, .registration > span, .profile > span, .changePass > span, .restorePass > span {
   font-size: 4rem;

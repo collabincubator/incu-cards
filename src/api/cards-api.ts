@@ -4,7 +4,7 @@ const cardsRequest = axios.create({
     baseURL: 'http://localhost:7542/2.0',
     withCredentials: true
 })
-export type serverUserType = {
+export type ProfileResponseType = {
     _id: string;
     email: string;
     name: string;
@@ -34,18 +34,18 @@ export const authAPI = {
             .then(res => res.data)
     },
     logIn(email: string, password: string, rememberMe: boolean) {
-        return cardsRequest.post<serverUserType>(`/auth/login`, {email, password, rememberMe})
+        return cardsRequest.post<ProfileResponseType>(`/auth/login`, {email, password, rememberMe})
             .then(res => res.data)
     },
     me() {
-        return cardsRequest.post<serverUserType>(`/auth/me`, {})
+        return cardsRequest.post<ProfileResponseType>(`/auth/me`, {})
             .then(res => res.data)
     },
     logOut(){
         return cardsRequest.delete<serverResponseType>(`/auth/me`)
             .then(res => res.data)
     },
-    updateMe(name: string, avatar: string) {
+    updateMe(name: string, avatar?: string) {
         return cardsRequest.put(`/auth/me`, {name, avatar})
             .then(res => res.data)
     },
