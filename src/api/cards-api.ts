@@ -4,7 +4,23 @@ const cardsRequest = axios.create({
     baseURL: 'http://localhost:7542/2.0',
     withCredentials: true
 })
-
+export type serverUserType = {
+    _id: string;
+    email: string;
+    name: string;
+    avatar?: string;
+    publicCardPacksCount: number; // количество колод
+    created: Date;
+    updated: Date;
+    isAdmin: boolean;
+    verified: boolean; // подтвердил ли почту
+    rememberMe: boolean;
+    error?: string;
+}
+export type serverResponseType = {
+    info: string
+    error: string;
+}
 export const pingAPI = {
     pingBack() {
         const response = cardsRequest.get<number>(`/ping?frontTime=${Date.now()}`) //
@@ -18,15 +34,15 @@ export const authAPI = {
             .then(res => res.data)
     },
     logIn(email: string, password: string, rememberMe: boolean) {
-        return cardsRequest.post(`/auth/login`, {email, password, rememberMe})
+        return cardsRequest.post<serverUserType>(`/auth/login`, {email, password, rememberMe})
             .then(res => res.data)
     },
     me() {
-        return cardsRequest.post(`/auth/me`, {})
+        return cardsRequest.post<serverUserType>(`/auth/me`, {})
             .then(res => res.data)
     },
     logOut(){
-        return cardsRequest.delete(`/auth/me`)
+        return cardsRequest.delete<serverResponseType>(`/auth/me`)
             .then(res => res.data)
     },
     updateMe(name: string, avatar: string) {
