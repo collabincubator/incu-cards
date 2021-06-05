@@ -1,0 +1,103 @@
+@import '../../../styles/variables.module';
+@import '../../../styles/mixins.module';
+
+.container {
+  @include gridContainer (100.8rem, transparent);
+  .box {
+    width: 100%;
+    background-color: #fff;
+    margin: 0 auto;
+    padding: 2.4rem 3.2rem;
+    border-radius: 0.8rem;
+    grid-column: 5 /span 4;
+    font-size: 1.6rem;
+    line-height: 1;
+    overflow: hidden;
+    .inner {
+        @include gridBox(5 / span 6, $bgcolor);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: stretch;
+        h1, h2 {
+          text-align: center;
+          color: $primary
+        }
+        h1 {
+          line-height: 3.6rem;
+        }
+        h2 {
+          @include formHeader2();
+        }
+        h3 {
+          text-align: left;
+        }
+        p {
+          font: $typoGuideForms;
+          margin-bottom: 0.8rem;
+          text-align: center;
+        }
+        form {
+          display: flex;
+          flex-direction: column;
+        }
+        .imgSuccessAction {
+            margin: 3.6rem 0 0;
+            align-self: center;
+            max-width: 50%;
+            height: auto;
+        }
+        .controlInputs {
+          margin-bottom: 2.4rem;
+          color: $primary
+        }
+        .btnContainer {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 2.4rem;
+        }
+        .formButtons {
+          margin: 3.6rem 0;
+        }
+        .btn {
+          display: block;
+          margin: 0 2.4rem;
+          border: none;
+          border-radius: 0.8rem;
+          padding: 1rem;
+          outline: none;
+          font: normal normal 1.6rem/1 Poppins, sans-serif;
+          color: rgb(255, 255, 255);
+          background-color: $third;
+          box-shadow: $btnBoxShadow;
+        }
+
+        .forgotBox {
+          margin: 1.2rem 0 4.6rem;
+          text-align: right;
+        }
+        a.navLinkForgotBox {
+          display: inline-block;
+          padding: 0.8rem 1.2rem;
+          text-align: right;
+          font: $typoLinkForms;
+          text-decoration: none;
+          color: $third
+        }
+        .signUpBox {
+          text-align: center;
+          .signUpLink {
+            display: inline-block;
+            text-decoration: none;
+            padding: 0.6rem 1.2rem;
+            & span {
+              font: $typoHeader3LinkForms;
+              color: $third
+            }
+
+          }
+        }
+
+      }
+  }
+}

@@ -10,7 +10,7 @@ type PropsType = {
 }
 
 const RestorePass: React.FC<PropsType> = ({styles, ...props}) => {
-    const [emailIn, setEmailIn] = useState('');
+    const [emailIn, setEmailIn] = useState('collabincubator@gmail.com');
     const dispatch = useDispatch()
     const from = useSelector<AppStateType,string>(state => state.restorePassReducer.from)
     const email = useSelector<AppStateType,boolean>(state => state.restorePassReducer.email)
