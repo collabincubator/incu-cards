@@ -45,7 +45,7 @@ export const authAPI = {
         return cardsRequest.delete<serverResponseType>(`/auth/me`)
             .then(res => res.data)
     },
-    updateMe(name: string, avatar: string) {
+    updateMe(name: string, avatar?: string) {
         return cardsRequest.put(`/auth/me`, {name, avatar})
             .then(res => res.data)
     },

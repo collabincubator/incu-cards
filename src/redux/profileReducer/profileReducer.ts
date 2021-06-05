@@ -1,6 +1,8 @@
-import {ProfileResponseType} from '../../api/cards-api';
+import {authAPI, ProfileResponseType} from '../../api/cards-api';
+import {Dispatch} from 'redux';
 
 export const SET_PROFILE_DATA = 'profileReducer/SET-PROFILE-DATA' as const;
+export const SET_PROFILE_UPDATE = 'profileReducer/SET_PROFILE_UPDATE' as const;
 
 type InitialStateType = {
     profile: null | ProfileResponseType
@@ -21,6 +23,13 @@ const profileReducer = (state: InitialStateType = initialState, action: ActionsT
                 profile: {...action.payload.data}
             })
         }
+        case SET_PROFILE_UPDATE: {
+            return ({
+                ...state,
+                profile: {...state.profile, ...action.payload.data}
+
+            })
+        }
         default:
             return state
     }
@@ -33,7 +42,21 @@ export const profileActions = {
                 data
             }
         })
+    },
+    setProfileUpdateAC: (data: any) => {
+        return({
+            type: SET_PROFILE_UPDATE,
+            payload: {
+                data
+            }
+        })
     }
+}
+export const changeProfileNameTC = (name: string) => (dispatch: Dispatch) => {
+    authAPI.updateMe(name)
+        .then(data => {
+            profileActions.setProfileUpdateAC(data)
+        })
 }
 
 

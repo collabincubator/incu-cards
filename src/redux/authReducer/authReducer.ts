@@ -3,7 +3,7 @@ import {Dispatch} from "redux";
 import {profileActions} from '../profileReducer/profileReducer';
 import {appActions} from '../appReducer/appReducer';
 
-export const LOGIN_FLOW = 'authReducer/SET-LOGIN' as const;
+export const LOGIN_FLOW = 'authReducer/SET-LOGIN-FLOW' as const;
 export const ERROR = 'authReducer/SET-ERROR' as const;
 export const INFO = 'authReducer/SET-INFO' as const;
 

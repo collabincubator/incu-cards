@@ -40,8 +40,14 @@ const App = (props: any) => {
     return (
         <div>
             <Header/>
+
             <Switch>
-                <Route path={'/'} exact render={() => <Redirect to={PATH.LOGIN}/>}/>
+                <Route path={'/'} exact render={() => {
+                    if (isLoggedIn && profile !== null) {
+                        return (<Redirect to={PATH.PROFILE}/>);
+                    }
+                    return (<Redirect to={PATH.LOGIN}/>)
+                }}/>
                 <Route path={PATH.AUTH} render={() => <Auth/>}/>
                 <Route path={PATH.PROFILE} render={() => <Profile/>}/>
                 <Route render={() => <PageNotFounded/>}/>
