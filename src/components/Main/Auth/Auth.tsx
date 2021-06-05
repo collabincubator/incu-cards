@@ -17,7 +17,7 @@ export const Auth: React.FC = (props) => {
     if(isLoggedIn) {
         return <Redirect to={'/profile'}/>
     }
-    // const userData = useSelector<AppStateType, serverUserType | null>(state => state.authReducer.user)
+    // const userData = useSelector<AppStateType, ProfileResponseType | null>(state => state.authReducer.user)
 
     // useEffect(() => {
     //

@@ -1,55 +1,41 @@
+import {ProfileResponseType} from '../../api/cards-api';
 
-export const PROFILE_ACTION = 'profileReducer/SET-PROFILE' as const;
-
-type ProfileInfoType = {
-    id: number,
-    sex: string
-    email: string
-    dateOfBirth: string
-    city: string
-    country: string
-    status: string
-}
+export const SET_PROFILE_DATA = 'profileReducer/SET-PROFILE-DATA' as const;
 
 type InitialStateType = {
-    profileInfo: ProfileInfoType
+    profile: null | ProfileResponseType
 }
 
-type ActionsType = ReturnType<typeof setProfileAC>;
-
-
-export const initialState: InitialStateType =  {
-    profileInfo: {id: 1, sex: 'male', email: 'valakas@gmail.com', dateOfBirth: '29.02.1966', city: 'Samara', country: 'Ukraine', status: '---'}
+export const initialState: InitialStateType = {
+    profile: null as ProfileResponseType | null,
 }
+
+type PropertiesType<ActionType> = ActionType extends { [key: string]: infer ResponseType } ? ResponseType : never;
+type ActionsType = ReturnType<PropertiesType<typeof profileActions>>
 
 const profileReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case PROFILE_ACTION: {
-            return({
+        case SET_PROFILE_DATA: {
+            return ({
                 ...state,
-                profileInfo: action.data
+                profile: {...action.payload.data}
             })
         }
         default:
             return state
     }
 }
-
-const setProfileAC = (data: any) => {
-    return({
-        type: PROFILE_ACTION,
-        data
-    })
+export const profileActions = {
+    setProfileDataAC: (data: ProfileResponseType) => {
+        return ({
+            type: SET_PROFILE_DATA,
+            payload: {
+                data
+            }
+        })
+    }
 }
 
-// export const fetchProfileTC = () => (dispatch: any) => {
-//     console.log('fetch')
-//     authAPI.me()
-//         .then(data => {
-//             dispatch(setProfileAC(data))
-//             console.log(data)
-//             dispatch(actions.logFlowAC(true))
-//         })
-// }
+
 
 export default profileReducer;

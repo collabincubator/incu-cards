@@ -7,8 +7,8 @@ import Auth from './components/Main/Auth/Auth';
 import {useDispatch, useSelector} from "react-redux";
 import {authMeTC} from "./redux/authReducer/authReducer";
 import {AppStateType} from "./redux/store";
-import {serverUserType} from "./api/cards-api";
-import preloader from './assets/icons/preloader.svg'
+import {ProfileResponseType} from "./api/cards-api";
+import preloader from './assets/icons/preloaderAppleLight.svg';
 
 const PATH = {
     AUTH: '/auth',
@@ -20,18 +20,20 @@ const PATH = {
 const App = (props: any) => {
     const dispatch: Function = useDispatch()
     const isLoggedIn = useSelector<AppStateType, boolean>(state => state.authReducer.isLoggedIn);
-    const loading = useSelector<AppStateType, boolean>(state => state.authReducer.loading);
-    const user = useSelector<AppStateType, serverUserType | null>(state => state.authReducer.user);
+    const initializing = useSelector<AppStateType, boolean>(state => state.appReducer.initializing);
+    const profile = useSelector<AppStateType, ProfileResponseType | null>(state => state.profileReducer.profile);
 
     useEffect(() => {
-        if (user === null) {
+        if (profile === null) {
             dispatch(authMeTC())
         }
     }, [])
 
 
-    if (loading) {
-        return (<div><img src={preloader} alt=""/></div>)
+    if (initializing) {
+        return (<div className={'initializePreloader'}>
+            <img src={preloader} alt={'initialize preloader'}/>
+        </div>)
     }
 
 
