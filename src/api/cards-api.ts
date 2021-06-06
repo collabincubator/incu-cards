@@ -67,6 +67,8 @@ export type serverResponseType = {
     info: string
     error: string;
 }
+
+
 export const pingAPI = {
     pingBack() {
         const response = cardsRequest.get<number>(`/ping?frontTime=${Date.now()}`) //
@@ -99,8 +101,14 @@ export const authAPI = {
         return cardsRequest.post(`/auth/set-new-password`, {password, resetPasswordToken})
             .then(res => res.data)
     },
-    restorePassword(email: string, from: string, message: string) {
-        return cardsRequest.post(`https://neko-back.herokuapp.com/2.0/auth/forgot`, {email, from, message})
+    restorePassword(email: string,) {
+        const message = `	
+	            password recovery link: 
+	            <a href='http://localhost:3000/#/auth/change-password/$token$'>
+	                link
+	            </a>`
+        const fromUser = 'test-front-admin <valtika>'
+        return cardsRequest.post(`https://neko-back.herokuapp.com/2.0/auth/forgot`, {email, fromUser, message})
             .then(res => res.data)
     }
 

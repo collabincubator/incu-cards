@@ -15,7 +15,7 @@ type InitialStateType = {
 }
 
 type PropertiesType<ActionType> = ActionType extends {[key: string]: infer ResponseType } ? ResponseType : never;
-type ActionsType = ReturnType<PropertiesType<typeof actions>>
+type ActionsType = ReturnType<PropertiesType<typeof changePassActions>>
 
 
 export const initialState: InitialStateType =  {
@@ -54,7 +54,7 @@ const changePassReducer = (state: InitialStateType = initialState, action: Actio
     }
 }
 
-const actions = {
+export const changePassActions = {
     successChangePassAC (success:boolean) {
         return ({
             type:CHANGE,
@@ -81,14 +81,14 @@ const actions = {
     }
 }
 export const RestorePassTC = (password:string,resetPasswordToken:string) => (dispatch: any) => {
-        dispatch(actions.loadingAC(true))
+        dispatch(changePassActions.loadingAC(true))
         authAPI.setNewPassword(password,resetPasswordToken)
             .then( data => {
                 console.log(`${data.data.info}`)
-               dispatch(actions.successChangePassAC(true))
-                dispatch(actions.loadingAC(false))
+               dispatch(changePassActions.successChangePassAC(true))
+                dispatch(changePassActions.loadingAC(false))
             }).catch((error)=>{
-            dispatch(actions.errorAC('error'))
+            dispatch(changePassActions.errorAC('error'))
         })
 }
 

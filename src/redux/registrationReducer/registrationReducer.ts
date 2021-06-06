@@ -4,43 +4,20 @@ export const SUCCESS = 'registrationReducer/SUCCESS' as const
 export const LOADING = 'registrationReducer/LOADING'as const
 export const ERROR = 'registrationReducer/ERROR'as const
 
-type addedUserType = {
-        created: string
-        email: string
-        isAdmin: boolean
-        name: string
-        publicCardPacksCount: number
-        rememberMe: boolean
-        updated: string
-        verified: boolean
-        __v: number
-        _id: string
-}
+
 type InitialStateType = {
-    // addedUser:addedUserType
+
     loading:boolean
     error:string
     registrationSuccess: boolean
 }
 const initialState = {
-    // addedUser:{
-    //     created: '',
-    //     email: '',
-    //     isAdmin: false,
-    //     name: '',
-    //     publicCardPacksCount: 0,
-    //     rememberMe: false,
-    //     updated: '',
-    //     verified: false,
-    //     __v: 0,
-    //     _id: '',
-    // },
     registrationSuccess:false,
     loading:false,
     error:''
 }
 type PropertiesType<ActionType> = ActionType extends {[key: string]: infer ResponseType } ? ResponseType : never;
-type ActionsType = ReturnType<PropertiesType<typeof actions>>
+type ActionsType = ReturnType<PropertiesType<typeof registrationActions>>
 
 const registrationReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
@@ -73,7 +50,7 @@ const registrationReducer = (state: InitialStateType = initialState, action: Act
 }
 
 
-export const actions = {
+export const registrationActions = {
     registrationAC: (registrationSuccess:boolean) => {
         // data:addedUserType,
         return ({
@@ -106,14 +83,14 @@ export const actions = {
 
 export const RegistrationTC = (email: string, password: string) => (dispatch: any) => {
 
-        dispatch(actions.registrationLoadingAC(true))
+        dispatch(registrationActions.registrationLoadingAC(true))
         authAPI.registration(email, password)
             .then((data) => {
-                dispatch(actions.registrationAC(true))
-                dispatch(actions.registrationLoadingAC(false))
+                dispatch(registrationActions.registrationAC(true))
+                dispatch(registrationActions.registrationLoadingAC(false))
             })
             .catch((error) => {
-                dispatch(actions.registrationErrorAC('error'))
+                dispatch(registrationActions.registrationErrorAC('error'))
                 console.log('error')
             })
 

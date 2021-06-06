@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import styles from "./Restore.module.scss";
 import { RestoreMailTC} from "../../../redux/restorePassReducer/restorePassReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../redux/store";
@@ -12,12 +11,10 @@ type PropsType = {
 const RestorePass: React.FC<PropsType> = ({styles, ...props}) => {
     const [emailIn, setEmailIn] = useState('collabincubator@gmail.com');
     const dispatch = useDispatch()
-    const from = useSelector<AppStateType,string>(state => state.restorePassReducer.from)
     const email = useSelector<AppStateType,boolean>(state => state.restorePassReducer.email)
-    const message = useSelector<AppStateType,string>(state => state.restorePassReducer.message)
 
     const onClickHandler = () => {
-        dispatch(RestoreMailTC(emailIn,from,message))
+        dispatch(RestoreMailTC(emailIn))
     }
 
     return (
