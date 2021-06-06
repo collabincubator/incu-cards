@@ -16,7 +16,7 @@ export const rootReducer = combineReducers({
     restorePassReducer,
     changePassReducer,
     appReducer,
-    cardsReducer: packsReducer
+    packsReducer
 });
 
 export type AppStateType = ReturnType<typeof rootReducer>

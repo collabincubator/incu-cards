@@ -1,40 +1,35 @@
-import main, {authActions, authReducer} from './authReducer'
+import  {authActions, authReducer} from './authReducer'
 
 let startValue:any = {}
 beforeEach(() => {
     startValue = {
-        users: [{
-            _id: '',
-            email: '',
-            name: '',
-            avatar: '',
-            publicCardPacksCount: 0, // количество колод
-            created: Date.now(),
-            updated: Date.now(),
-            isAdmin: false,
-            verified: false,
-            rememberMe:false,
-            error: ''
-        }],
-        isLoggedIn: false
+        isLoggedIn: false,
+        error: '',
+        info: ''
     }
 })
-describe('login  reducer', ()=> {
-    test('correct value', () => {
+describe('auth  reducer', ()=> {
+    test('login state should de changed', () => {
 
-        const action = authActions.loginAC(startValue.users)
+        const action1 = authActions.loginFlowAC(false)
+        const action2 = authActions.loginFlowAC(true)
 
-        const endValue = authReducer(startValue,action)
+        const endValue1 = authReducer(startValue,action1)
+        const endValue2 = authReducer(startValue,action2)
 
-        expect(endValue.users).toBeDefined()
+        expect(endValue1.isLoggedIn).toBeFalsy()
+        expect(endValue2.isLoggedIn).toBeTruthy()
 
     })
 
-    test('', () => {
-        const action = {}
+    test('login error', () => {
 
-        const endValue = {}
+        const action1 = authActions.errorAC('error')
 
-        expect(endValue).toBeDefined()
+        const endValue1 = authReducer(startValue,action1)
+
+        expect(endValue1.error).toBe('error')
+
     })
+
 })

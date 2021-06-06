@@ -6,25 +6,18 @@ const LOADING = 'restoreReducer/LOADING' as const;
 
 type InitialStateType = {
     email: boolean
-    from: string
-    message: string
     error: string
     loading: boolean
 }
 
 type PropertiesType<ActionType> = ActionType extends { [key: string]: infer ResponseType } ? ResponseType : never;
-type ActionsType = ReturnType<PropertiesType<typeof actions>>
+type ActionsType = ReturnType<PropertiesType<typeof restoreActions>>
 
 
 export const initialState: InitialStateType = {
     email: false,
     error: '',
     loading: false,
-    from: 'test-front-admin <valtika>',
-    message: `<div style="background-color: lime; padding: 15px">	
-	password recovery link: 
-	<a href='http://localhost:3000/#/auth/change-password/$token$'>
-	link</a></div>` // хтмп-письмо, вместо $token$ бэк вставит токен
 }
 
 const restorePassReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
@@ -61,7 +54,7 @@ const restorePassReducer = (state: InitialStateType = initialState, action: Acti
     }
 }
 
-const actions = {
+export const restoreActions = {
     restoreEmailSuccessAC(email: boolean) {
         return ({
             type: RESTORE,
@@ -88,14 +81,14 @@ const actions = {
     }
 }
 
-export const RestoreMailTC = (email: string, from: string, message: string) => (dispatch: any) => {
-    dispatch(actions.restoreEmailLoadingAC(true))
-    authAPI.restorePassword(email, from, message)
+export const RestoreMailTC = (email: string) => (dispatch: any) => {
+    dispatch(restoreActions.restoreEmailLoadingAC(true))
+    authAPI.restorePassword(email)
         .then(data => {
             console.log(data.info)
-            dispatch(actions.restoreEmailSuccessAC(true))
+            dispatch(restoreActions.restoreEmailSuccessAC(true))
         }).catch((error) => {
-        dispatch(actions.restoreEmailErrorAC('error'))
+        dispatch(restoreActions.restoreEmailErrorAC('error'))
         console.log('error')
     })
 
