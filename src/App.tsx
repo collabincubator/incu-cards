@@ -7,13 +7,18 @@ import Auth from './components/Main/Auth/Auth';
 import {useDispatch, useSelector} from "react-redux";
 import {authMeTC} from "./redux/authReducer/authReducer";
 import {AppStateType} from "./redux/store";
-import {ProfileResponseType} from "./api/cards-api";
+
 import preloader from './assets/icons/preloaderAppleLight.svg';
+import { ProfileResponseType } from './api/cards-api';
+import {Packs} from "./components/Main/Packs/Packs";
+import {Cards} from "./components/Main/Cards/Cards";
 
 const PATH = {
     AUTH: '/auth',
     LOGIN: 'auth/login',
     PROFILE: '/profile',
+    PACKS: '/packs',
+    CARDS: '/cards',
 }
 
 
@@ -50,6 +55,8 @@ const App = (props: any) => {
                 }}/>
                 <Route path={PATH.AUTH} render={() => <Auth/>}/>
                 <Route path={PATH.PROFILE} render={() => <Profile/>}/>
+                <Route path={PATH.PACKS} render={() => <Packs/>}/>
+                <Route path={PATH.CARDS} render={() => <Cards/>}/>
                 <Route render={() => <PageNotFounded/>}/>
             </Switch>
         </div>
