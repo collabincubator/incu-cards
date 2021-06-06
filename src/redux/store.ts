@@ -7,6 +7,7 @@ import restorePassReducer from './restorePassReducer/restorePassReducer';
 import changePassReducer from './changePassReducer/changePassReducer';
 import appReducer from "./appReducer/appReducer";
 import {composeWithDevTools} from "redux-devtools-extension";
+import {packsReducer} from "./PacksReducer/Packs-reducer";
 
 export const rootReducer = combineReducers({
     authReducer,
@@ -14,7 +15,8 @@ export const rootReducer = combineReducers({
     registrationReducer,
     restorePassReducer,
     changePassReducer,
-    appReducer
+    appReducer,
+    cardsReducer: packsReducer
 });
 
 export type AppStateType = ReturnType<typeof rootReducer>
