@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import {createPackTC, requestCardsTC, requestUserCardsTC} from "../../../redux/PacksReducer/Packs-reducer";
+import {createPackTC, requestCardsTC, requestUserCardsTC} from "../../../redux/PacksReducer/PacksReducer";
 import {AppStateType} from "../../../redux/store";
 import {packType} from "../../../api/cards-api";
 import {Pack} from "./pack/pack";
@@ -11,8 +11,8 @@ import {Redirect} from "react-router-dom";
 export const Packs = () => {
 
     const dispatch = useDispatch()
-    const packs = useSelector<AppStateType,packType[]>(state => state.cardsReducer.cardPacks)
-    const pack = useSelector<AppStateType,packType>(state => state.cardsReducer.cardPacks[0])
+    const packs = useSelector<AppStateType,packType[]>(state => state.packsReducer.cardPacks)
+    const pack = useSelector<AppStateType,packType>(state => state.packsReducer.cardPacks[0])
     const loading = useSelector<AppStateType,RequestStatusType>(state => state.appReducer.status)
     const isLoggedIn = useSelector<AppStateType, boolean>(state => state.authReducer.isLoggedIn);
 

@@ -7,7 +7,7 @@ import restorePassReducer from './restorePassReducer/restorePassReducer';
 import changePassReducer from './changePassReducer/changePassReducer';
 import appReducer from "./appReducer/appReducer";
 import {composeWithDevTools} from "redux-devtools-extension";
-import {packsReducer} from "./PacksReducer/Packs-reducer";
+import {packsReducer} from "./PacksReducer/PacksReducer";
 
 export const rootReducer = combineReducers({
     authReducer,

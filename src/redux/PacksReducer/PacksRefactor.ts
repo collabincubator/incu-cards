@@ -1,5 +1,5 @@
 import {packType} from "../../api/cards-api";
-import {packsActions, packsReducer} from "./Packs-reducer";
+import {packsActions, packsReducer} from "./PacksReducer";
 
 
 let startValue:any = {}
