@@ -24,8 +24,8 @@ type FormikErrorType = {
 
 export const Login: React.FC<PropsType> = ({styles, ...props}) => {
 
-    let [email, setEmail] = useState('collabincubator@gmail.com')
-    let [pass, setPass] = useState('collaborators')
+    let [email, setEmail] = useState('')
+    let [pass, setPass] = useState('')
     const dispatch = useDispatch();
     // const isLoggedIn = useSelector<AppStateType, boolean>(state => state.authReducer.isLoggedIn);
 
@@ -118,9 +118,9 @@ export const Login: React.FC<PropsType> = ({styles, ...props}) => {
                     Login
                 </Button>
             </form>
-            <div className={styles.signUpBox}>
+            <div className={styles.footerBox}>
                 <p>Don't have an account?</p>
-                <NavLink to={'registration'} className={styles.signUpLink}>
+                <NavLink to={'registration'} className={styles.footerLink}>
                     <span>Sign Up</span>
                 </NavLink>
             </div>
