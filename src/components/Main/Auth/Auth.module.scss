@@ -33,10 +33,11 @@
           text-align: left;
         }
         p {
-          font: $typoGuideForms;
-          margin-bottom: 0.8rem;
-          text-align: center;
+          font: $typoDescribeForms;
+          text-align: left;
+          color: $secondary;
         }
+
         form {
           display: flex;
           flex-direction: column;
@@ -84,9 +85,14 @@
           text-decoration: none;
           color: $third
         }
-        .signUpBox {
+        .footerBox {
           text-align: center;
-          .signUpLink {
+          p {
+            font: $typoGuideForms;
+            margin-bottom: 0.8rem;
+            text-align: center;
+          }
+          .footerLink {
             display: inline-block;
             text-decoration: none;
             padding: 0.6rem 1.2rem;
