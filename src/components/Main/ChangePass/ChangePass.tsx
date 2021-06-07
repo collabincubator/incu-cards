@@ -3,7 +3,7 @@ import {Redirect, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import { RestorePassTC } from '../../../redux/changePassReducer/changePassReducer';
 import {AppStateType} from "../../../redux/store";
-import {FormControl, FormHelperText, IconButton, Input, InputAdornment, InputLabel} from '@material-ui/core';
+import {Button, FormControl, FormHelperText, IconButton, Input, InputAdornment, InputLabel} from '@material-ui/core';
 import {Visibility, VisibilityOff} from '@material-ui/icons';
 
 type PropsType = {
@@ -77,7 +77,7 @@ const ChangePass: React.FC<PropsType> = ({styles, ...props}) => {
 
                     color={'primary'}
                     id={"requestRepeatNewPass"}
-                    type={isBlind ? 'password' : 'text'}
+                    type={isBlindRepeat ? 'password' : 'text'}
                     value={requestRepeatNewPass}
                     onChange={setRequestRepeatNewPassHandler}
                     aria-describedby={'requestRepeatNewPass-error'}
@@ -96,9 +96,12 @@ const ChangePass: React.FC<PropsType> = ({styles, ...props}) => {
             <p>
                 Create new password and we will send you further instructions to email
             </p>
-            <button className={styles.btn}
-                    onClick={onClickHandler}>Create new password
-            </button>
+            <Button disabled={false} type={'submit'} className={styles.formButtons} variant="contained"
+                    onClick={onClickHandler}
+                    color="primary"
+            >
+                Change pass
+            </Button>
             <span>{error}</span>
         </>
     )
