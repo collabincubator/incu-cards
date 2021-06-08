@@ -36,7 +36,7 @@ describe('profile  reducer', ()=> {
             page: 1 ,
             pageCount: 0 ,
         }
-        const action1 = packsActions.getPacksAC(data.cardPacks)
+        const action1 = packsActions.setPacks(data.cardPacks)
 
         const endValue1 = packsReducer(startValue,action1)
 

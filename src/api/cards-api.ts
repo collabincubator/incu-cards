@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {PacksParamsType} from '../redux/PacksReducer/PacksReducer';
 
 const cardsRequest = axios.create({
     baseURL: 'http://localhost:7542/2.0',
@@ -32,7 +33,7 @@ export type packType = {
     __v: number
 }
 export type packsResponse = {
-    cardPacks:packType[]
+    cardPacks: packType[]
     cardPacksTotalCount: number // количество колод
     maxCardsCount: number
     minCardsCount: number
@@ -113,32 +114,37 @@ export const authAPI = {
     }
 
 }
-export const packAPI = {
-    getPacks(pageCount:number = 1000,page:number = 4) {
-        return cardsRequest.get<packsResponse>(`/cards/pack?pageCount=${pageCount}&page=${page}&sortPacks=0updated`)
+
+export const packsAPI = {
+    getPacks(params?: PacksParamsType) {
+        return cardsRequest.get<packsResponse>(`/cards/pack`, {
+            params: {...params}
+        })
             .then(res => res.data)
     },
-    getUserPacks(pageCount:number = 1000,page:number = 4,user_id:string) {
+    getUserPacks(pageCount: number = 100, page: number = 1, user_id: string) {
         return cardsRequest.get<packsResponse>(`/cards/pack?pageCount=${pageCount}&page=${page}&sortPacks=0updated&user_id=${user_id}`)
             .then(res => res.data)
     },
     createPack() {
-        return cardsRequest.post<packsResponse>(`/cards/pack`,{
+        return cardsRequest.post<packsResponse>(`/cards/pack`, {
             cardsPack: {
                 name: "new pack 2.0",
-            }})
+            }
+        })
             .then(res => res.data)
     },
-    deletePack(id:string) {
+    deletePack(id: string) {
         return cardsRequest.delete(`/cards/pack?id=${id}`)
-            .then(res =>res.data)
+            .then(res => res.data)
     },
-    updatePack(id:string,name:string) {
-        return cardsRequest.put(`/cards/pack`,{
+    updatePack(id: string, name: string) {
+        return cardsRequest.put(`/cards/pack`, {
             cardsPack: {
                 _id: id,
                 name,
-            }})
+            }
+        })
             .then(res => res.data)
     }
 }

@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {ChangeEvent, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { ProfileResponseType } from '../../../api/cards-api';
@@ -11,26 +11,28 @@ const Profile = (props: any) => {
 
     let [name, setName] = useState('');
     const dispatch = useDispatch();
-    let valueRef: any = useRef(null);
 
     const isLoggedIn = useSelector<AppStateType, boolean | null>( state => state.authReducer.isLoggedIn);
 
-    const setNameHandle = () => {
-        dispatch(changeProfileNameTC(valueRef.current.value))
+    const onChangeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setName(e.currentTarget.value)
     }
-
+    const onClickChangeNameHandler = () => {
+        dispatch(changeProfileNameTC(name))
+    }
 
     if(!isLoggedIn) {
         return  <Redirect to={'auth/login'}/>
     }
-
 
     return <div className='profile'>
         <div>
             <ul>
                 <li> <span>{profile !== null ? profile.email : 'not authorized'}</span></li>
                 <li>
-                    <input ref={valueRef} value={'OUR-VALUE'} onBlur={setNameHandle}/> <span>{profile !== null && profile.name}</span>
+                    <input value={name} onChange={onChangeNameHandler} onKeyPress={(e)=> (e.key === 'Enter' && onClickChangeNameHandler())}/>
+                    <span>{profile !== null && profile.name}</span>
+                    <button onClick={onClickChangeNameHandler}>Change Name!</button>
                 </li>
                 <li>3</li>
                 <li>4</li>
