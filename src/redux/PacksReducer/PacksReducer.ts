@@ -1,30 +1,41 @@
 import {Dispatch} from "redux";
-import {packType, packAPI} from "../../api/cards-api";
+import {packType, packsAPI} from "../../api/cards-api";
 import {appActions} from "../appReducer/appReducer";
+import {AppStateType} from '../store';
+
+export const SET_PACKS = 'packsReducer/SET-PACKS' as const;
+export const SET_USER_PACKS = 'packsReducer/SET-USER-PACKS' as const;
+export const SET_PAGE_COUNT = 'packsReducer/SET-PAGE-COUNT' as const;
+export const SET_PAGE_NUMBER = 'packsReducer/SET-PAGE-NUMBER' as const;
+export const SET_MIN_CARDS_COUNT = 'packsReducer/SET-MIN-CARDS-COUNT' as const;
+export const SET_MAX_CARDS_COUNT = 'packsReducer/SET-MAX-CARDS-COUNT' as const;
+export const SET_PACKS_TOTAL_COUNT = 'packsReducer/SET-PACKS-TOTAL-COUNT' as const;
 
 
-export const GET_PACKS = 'packsReducer/GET_PACKS' as const;
-export const GET_USER_PACKS = 'packsReducer/GET_USER_PACKS' as const;
-
-
-
+export type PacksParamsType = {
+    packName?: 'english'
+    min?: number
+    max?: number
+    page?: number // выбранная страница
+    pageCount?: number // количество элементов на странице
+    user_id?: string
+}
 
 type InitialStateType = {
     cardPacks:packType[]
-    cardPacksTotalCount: number // количество колод
-    maxCardsCount: number
-    minCardsCount: number
-    page: number // выбранная страница
-    pageCount: number // количество элементов на странице
+    packsParams: PacksParamsType
+    cardPacksTotalCount: number
 }
 
 export const initialState: InitialStateType = {
-    cardPacks: [] as packType[] ,
-    cardPacksTotalCount: 0,
-    maxCardsCount: 20,
-    minCardsCount: 10,
-    page: 1 ,
-    pageCount: 0 ,
+    cardPacks: [] as packType[],
+    packsParams: {
+        min: 1,
+        max: 20,
+        page: 1,
+        pageCount: 10,
+    },
+    cardPacksTotalCount: 0
 }
 
 type PropertiesType<ActionType> = ActionType extends { [key: string]: infer ResponseType } ? ResponseType : never;
@@ -32,46 +43,121 @@ type ActionsType = ReturnType<PropertiesType<typeof packsActions>>
 
 export const packsReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case GET_PACKS:{
+        case SET_PACKS:{
             return ({
                 ...state,
-                cardPacks:action.payload.cards
+                cardPacks: action.payload.packs
             })
         }
-        // case GET_USER_PACKS:{
+        case SET_MIN_CARDS_COUNT: {
+            return ({
+                ...state,
+                packsParams: {...state.packsParams, min: action.payload.min}
+            })
+        }
+        case SET_MAX_CARDS_COUNT: {
+            return ({
+                ...state,
+                packsParams: {...state.packsParams, max: action.payload.max}
+            })
+        }
+        case SET_PAGE_COUNT: {
+            return ({
+                ...state,
+                packsParams: {...state.packsParams, pageCount: action.payload.pageCount}
+            })
+        }
+        case SET_PAGE_NUMBER: {
+            return ({
+                ...state,
+                packsParams: {...state.packsParams, page: action.payload.page}
+            })
+        }
+        case SET_PACKS_TOTAL_COUNT: {
+            return ({
+                ...state,
+                cardPacksTotalCount: action.payload.cardPacksTotalCount
+            })
+        }
+        // case SET_USER_PACKS:{
         //     return ({
         //         ...state,
-        //         cardPacks:action.payload.cards
+        //         cardPacks: action.payload.cards
         //     })
         // }
+
         default:
             return state
     }
 }
 
 export const packsActions = {
-    getPacksAC (cards:packType[])  {
+    setPacks(packs: packType[]) {
         return ({
-            type:GET_PACKS,
-            payload : {
-                cards
+            type: SET_PACKS,
+            payload: {
+                packs
             }
         })
     },
-    getUserPacksAC (userId:string)  {
+    setPageCountAC(pageCount: number) {
         return ({
-            type:GET_USER_PACKS,
-            payload : {
+            type: SET_PAGE_COUNT,
+            payload: {
+                pageCount
+            }
+        })
+    },
+    setPageAC(page: number) {
+        return ({
+            type: SET_PAGE_NUMBER,
+            payload: {
+                page
+            }
+        })
+    },
+    setMinPacksCountAC(min: number) {
+        return ({
+            type: SET_MIN_CARDS_COUNT,
+            payload: {
+                min
+            }
+        })
+    },
+    setMaxPacksCountAC(max: number) {
+        return ({
+            type: SET_MAX_CARDS_COUNT,
+            payload: {
+                max
+            }
+        })
+    },
+    setTotalResponsePacksCountAC(cardPacksTotalCount: number) {
+        return ({
+            type: SET_PACKS_TOTAL_COUNT,
+            payload: {
+                cardPacksTotalCount
+            }
+        })
+    },
+    setUserPacksAC(userId: string) {
+        return ({
+            type: SET_USER_PACKS,
+            payload: {
                 userId
             }
         })
     },
 }
-export const requestCardsTC = () => async (dispatch: Dispatch) => {
-    dispatch(appActions.setAppStatusAC('loading'))
-    let res = await packAPI.getPacks()
+
+export const requestPacksTC = () => async (dispatch: Dispatch, getState: () => AppStateType) => {
+    dispatch(appActions.setAppStatusAC('loading'));
+    //названия параметров в стейте должно соответствовать параметрам get запроса
+    const params: PacksParamsType = getState().packsReducer.packsParams
     try {
-        dispatch(packsActions.getPacksAC(res.cardPacks))
+        const res = await packsAPI.getPacks(params)
+        dispatch(packsActions.setTotalResponsePacksCountAC(res.cardPacksTotalCount))
+        dispatch(packsActions.setPacks(res.cardPacks))
         dispatch(appActions.setAppStatusAC('succeeded'))
     }
     catch (err) {
@@ -81,9 +167,9 @@ export const requestCardsTC = () => async (dispatch: Dispatch) => {
 }
 export const requestUserCardsTC = (user_id:string) => async (dispatch: Dispatch) => {
     dispatch(appActions.setAppStatusAC('loading'))
-    let res = await packAPI.getUserPacks(1000,4,user_id)
+    let res = await packsAPI.getUserPacks(1000,4,user_id)
     try {
-        dispatch(packsActions.getPacksAC(res.cardPacks))
+        dispatch(packsActions.setPacks(res.cardPacks))
         dispatch(appActions.setAppStatusAC('succeeded'))
     }
     catch (err) {
@@ -93,10 +179,10 @@ export const requestUserCardsTC = (user_id:string) => async (dispatch: Dispatch)
 }
 export const createPackTC = () => async (dispatch: Dispatch) => {
     dispatch(appActions.setAppStatusAC('loading'))
-    let res = await packAPI.createPack()
-    let res1 = await packAPI.getPacks()
+    let res = await packsAPI.createPack()
+    let res1 = await packsAPI.getPacks()
     try {
-        dispatch(packsActions.getPacksAC(res1.cardPacks))
+        dispatch(packsActions.setPacks(res1.cardPacks))
         dispatch(appActions.setAppStatusAC('succeeded'))
     }
     catch (err) {
@@ -106,10 +192,10 @@ export const createPackTC = () => async (dispatch: Dispatch) => {
 }
 export const deletePackTC = (packId:string) => async (dispatch: Dispatch) => {
     dispatch(appActions.setAppStatusAC('loading'))
-    let res = await packAPI.deletePack(packId)
-    let res1 = await packAPI.getPacks()
+    let res = await packsAPI.deletePack(packId)
+    let res1 = await packsAPI.getPacks()
     try {
-        dispatch(packsActions.getPacksAC(res1.cardPacks))
+        dispatch(packsActions.setPacks(res1.cardPacks))
         dispatch(appActions.setAppStatusAC('succeeded'))
     }
     catch (err) {
@@ -119,10 +205,10 @@ export const deletePackTC = (packId:string) => async (dispatch: Dispatch) => {
 }
 export const updatePackTC = (packId:string,name:string) => async (dispatch: Dispatch) => {
     dispatch(appActions.setAppStatusAC('loading'))
-    let res = await packAPI.updatePack(packId,name)
-    let res1 = await packAPI.getPacks()
+    let res = await packsAPI.updatePack(packId,name)
+    let res1 = await packsAPI.getPacks()
     try {
-        dispatch(packsActions.getPacksAC(res1.cardPacks))
+        dispatch(packsActions.setPacks(res1.cardPacks))
         dispatch(appActions.setAppStatusAC('succeeded'))
     }
     catch (err) {
