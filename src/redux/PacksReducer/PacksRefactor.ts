@@ -19,6 +19,7 @@ describe('profile  reducer', ()=> {
             cardPacks: [{
                 _id: 'dddd',
                 user_id: 'dddd',
+                user_name: 'asdas',
                 name: 'ddd',
                 path: 'ddd',
                 cardsCount: 0,

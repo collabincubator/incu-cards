@@ -11,6 +11,7 @@ import {requestCardsTC} from "../../../../redux/cardsReducer/CardsReducer";
 interface packPropType {
     _id: string
     user_id: string
+    user_name: string
     name: string
     path: string
     cardsCount: number
@@ -24,7 +25,7 @@ interface packPropType {
     loading:RequestStatusType
 }
 
-export const Pack:FC<packPropType> = ({name,cardsCount,updated,created,...props}) => {
+export const Pack:FC<packPropType> = ({user_name, name,cardsCount,updated,created,...props}) => {
     const dispatch = useDispatch()
     const [packName, setPackName] = useState('');
 
@@ -48,7 +49,7 @@ export const Pack:FC<packPropType> = ({name,cardsCount,updated,created,...props}
             </div>
             <div>{cardsCount}</div>
             <div>{updated}</div>
-            <div>{created}</div>
+            <div>{user_name}</div>
             <div>
                 <button onClick={deleteHandler} disabled={props.loading === 'loading'}>del</button>
                 <button onClick={updateHandler}> update</button>

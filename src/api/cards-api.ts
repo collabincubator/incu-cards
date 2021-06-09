@@ -21,6 +21,7 @@ export type ProfileResponseType = {
 export type packType = {
     _id: string
     user_id: string
+    user_name: string
     name: string
     path: string
     cardsCount: number
