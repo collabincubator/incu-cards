@@ -4,7 +4,7 @@ import {Switch, Route, Redirect} from 'react-router-dom';
 import Login from '../Login/Login';
 import Registration from '../Registration/Registration';
 import RestorePass from '../RestorePass/RestorePass';
-import ChangePass from '../ChangePass/ChangePass';
+import ChangePass from '../ChangePass/ChangePass/ChangePass';
 import {useSelector} from "react-redux";
 import { AppStateType } from '../../../redux/store';
 
