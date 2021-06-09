@@ -40,23 +40,22 @@ export type packsResponse = {
     page: number // выбранная страница
     pageCount: number // количество элементов на странице
 }
+export type cardType = {
+    answer: string
+    question: string
+    cardsPack_id: string
+    grade: number
+    rating: number
+    shots: number
+    type: string
+    user_id: string
+    created: string
+    updated: string
+    __v: number
+    _id: string | undefined
+}
 export type  cardsResponseType =  {
-    cards: [
-        {
-            answer: string
-            question: string
-            cardsPack_id: string
-            grade: 4.987525071790364
-            rating: number
-            shots: number
-            type: string
-            user_id: string
-            created: string
-            updated: string
-            __v: number
-            _id: string
-        },
-    ]
+    cards: cardType[]
     cardsTotalCount: number
     maxGrade:number
     minGrade: number
@@ -150,7 +149,7 @@ export const packsAPI = {
 }
 export const cardsAPI = {
     getCards(cardsPack_id:string) {
-        return cardsRequest.get<cardsResponseType>('/cards/card')
+        return cardsRequest.get<cardsResponseType>(`/cards/card?cardsPack_id=${cardsPack_id}`)
             .then(res => res.data)
     },
     createCard(cardsPack_id: string) {

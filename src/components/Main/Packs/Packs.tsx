@@ -10,20 +10,21 @@ import {AppStateType} from "../../../redux/store";
 import {packType} from "../../../api/cards-api";
 import {Pack} from "./pack/pack";
 import styles from './Packs.module.scss'
-import { RequestStatusType } from '../../../redux/appReducer/appReducer';
-import {Redirect} from "react-router-dom";
+import {RequestStatusType} from '../../../redux/appReducer/appReducer';
+import {NavLink, Redirect} from "react-router-dom";
 import {Pagination} from '../../Pagination/Pagination';
+import {requestCardsTC} from "../../../redux/cardsReducer/CardsReducer";
 
 export const Packs = () => {
 
     const dispatch = useDispatch()
-    const packs = useSelector<AppStateType,packType[]>(state => state.packsReducer.cardPacks)
-    const pack = useSelector<AppStateType,packType>(state => state.packsReducer.cardPacks[0])
+    const packs = useSelector<AppStateType, packType[]>(state => state.packsReducer.cardPacks)
+    const pack = useSelector<AppStateType, packType>(state => state.packsReducer.cardPacks[0])
     const {
-            page = 1, pageCount = 10, min, max, packName, user_id
+        page = 1, pageCount = 10, min, max, packName, user_id
     } = useSelector<AppStateType, PacksParamsType>(state => state.packsReducer.packsParams)
     const cardPacksTotalCount = useSelector<AppStateType, number>(state => state.packsReducer.cardPacksTotalCount)
-    const loading = useSelector<AppStateType,RequestStatusType>(state => state.appReducer.status)
+    const loading = useSelector<AppStateType, RequestStatusType>(state => state.appReducer.status)
     const isLoggedIn = useSelector<AppStateType, boolean>(state => state.authReducer.isLoggedIn);
 
     const [sortByStateUI, setSortByStateUI] = useState({
@@ -36,16 +37,17 @@ export const Packs = () => {
     const [ckeck, setCkeck] = useState(false);
 
     useEffect(() => {
-         dispatch(requestPacksTC())
-    },[page])
+        dispatch(requestPacksTC())
+    }, [page])
     const onClickHandler = () => {
         dispatch(createPackTC())
     }
-    const onChangehandler = (e:any) => {
-            e.currentTarget.checked ? dispatch(requestUserCardsTC(pack.user_id)) : dispatch(requestPacksTC())
-            setCkeck(e.currentTarget.checked)
+    const onChangehandler = (e: any) => {
+        e.currentTarget.checked ? dispatch(requestUserCardsTC(pack.user_id)) : dispatch(requestPacksTC())
+        setCkeck(e.currentTarget.checked)
     }
-    if(!isLoggedIn) {
+
+    if (!isLoggedIn) {
         return <Redirect to={'/auth/login'}/>
     }
     // const onClickPacksSortByName = () => {
@@ -92,8 +94,8 @@ export const Packs = () => {
     }
 
     return (
-        <div className={styles.cards}>
-            <label htmlFor="check" >
+        <div className={styles.packs}>
+            <label htmlFor="check">
                 show only my cards
                 <input type="checkbox"
                        id={'check'} checked={ckeck} onChange={onChangehandler}/>
@@ -105,7 +107,7 @@ export const Packs = () => {
                         onPageChanged={onPageChangedHandle}
             />
 
-            <div className={styles.cardsHeader}>
+            <div className={styles.packsHeader}>
                 <div>
                     <div>Name</div>
                     <button>sort by alph</button>
@@ -128,27 +130,33 @@ export const Packs = () => {
                     <div>sort by order</div>
                     <button> from oldest to newest</button>
                 </div>
-                <div><button onClick={onClickHandler} disabled={loading === 'loading'}>add</button></div>
+                <div>
+                    <button onClick={onClickHandler} disabled={loading === 'loading'}>add</button>
+                </div>
             </div>
-                {packs.map(pack => {
-                    return (
-                      <Pack
-                          loading={loading}
-                          key={pack._id}
-                          __v={pack.__v}
-                          _id={pack._id}
-                          grade={pack.grade}
-                          path={pack.path}
-                          rating={pack.rating}
-                          shots={pack.shots}
-                          user_id={pack.user_id}
-                          type={pack.type}
-                          name={pack.name}
-                          updated={pack.updated}
-                          created={pack.created}
-                          cardsCount={pack.cardsCount}/>
-                    )
-                })}
+            {packs.map(pack => {
+                return (
+                    <>
+                        <Pack
+                            loading={loading}
+                            key={pack._id}
+                            __v={pack.__v}
+                            _id={pack._id}
+                            grade={pack.grade}
+                            path={pack.path}
+                            rating={pack.rating}
+                            shots={pack.shots}
+                            user_id={pack.user_id}
+                            type={pack.type}
+                            name={pack.name}
+                            updated={pack.updated}
+                            created={pack.created}
+                            cardsCount={pack.cardsCount}/>
+
+                    </>
+
+                )
+            })}
         </div>
 
     )

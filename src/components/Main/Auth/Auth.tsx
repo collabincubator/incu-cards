@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import styles from '../Auth/Auth.module.scss';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import Login from '../Login/Login';
@@ -10,7 +10,6 @@ import { AppStateType } from '../../../redux/store';
 
 
 export const Auth: React.FC = (props) => {
-    // const dispatch = useDispatch()
     const isLoggedIn = useSelector<AppStateType, boolean>(state => state.authReducer.isLoggedIn)
 
     return (
