@@ -78,7 +78,7 @@ export const Login: React.FC<PropsType> = ({styles, ...props}) => {
                              error={!!formik.errors.email}
                              className={styles.controlInputs}>
                     <InputLabel htmlFor="email">Email</InputLabel>
-                    <Input id={"email"} value={email} onChange={setEmailHandler} aria-describedby={'email-error'}/>
+                    <Input id={"email"} value={formik.values.email} onChange={setEmailHandler} aria-describedby={'email-error'}/>
                     {!!formik.errors.email && <FormHelperText id="email-error">{formik.errors.email}</FormHelperText>}
                 </FormControl>
                 <FormControl {...formik.getFieldProps('password')}

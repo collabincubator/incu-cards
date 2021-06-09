@@ -20,7 +20,7 @@ export type PacksParamsType = {
     page?: number // выбранная страница
     pageCount?: number // количество элементов на странице
     user_id?: string
-    sortPack?: string
+    sortPacks?: string
 }
 
 type InitialStateType = {
@@ -36,9 +36,12 @@ export const initialState: InitialStateType = {
         max: 20,
         page: 1,
         pageCount: 10,
+        sortPacks: '0updated'
     },
     cardPacksTotalCount: 0
 }
+
+
 
 type PropertiesType<ActionType> = ActionType extends { [key: string]: infer ResponseType } ? ResponseType : never;
 type ActionsType = ReturnType<PropertiesType<typeof packsActions>>
@@ -79,6 +82,12 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
             return ({
                 ...state,
                 cardPacksTotalCount: action.payload.cardPacksTotalCount
+            })
+        }
+        case SET_SORT_PACKS: {
+            return ({
+                ...state,
+                packsParams: {...state.packsParams, sortPacks: action.payload.sortPacks}
             })
         }
         // case SET_USER_PACKS:{
@@ -142,11 +151,11 @@ export const packsActions = {
             }
         })
     },
-    setSortPacksAC(order: number) {
+    setSortPacksAC(order: number, sortBy: string) {
         return ({
             type: SET_SORT_PACKS,
             payload: {
-                order: `${order}updated`
+                sortPacks: `${order}${sortBy}`
             }
         })
     },
@@ -166,8 +175,8 @@ export const requestPacksTC = () => async (dispatch: Dispatch, getState: () => A
     const params: PacksParamsType = getState().packsReducer.packsParams
     try {
         const res = await packsAPI.getPacks(params)
-        dispatch(packsActions.setTotalPacksCountAC(res.cardPacksTotalCount))
         dispatch(packsActions.setPacks(res.cardPacks))
+        dispatch(packsActions.setTotalPacksCountAC(res.cardPacksTotalCount))
         dispatch(appActions.setAppStatusAC('succeeded'))
     }
     catch (err) {
