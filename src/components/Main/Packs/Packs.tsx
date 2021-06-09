@@ -1,4 +1,4 @@
-import React, {ChangeEvent, MouseEventHandler, useEffect, useState} from 'react'
+import React, {ChangeEvent, useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {
     createPackTC, packsActions,
@@ -110,8 +110,8 @@ export const Packs = () => {
     }
 
     return (
-        <div className={styles.cards}>
-            <label htmlFor="check" >
+        <div className={styles.packs}>
+            <label htmlFor="check">
                 show only my cards
                 <input type="checkbox"
                        id={'check'} checked={ckeck} onChange={onChangehandler}/>
@@ -124,7 +124,7 @@ export const Packs = () => {
                         onPageChanged={onPageChangedHandle}
             />
 
-            <div className={styles.cardsHeader}>
+            <div className={styles.packsHeader}>
                 <div>
                     <div>Name</div>
                     <button onClick={() => onClickSortByHandle('name')}>sort by Name</button>
@@ -146,7 +146,9 @@ export const Packs = () => {
                     <div>sort by order</div>
                     <button onClick={() => onClickSortByHandle('user_name')}> sort by author</button>
                 </div>
-                <div><button disabled={loading === 'loading'}>add</button></div>
+                <div>
+                    <button onClick={onClickHandler} disabled={loading === 'loading'}>add</button>
+                </div>
             </div>
                 {packs.map(pack => {
                     return (

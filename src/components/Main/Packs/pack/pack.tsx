@@ -1,9 +1,11 @@
 import React, {FC, useState} from 'react'
 import { NavLink } from 'react-router-dom'
 import styles from './pack.module.scss'
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {deletePackTC, updatePackTC} from "../../../../redux/PacksReducer/PacksReducer";
 import {RequestStatusType} from "../../../../redux/appReducer/appReducer";
+import {AppStateType} from "../../../../redux/store";
+import {requestCardsTC} from "../../../../redux/cardsReducer/CardsReducer";
 
 
 interface packPropType {
@@ -36,8 +38,11 @@ export const Pack:FC<packPropType> = ({user_name, name,cardsCount,updated,create
     const changeHandler = (e:any) => {
         setPackName(e.currentTarget.value)
     }
+    const packHandler = (cardsPackId: string) => {
+        dispatch(requestCardsTC(cardsPackId))
+    }
     return (
-        <div className={styles.card}>
+        <div className={styles.pack}>
             <div>
                 <div>{name}</div>
                 <input type="text" className={styles.input} value={packName} onChange={changeHandler}/>
@@ -48,7 +53,11 @@ export const Pack:FC<packPropType> = ({user_name, name,cardsCount,updated,create
             <div>
                 <button onClick={deleteHandler} disabled={props.loading === 'loading'}>del</button>
                 <button onClick={updateHandler}> update</button>
-                <NavLink to={'/cards'}>cards</NavLink>
+                <NavLink
+                    onClick={() => packHandler(props._id)}
+                    to={'/cards'}>
+                    cards
+                </NavLink>
             </div>
         </div>
     )
