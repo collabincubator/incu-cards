@@ -10,6 +10,7 @@ export const SET_PAGE_NUMBER = 'packsReducer/SET-PAGE-NUMBER' as const;
 export const SET_MIN_CARDS_COUNT = 'packsReducer/SET-MIN-CARDS-COUNT' as const;
 export const SET_MAX_CARDS_COUNT = 'packsReducer/SET-MAX-CARDS-COUNT' as const;
 export const SET_PACKS_TOTAL_COUNT = 'packsReducer/SET-PACKS-TOTAL-COUNT' as const;
+export const SET_SORT_PACKS = 'packsReducer/SET-SORT-PACKS-ORDER' as const;
 
 
 export type PacksParamsType = {
@@ -19,6 +20,7 @@ export type PacksParamsType = {
     page?: number // выбранная страница
     pageCount?: number // количество элементов на странице
     user_id?: string
+    sortPack?: string
 }
 
 type InitialStateType = {
@@ -132,11 +134,19 @@ export const packsActions = {
             }
         })
     },
-    setTotalResponsePacksCountAC(cardPacksTotalCount: number) {
+    setTotalPacksCountAC(cardPacksTotalCount: number) {
         return ({
             type: SET_PACKS_TOTAL_COUNT,
             payload: {
                 cardPacksTotalCount
+            }
+        })
+    },
+    setSortPacksAC(order: number) {
+        return ({
+            type: SET_SORT_PACKS,
+            payload: {
+                order: `${order}updated`
             }
         })
     },
@@ -156,7 +166,7 @@ export const requestPacksTC = () => async (dispatch: Dispatch, getState: () => A
     const params: PacksParamsType = getState().packsReducer.packsParams
     try {
         const res = await packsAPI.getPacks(params)
-        dispatch(packsActions.setTotalResponsePacksCountAC(res.cardPacksTotalCount))
+        dispatch(packsActions.setTotalPacksCountAC(res.cardPacksTotalCount))
         dispatch(packsActions.setPacks(res.cardPacks))
         dispatch(appActions.setAppStatusAC('succeeded'))
     }

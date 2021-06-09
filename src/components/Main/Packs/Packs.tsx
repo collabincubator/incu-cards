@@ -12,7 +12,7 @@ import {Pack} from "./pack/pack";
 import styles from './Packs.module.scss'
 import { RequestStatusType } from '../../../redux/appReducer/appReducer';
 import {Redirect} from "react-router-dom";
-import {Pagination} from '../../Pagination/Pagination';
+import {Pagination} from './../../Pagination/Pagination';
 
 export const Packs = () => {
 
