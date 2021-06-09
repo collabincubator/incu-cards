@@ -11,7 +11,7 @@ type PropsType = {
 }
 let renderCount = 0;
 
-export const Pagination: React.FC<PropsType> = ({totalItemsCount, pageSize, currentPage, onPageChanged, portionSize = 5}) => {
+export const Pagination: React.FC<PropsType> = ({totalItemsCount, pageSize, currentPage, onPageChanged, portionSize = 10}) => {
     console.log('render Pagination ' + ++renderCount)
     let pagesCount = Math.ceil(totalItemsCount / pageSize);
     let pages: number[] = [];

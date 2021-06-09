@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {ChangeEvent, MouseEventHandler, useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {
     createPackTC, packsActions,
@@ -12,7 +12,14 @@ import {Pack} from "./pack/pack";
 import styles from './Packs.module.scss'
 import { RequestStatusType } from '../../../redux/appReducer/appReducer';
 import {Redirect} from "react-router-dom";
-import {Pagination} from '../../Pagination/Pagination';
+import {Pagination} from './../../Pagination/Pagination';
+
+type OrderType = '' | 'asc' | 'desc';
+type KeyType = 'updated' | 'cardsCount' | 'user_name' | 'name';
+type SortByStateUIType = {
+    order: OrderType
+    key: KeyType
+}
 
 export const Packs = () => {
 
@@ -20,34 +27,57 @@ export const Packs = () => {
     const packs = useSelector<AppStateType,packType[]>(state => state.packsReducer.cardPacks)
     const pack = useSelector<AppStateType,packType>(state => state.packsReducer.cardPacks[0])
     const {
-            page = 1, pageCount = 10, min, max, packName, user_id
+            page = 1, pageCount = 10, min, max, packName, user_id, sortPacks
     } = useSelector<AppStateType, PacksParamsType>(state => state.packsReducer.packsParams)
     const cardPacksTotalCount = useSelector<AppStateType, number>(state => state.packsReducer.cardPacksTotalCount)
     const loading = useSelector<AppStateType,RequestStatusType>(state => state.appReducer.status)
     const isLoggedIn = useSelector<AppStateType, boolean>(state => state.authReducer.isLoggedIn);
 
-    const [sortByStateUI, setSortByStateUI] = useState({
-        byName: true,
-        byCount: true,
-        byUpdated: true,
-        byCreated: true,
+    const [sortByStateUI, setSortByStateUI] = useState<SortByStateUIType>({
+        order: '',
+        key: 'updated'
     })
 
     const [ckeck, setCkeck] = useState(false);
 
     useEffect(() => {
          dispatch(requestPacksTC())
-    },[page])
+        console.log('page changed ' + page)
+    },[page, pageCount, sortPacks, min, max])
     const onClickHandler = () => {
         dispatch(createPackTC())
     }
-    const onChangehandler = (e:any) => {
+    const onChangehandler = (e: ChangeEvent<HTMLInputElement>) => {
             e.currentTarget.checked ? dispatch(requestUserCardsTC(pack.user_id)) : dispatch(requestPacksTC())
             setCkeck(e.currentTarget.checked)
     }
-    if(!isLoggedIn) {
-        return <Redirect to={'/auth/login'}/>
+
+    const onPageChangedHandle = (curPage: number): void => {
+        dispatch(packsActions.setPageAC(curPage))
     }
+    const onChangePageSizeHandle = (pageSize: number): void => {
+        dispatch(packsActions.setPageCountAC(pageSize))
+    }
+    const onChangeMinSizePacksHandle = (minSize: number): void => {
+        dispatch(packsActions.setMinPacksCountAC(minSize))
+    }
+    const onChangeMaxSizePacksHandle = (maxSize: number): void => {
+        dispatch(packsActions.setMaxPacksCountAC(maxSize))
+    }
+    const onChangePageCountPacksHandle = (pCount: number): void => {
+        dispatch(packsActions.setPageCountAC(pCount))
+    }
+
+    const onClickSortByHandle = (key: KeyType = 'updated') => {
+
+        const order: OrderType = sortByStateUI.order === 'asc' ? 'desc' : 'asc';
+        const intOrder: number = order === 'desc' ? 1 : 0;
+
+        dispatch(packsActions.setSortPacksAC(intOrder, key));
+        setSortByStateUI(prev => ( {order, key} ));
+        console.log(intOrder + key + '')
+    }
+
     // const onClickPacksSortByName = () => {
     //     setPacksUI(prevPacksUI => {
     //         return prevPacksUI?.sort( (a, b) => {
@@ -75,20 +105,8 @@ export const Packs = () => {
     //     })
     // }
 
-    const onPageChangedHandle = (curPage: number): void => {
-        dispatch(packsActions.setPageAC(curPage))
-    }
-    const onChangePageSizeHandle = (pageSize: number): void => {
-        dispatch(packsActions.setPageCountAC(pageSize))
-    }
-    const onChangeMinSizePacksHandle = (minSize: number): void => {
-        dispatch(packsActions.setMinPacksCountAC(minSize))
-    }
-    const onChangeMaxSizePacksHandle = (maxSize: number): void => {
-        dispatch(packsActions.setMaxPacksCountAC(maxSize))
-    }
-    const onChangePageCountPacksHandle = (pCount: number): void => {
-        dispatch(packsActions.setPageCountAC(pCount))
+    if(!isLoggedIn) {
+        return <Redirect to={'/auth/login'}/>
     }
 
     return (
@@ -101,6 +119,7 @@ export const Packs = () => {
 
             <Pagination totalItemsCount={cardPacksTotalCount}
                         pageSize={pageCount}
+                        portionSize={pageCount}
                         currentPage={page}
                         onPageChanged={onPageChangedHandle}
             />
@@ -108,27 +127,26 @@ export const Packs = () => {
             <div className={styles.cardsHeader}>
                 <div>
                     <div>Name</div>
-                    <button>sort by alph</button>
+                    <button onClick={() => onClickSortByHandle('name')}>sort by Name</button>
 
                 </div>
 
                 <div>
                     <div>Cards count</div>
                     <div>sort by order</div>
-                    <button> from less to more</button>
-                    <button> from more to less</button>
+                    <button onClick={() => onClickSortByHandle('cardsCount')}> sort by Cards stack</button>
                 </div>
                 <div>
                     <div>Updated</div>
                     <div>sort by order</div>
-                    <button> from oldest to newest</button>
+                    <button onClick={() => onClickSortByHandle('updated')}> sort by update</button>
                 </div>
                 <div>
-                    <div>Created</div>
+                    <div>Author</div>
                     <div>sort by order</div>
-                    <button> from oldest to newest</button>
+                    <button onClick={() => onClickSortByHandle('user_name')}> sort by author</button>
                 </div>
-                <div><button onClick={onClickHandler} disabled={loading === 'loading'}>add</button></div>
+                <div><button disabled={loading === 'loading'}>add</button></div>
             </div>
                 {packs.map(pack => {
                     return (
@@ -144,6 +162,7 @@ export const Packs = () => {
                           user_id={pack.user_id}
                           type={pack.type}
                           name={pack.name}
+                          user_name={pack.user_name}
                           updated={pack.updated}
                           created={pack.created}
                           cardsCount={pack.cardsCount}/>
