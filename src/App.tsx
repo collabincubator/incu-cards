@@ -1,11 +1,10 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import Header from './components/Header/Header';
 import {Redirect, Route, Switch} from "react-router-dom";
 import Profile from "./components/Main/Profile/Profile";
 import {PageNotFounded} from "./components/Main/PageNotFounded/PageNotFounded";
 import Auth from './components/Main/Auth/Auth';
-import {useDispatch, useSelector} from "react-redux";
-import {authMeTC} from "./redux/authReducer/authReducer";
+import { useSelector} from "react-redux";
 import {AppStateType} from "./redux/store";
 
 import preloader from './assets/icons/preloaderAppleLight.svg';
@@ -18,12 +17,11 @@ const PATH = {
     LOGIN: 'auth/login',
     PROFILE: '/profile',
     PACKS: '/packs',
-    CARDS: '/cards',
+    CARDS: '/cards/:id/:name',
 }
 
 
 const App = (props: any) => {
-    const isLoggedIn = useSelector<AppStateType, boolean>(state => state.authReducer.isLoggedIn);
     const initializing = useSelector<AppStateType, boolean>(state => state.appReducer.initializing);
     const profile = useSelector<AppStateType, ProfileResponseType | null>(state => state.profileReducer.profile);
 
