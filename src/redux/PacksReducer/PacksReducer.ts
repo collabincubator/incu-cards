@@ -184,7 +184,7 @@ export const requestPacksTC = () => async (dispatch: Dispatch, getState: () => A
         dispatch(appActions.setAppStatusAC('failed'))
     }
 }
-export const requestUserCardsTC = (user_id:string) => async (dispatch: Dispatch) => {
+export const requestUserCardsTC = (user_id:string | undefined) => async (dispatch: Dispatch) => {
     dispatch(appActions.setAppStatusAC('loading'))
     let res = await packsAPI.getUserPacks(1000,4,user_id)
     try {

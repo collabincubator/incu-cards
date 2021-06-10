@@ -25,7 +25,8 @@ export const Packs = () => {
 
     const dispatch = useDispatch()
     const packs = useSelector<AppStateType,packType[]>(state => state.packsReducer.cardPacks)
-    const pack = useSelector<AppStateType,packType>(state => state.packsReducer.cardPacks[0])
+    const profileId = useSelector<AppStateType,string | undefined>(state => state.profileReducer.profile?._id)
+
     const {
             page = 1, pageCount = 10, min, max, packName, user_id, sortPacks
     } = useSelector<AppStateType, PacksParamsType>(state => state.packsReducer.packsParams)
@@ -48,7 +49,7 @@ export const Packs = () => {
         dispatch(createPackTC())
     }
     const onChangehandler = (e: ChangeEvent<HTMLInputElement>) => {
-            e.currentTarget.checked ? dispatch(requestUserCardsTC(pack.user_id)) : dispatch(requestPacksTC())
+            e.currentTarget.checked ? dispatch(requestUserCardsTC(profileId)) : dispatch(requestPacksTC())
             setCkeck(e.currentTarget.checked)
     }
 
@@ -105,9 +106,7 @@ export const Packs = () => {
     //     })
     // }
 
-    if(!isLoggedIn) {
-        return <Redirect to={'/auth/login'}/>
-    }
+
 
     return (
         <div className={styles.packs}>

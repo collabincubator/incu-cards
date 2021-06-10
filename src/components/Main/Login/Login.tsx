@@ -10,7 +10,6 @@ type PropsType = {
 
 export const Login: React.FC<PropsType> = ({styles, ...props}) => {
 
-    const error = useSelector<AppStateType, string>(state => state.authReducer.error);
     return (
         <>
             <h1>Cards</h1>

@@ -7,7 +7,8 @@ import {LogoutTC} from '../../../redux/authReducer/authReducer';
 import {AppStateType} from '../../../redux/store';
 
 const Navigation = (props: any) => {
-
+    const userName = useSelector<AppStateType,string | undefined>(state => state.profileReducer.profile?.email)
+    const isLoggerIn = useSelector<AppStateType,boolean>(state => state.authReducer.isLoggedIn)
     const dispatch = useDispatch();
 
     let [tempState, setTempState] = useState( [
@@ -31,10 +32,12 @@ const Navigation = (props: any) => {
         dispatch(LogoutTC())
     }
     return <ul className={styles.navList}>
+
         {navLinks}
-        <Button variant="contained" color="primary" onClick={onClickLogoutHandler}>
+        {isLoggerIn ? <><div>{userName}</div> <Button variant="contained" color="primary" onClick={onClickLogoutHandler}>
             Logout
-        </Button>
+        </Button></>  : ''}
+
     </ul>
 }
 

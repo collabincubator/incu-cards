@@ -82,7 +82,7 @@ export const authAPI = {
         return cardsRequest.post(`/auth/register/`, {email, password})
             .then(res => res.data)
     },
-    logIn(email: string, password: string, rememberMe: boolean) {
+    logIn(email: string, password: string, rememberMe: boolean = true) {
         return cardsRequest.post<ProfileResponseType>(`/auth/login`, {email, password, rememberMe})
             .then(res => res.data)
     },
@@ -122,7 +122,7 @@ export const packsAPI = {
         })
             .then(res => res.data)
     },
-    getUserPacks(pageCount: number = 100, page: number = 1, user_id: string) {
+    getUserPacks(pageCount: number = 100, page: number = 1, user_id: string | undefined) {
         return cardsRequest.get<packsResponse>(`/cards/pack?pageCount=${pageCount}&page=${page}&sortPacks=0updated&user_id=${user_id}`)
             .then(res => res.data)
     },
