@@ -27,6 +27,7 @@ type InitialStateType = {
     cardPacks:packType[]
     packsParams: PacksParamsType
     cardPacksTotalCount: number
+    pageCounts: number[]
 }
 
 export const initialState: InitialStateType = {
@@ -38,7 +39,8 @@ export const initialState: InitialStateType = {
         pageCount: 10,
         sortPacks: '0updated'
     },
-    cardPacksTotalCount: 0
+    cardPacksTotalCount: 0,
+    pageCounts: [10, 20, 30, 50, 100]
 }
 
 
