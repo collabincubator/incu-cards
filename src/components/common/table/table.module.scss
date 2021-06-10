@@ -2,14 +2,14 @@
 @import 'src/styles/mixins.module';
 
 .container {
-  @include gridContainer (100.8rem, transparent);
+  @include gridContainer (96.2rem, transparent);
   .box {
     width: 100%;
     background-color: #fff;
     margin: 0 auto;
     padding: 2.4rem 3.2rem;
     border-radius: 0.8rem;
-    grid-column: 1 /span 12;
+    grid-column: 1 / span 12;
     font-size: 1.6rem;
     line-height: 1;
     overflow: hidden;

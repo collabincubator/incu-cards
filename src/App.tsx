@@ -23,16 +23,11 @@ const PATH = {
 
 
 const App = (props: any) => {
-    const dispatch: Function = useDispatch()
     const isLoggedIn = useSelector<AppStateType, boolean>(state => state.authReducer.isLoggedIn);
     const initializing = useSelector<AppStateType, boolean>(state => state.appReducer.initializing);
     const profile = useSelector<AppStateType, ProfileResponseType | null>(state => state.profileReducer.profile);
 
-    useEffect(() => {
-        if (profile === null) {
-            dispatch(authMeTC())
-        }
-    }, [])
+
 
 
     if (initializing) {
@@ -48,7 +43,7 @@ const App = (props: any) => {
 
             <Switch>
                 <Route path={'/'} exact render={() => {
-                    if (isLoggedIn && profile !== null) {
+                    if ( profile !== null) {
                         return (<Redirect to={PATH.PROFILE}/>);
                     }
                     return (<Redirect to={PATH.LOGIN}/>)
