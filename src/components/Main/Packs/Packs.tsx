@@ -23,14 +23,15 @@ type SortByStateUIType = {
 
 export const Packs = () => {
 
-    const dispatch = useDispatch()
-    const packs = useSelector<AppStateType,packType[]>(state => state.packsReducer.cardPacks)
-    const pack = useSelector<AppStateType,packType>(state => state.packsReducer.cardPacks[0])
+    const dispatch = useDispatch();
+    const packs = useSelector<AppStateType,packType[]>(state => state.packsReducer.cardPacks);
+    const pack = useSelector<AppStateType,packType>(state => state.packsReducer.cardPacks[0]);
     const {
-            page = 1, pageCount = 10, min, max, packName, user_id, sortPacks
-    } = useSelector<AppStateType, PacksParamsType>(state => state.packsReducer.packsParams)
-    const cardPacksTotalCount = useSelector<AppStateType, number>(state => state.packsReducer.cardPacksTotalCount)
-    const loading = useSelector<AppStateType,RequestStatusType>(state => state.appReducer.status)
+            page = 1, pageCount = 10, min = 1, max = 10, packName, user_id, sortPacks
+    } = useSelector<AppStateType, PacksParamsType>(state => state.packsReducer.packsParams);
+    const pageCounts = useSelector<AppStateType, number[]>(state => state.packsReducer.pageCounts);
+    const cardPacksTotalCount = useSelector<AppStateType, number>(state => state.packsReducer.cardPacksTotalCount);
+    const loading = useSelector<AppStateType,RequestStatusType>(state => state.appReducer.status);
     const isLoggedIn = useSelector<AppStateType, boolean>(state => state.authReducer.isLoggedIn);
 
     const [sortByStateUI, setSortByStateUI] = useState<SortByStateUIType>({
@@ -55,17 +56,17 @@ export const Packs = () => {
     const onPageChangedHandle = (curPage: number): void => {
         dispatch(packsActions.setPageAC(curPage))
     }
-    const onChangePageSizeHandle = (pageSize: number): void => {
-        dispatch(packsActions.setPageCountAC(pageSize))
+    const onChangePageCountHandle = (e: ChangeEvent<HTMLSelectElement>): void => {
+        const pageCount = Number(e.currentTarget.value)
+        dispatch(packsActions.setPageCountAC(pageCount))
     }
-    const onChangeMinSizePacksHandle = (minSize: number): void => {
-        dispatch(packsActions.setMinPacksCountAC(minSize))
+    const minPacksSizeHandler = (minSize: string): void => {
+        const intMinValue: number = (+minSize > 0 && +minSize < 1000) ? +minSize : 1;
+        dispatch(packsActions.setMinPacksCountAC(intMinValue))
     }
-    const onChangeMaxSizePacksHandle = (maxSize: number): void => {
-        dispatch(packsActions.setMaxPacksCountAC(maxSize))
-    }
-    const onChangePageCountPacksHandle = (pCount: number): void => {
-        dispatch(packsActions.setPageCountAC(pCount))
+    const maxPacksSizeHandler = (maxSize: string): void => {
+        const intMaxValue: number = (+maxSize > min && +maxSize < 1000) ? +maxSize : min;
+        dispatch(packsActions.setMaxPacksCountAC(intMaxValue))
     }
 
     const onClickSortByHandle = (key: KeyType = 'updated') => {
@@ -119,11 +120,31 @@ export const Packs = () => {
 
             <Pagination totalItemsCount={cardPacksTotalCount}
                         pageSize={pageCount}
-                        portionSize={pageCount}
+                        portionSize={10}
                         currentPage={page}
                         onPageChanged={onPageChangedHandle}
             />
+            <div className={styles.paramsBox}>
+                <span className={styles.paramsName}>Select a Page size: </span>
+                <select id={'selectPageCount'} value={pageCount} onChange={onChangePageCountHandle}>
+                    {pageCounts.map((pcValue, i) => {
+                        return (
+                            <option key={`${i}`} value={pcValue}>{pcValue}</option>
+                        )
+                    })}
+                </select>
+                <input className={styles.paramsInput}
+                       onBlur={(e) => minPacksSizeHandler(e.currentTarget.value)}
+                       onKeyPress={(e) => (e.key === 'Enter' && minPacksSizeHandler(e.currentTarget.value))}
+                />
+                <span className={styles.paramsName}>{min}</span>
+                <input className={styles.paramsInput}
+                       onBlur={(e) => maxPacksSizeHandler(e.currentTarget.value)}
+                       onKeyPress={(e) => (e.key === 'Enter' && maxPacksSizeHandler(e.currentTarget.value))}
+                />
+                <span className={styles.paramsName}>{max}</span>
 
+            </div>
             <div className={styles.packsHeader}>
                 <div>
                     <div>Name</div>
