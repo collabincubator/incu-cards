@@ -43,7 +43,7 @@ const App = (props: any) => {
 
 
     return (
-        <div className={'wrapper'}>
+        <>
             <div className={classNames(styles.app, ({
                 [styles.appDark]: theme === 'dark',
                 [styles.app]: theme === 'light'
@@ -63,7 +63,7 @@ const App = (props: any) => {
                 <Route path={PATH.CARDS} render={() => <Cards/>}/>
                 <Route render={() => <PageNotFounded/>}/>
             </Switch>
-        </div>
+        </>
     );
 }
 
