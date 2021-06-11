@@ -8,16 +8,14 @@ type PropsType = {
     styles: any
 }
 
-const Registration: React.FC<PropsType> = ({styles, ...props}) => {
-    const succeess = useSelector<AppStateType,boolean>(state => state.registrationReducer.registrationSuccess)
-    const isLoggerIn = useSelector<AppStateType,boolean>(state => state.authReducer.isLoggedIn)
+const Registration: React.FC<PropsType> = ({styles}) => {
+    const success = useSelector<AppStateType,boolean>(state => state.registrationReducer.registrationSuccess)
 
-    if(isLoggerIn) {
-        return <Redirect to={'/auth/profile'}/>
-    }
-    if(succeess) {
+
+    if(success) {
         return <Redirect to={'/auth/login'}/>
     }
+
     return (
         <>
             <h1>Cards</h1>
