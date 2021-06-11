@@ -7,11 +7,12 @@ import {
     requestUserCardsTC
 } from "../../../redux/PacksReducer/PacksReducer";
 import {AppStateType} from "../../../redux/store";
-import {packType} from "../../../api/cards-api";
+import {packType, ProfileResponseType} from "../../../api/cards-api";
 import {Pack} from "./pack/pack";
 import styles from './Packs.module.scss'
 import { RequestStatusType } from '../../../redux/appReducer/appReducer';
 import {Pagination} from './../../Pagination/Pagination';
+import {Redirect} from "react-router-dom";
 
 type OrderType = '' | 'asc' | 'desc';
 type KeyType = 'updated' | 'cardsCount' | 'user_name' | 'name';
@@ -24,6 +25,7 @@ export const Packs = React.memo(() => {
 
     const dispatch = useDispatch()
     const packs = useSelector<AppStateType,packType[]>(state => state.packsReducer.cardPacks)
+    const user = useSelector<AppStateType,ProfileResponseType | null>(state => state.profileReducer.profile)
     const profileId = useSelector<AppStateType,string | undefined>(state => state.profileReducer.profile?._id)
     const error = useSelector<AppStateType,string >(state => state.appReducer.error)
 
@@ -71,7 +73,6 @@ export const Packs = React.memo(() => {
     }
 
     const onClickSortByHandle = (key: KeyType = 'updated') => {
-
         const order: OrderType = sortByStateUI.order === 'asc' ? 'desc' : 'asc';
         const intOrder: number = order === 'desc' ? 1 : 0;
 
@@ -107,7 +108,9 @@ export const Packs = React.memo(() => {
     //     })
     // }
 
-
+    if(user === null) {
+        return <Redirect to={'/auth/login'}/>
+    }
 
     return (
         <div className={styles.packs}>

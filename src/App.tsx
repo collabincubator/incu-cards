@@ -25,12 +25,14 @@ const PATH = {
 
 const App = (props: any) => {
     const initializing = useSelector<AppStateType, boolean>(state => state.appReducer.initializing);
-
     const theme = useSelector<AppStateType, 'light'|'dark'>(state => state.appReducer.theme);
     const isLoggedIn = useSelector<AppStateType, boolean | null>( state => state.authReducer.isLoggedIn);
     const profile = useSelector<AppStateType, ProfileResponseType | null>(state => state.profileReducer.profile);
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        dispatch(authMeTC())
+    },[isLoggedIn])
 
 
     if (initializing) {

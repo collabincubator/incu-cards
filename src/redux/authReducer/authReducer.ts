@@ -86,6 +86,7 @@ export const loginTC = (email: string, password: string, rememberMe?: boolean) =
         .then(data => {
             dispatch(profileActions.setProfileDataAC(data))
             dispatch(authActions.loginFlowAC(true))
+            dispatch(appActions.setAppErrorAC(''))
         })
         .catch((error) => {
             dispatch(authActions.loginFlowAC(false))

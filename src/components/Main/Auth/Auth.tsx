@@ -13,6 +13,7 @@ import classNames from "classnames";
 export const Auth: React.FC = (props) => {
     const isLoggedIn = useSelector<AppStateType, boolean>(state => state.authReducer.isLoggedIn)
     const theme = useSelector<AppStateType, 'light'|'dark'>(state => state.appReducer.theme);
+
     return (
         <div className={styles.container}>
             <div className={classNames(styles.box,({
