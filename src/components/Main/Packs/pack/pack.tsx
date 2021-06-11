@@ -38,9 +38,7 @@ export const Pack:FC<packPropType> = ({user_name, name,cardsCount,updated,create
     const changeHandler = (e:any) => {
         setPackName(e.currentTarget.value)
     }
-    const packHandler = (cardsPackId: string) => {
-        dispatch(requestCardsTC(cardsPackId))
-    }
+
     return (
         <tr>
             <td>
@@ -54,8 +52,7 @@ export const Pack:FC<packPropType> = ({user_name, name,cardsCount,updated,create
                 <button onClick={deleteHandler} disabled={props.loading === 'loading'}>del</button>
                 <button onClick={updateHandler}> update</button>
                 <NavLink
-                    onClick={() => packHandler(props._id)}
-                    to={'/cards'}>
+                    to={`/cards/${props._id}/${name}`}>
                     cards
                 </NavLink>
             </td>

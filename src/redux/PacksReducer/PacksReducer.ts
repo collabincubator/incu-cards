@@ -1,6 +1,7 @@
 import {Dispatch} from "redux";
 import {packType, packsAPI} from "../../api/cards-api";
 import {appActions} from "../appReducer/appReducer";
+import { authActions } from "../authReducer/authReducer";
 import {AppStateType} from '../store';
 
 export const SET_PACKS = 'packsReducer/SET-PACKS' as const;
@@ -184,6 +185,8 @@ export const requestPacksTC = () => async (dispatch: Dispatch, getState: () => A
     catch (err) {
         dispatch(appActions.setAppErrorAC('error'))
         dispatch(appActions.setAppStatusAC('failed'))
+        dispatch(authActions.loginFlowAC(false))
+
     }
 }
 export const requestUserCardsTC = (user_id:string | undefined) => async (dispatch: Dispatch) => {

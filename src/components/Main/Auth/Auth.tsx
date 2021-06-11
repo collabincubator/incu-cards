@@ -7,14 +7,18 @@ import RestorePass from '../RestorePass/RestorePass';
 import ChangePass from '../ChangePass/ChangePass/ChangePass';
 import {useSelector} from "react-redux";
 import { AppStateType } from '../../../redux/store';
+import classNames from "classnames";
 
 
 export const Auth: React.FC = (props) => {
     const isLoggedIn = useSelector<AppStateType, boolean>(state => state.authReducer.isLoggedIn)
+    const theme = useSelector<AppStateType, 'light'|'dark'>(state => state.appReducer.theme);
 
     return (
         <div className={styles.container}>
-            <div className={styles.box}>
+            <div className={classNames(styles.box,({
+                [styles.dark] : theme === 'dark'
+            }))}>
                 <div className={styles.inner}>
                     <Switch>
                         <Route path={'/auth/login'} render={(props) => {

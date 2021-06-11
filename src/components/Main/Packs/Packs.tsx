@@ -7,7 +7,7 @@ import {
     requestUserCardsTC
 } from "../../../redux/PacksReducer/PacksReducer";
 import {AppStateType} from "../../../redux/store";
-import {packType} from "../../../api/cards-api";
+import {packType, ProfileResponseType} from "../../../api/cards-api";
 import {Pack} from "./pack/pack";
 import styles from './Packs.module.scss'
 import { RequestStatusType } from '../../../redux/appReducer/appReducer';
@@ -22,11 +22,13 @@ type SortByStateUIType = {
     key: KeyType
 }
 
-export const Packs = () => {
+export const Packs = React.memo(() => {
 
     const dispatch = useDispatch()
     const packs = useSelector<AppStateType,packType[]>(state => state.packsReducer.cardPacks)
+    const user = useSelector<AppStateType,ProfileResponseType | null>(state => state.profileReducer.profile)
     const profileId = useSelector<AppStateType,string | undefined>(state => state.profileReducer.profile?._id)
+    const error = useSelector<AppStateType,string >(state => state.appReducer.error)
 
     const {
             page = 1, pageCount = 10, min = 1, max = 10, packName, user_id, sortPacks
@@ -34,7 +36,6 @@ export const Packs = () => {
     const pageCounts = useSelector<AppStateType, number[]>(state => state.packsReducer.pageCounts);
     const cardPacksTotalCount = useSelector<AppStateType, number>(state => state.packsReducer.cardPacksTotalCount);
     const loading = useSelector<AppStateType,RequestStatusType>(state => state.appReducer.status);
-    const isLoggedIn = useSelector<AppStateType, boolean>(state => state.authReducer.isLoggedIn);
 
     const [sortByStateUI, setSortByStateUI] = useState<SortByStateUIType>({
         order: '',
@@ -43,10 +44,12 @@ export const Packs = () => {
     const [range, setRange] = useState<number[]>([min, max]);
     const [ckeck, setCkeck] = useState(false);
 
+
     useEffect(() => {
          dispatch(requestPacksTC())
         console.log('page changed ' + page)
     },[page, pageCount, sortPacks, min, max])
+
     const onClickHandler = () => {
         dispatch(createPackTC())
     }
@@ -77,7 +80,6 @@ export const Packs = () => {
     }
 
     const onClickSortByHandle = (key: KeyType = 'updated') => {
-
         const order: OrderType = sortByStateUI.order === 'asc' ? 'desc' : 'asc';
         const intOrder: number = order === 'desc' ? 1 : 0;
 
@@ -113,7 +115,9 @@ export const Packs = () => {
     //     })
     // }
 
-
+    if(user === null) {
+        return <Redirect to={'/auth/login'}/>
+    }
 
     return (
         <div className={styles.container}>
@@ -219,4 +223,4 @@ export const Packs = () => {
             </div>
         </div>
     )
-}
+})

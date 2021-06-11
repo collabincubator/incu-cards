@@ -1,6 +1,6 @@
 import React, {FC} from 'react'
 import {cardType} from "../../../../api/cards-api";
-import styles from "../../Packs/pack/pack.module.scss";
+import styles from "./Card.module.scss";
 
 
 export const Card:FC<cardType> = ({user_id,_id,created,updated,grade,type,rating,cardsPack_id,question,shots,answer,...props}) => {
@@ -8,15 +8,12 @@ export const Card:FC<cardType> = ({user_id,_id,created,updated,grade,type,rating
     return (
         <div className={styles.card}>
             <div>
-                <div>{question}</div>
+                {question}
             </div>
             <div>{answer}</div>
-            <div>{grade}</div>
             <div>{updated}</div>
-            <div>
-                <button >del</button>
-                <button > update</button>
-            </div>
+            <div>{grade.toFixed(2)}</div>
+
         </div>
     )
 }
