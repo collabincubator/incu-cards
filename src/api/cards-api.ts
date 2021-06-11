@@ -70,12 +70,12 @@ export type serverResponseType = {
 }
 
 
-export const pingAPI = {
-    pingBack() {
-        const response = cardsRequest.get<number>(`/ping?frontTime=${Date.now()}`) //
-        return response
-    }
-}
+// export const pingAPI = {
+//     pingBack() {
+//        return   cardsRequest.get<number>(`/ping?frontTime=${Date.now()}`) //
+//
+//     }
+// }
 
 export const authAPI = {
     registration(email: string, password: string) {

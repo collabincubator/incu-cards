@@ -1,22 +1,18 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { ProfileResponseType } from '../../../api/cards-api';
 import { changeProfileNameTC } from '../../../redux/profileReducer/profileReducer';
 import {AppStateType} from '../../../redux/store';
-import {authMeTC} from "../../../redux/authReducer/authReducer";
 
-const Profile = (props: any) => {
+
+const Profile = () => {
 
     const profile = useSelector<AppStateType, ProfileResponseType | null>( state => state.profileReducer.profile);
     const isLoggedIn = useSelector<AppStateType, boolean | null>( state => state.authReducer.isLoggedIn);
     let [name, setName] = useState('');
     const dispatch = useDispatch();
-    useEffect(() => {
-        if (profile === null && !isLoggedIn) {
-            dispatch(authMeTC())
-        }
-    }, [])
+
 
     const onChangeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setName(e.currentTarget.value)

@@ -54,9 +54,9 @@ const Navigation = (props: any) => {
                 label="Change Theme"
             />
         </FormGroup>
-        {isLoggerIn ? <><div>{userName}</div> <Button variant="contained" color="primary" onClick={onClickLogoutHandler}>
+        {isLoggerIn && <><div>{userName}</div> <Button variant="contained" color="primary" onClick={onClickLogoutHandler}>
             Logout
-        </Button></>  : ''}
+        </Button></>}
 
     </ul>
 }
