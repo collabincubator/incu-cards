@@ -47,23 +47,22 @@ const App = (props: any) => {
             <div className={classNames(styles.app, ({
                 [styles.appDark]: theme === 'dark',
                 [styles.app]: theme === 'light'
-            }))}>
-                <Header/>
-
-                <Switch>
-                    <Route path={'/'} exact render={() => {
-                        if (profile !== null && isLoggedIn) {
-                            return (<Redirect to={PATH.PROFILE}/>);
-                        }
-                        return (<Redirect to={PATH.LOGIN}/>)
-                    }}/>
-                    <Route path={PATH.AUTH} render={() => <Auth/>}/>
-                    <Route path={PATH.PROFILE} render={() => <Profile/>}/>
-                    <Route path={PATH.PACKS} render={() => <Packs/>}/>
-                    <Route path={PATH.CARDS} render={() => <Cards/>}/>
-                    <Route render={() => <PageNotFounded/>}/>
-                </Switch>
-            </div>
+            }))}
+            />
+            <Header/>
+            <Switch>
+                <Route path={'/'} exact render={() => {
+                    if (profile !== null && isLoggedIn) {
+                        return (<Redirect to={PATH.PROFILE}/>);
+                    }
+                    return (<Redirect to={PATH.LOGIN}/>)
+                }}/>
+                <Route path={PATH.AUTH} render={() => <Auth/>}/>
+                <Route path={PATH.PROFILE} render={() => <Profile/>}/>
+                <Route path={PATH.PACKS} render={() => <Packs/>}/>
+                <Route path={PATH.CARDS} render={() => <Cards/>}/>
+                <Route render={() => <PageNotFounded/>}/>
+            </Switch>
         </div>
     );
 }
