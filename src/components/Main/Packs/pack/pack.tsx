@@ -42,15 +42,15 @@ export const Pack:FC<packPropType> = ({user_name, name,cardsCount,updated,create
         dispatch(requestCardsTC(cardsPackId))
     }
     return (
-        <div className={styles.pack}>
-            <div>
+        <tr>
+            <td>
                 <div>{name}</div>
                 <input type="text" className={styles.input} value={packName} onChange={changeHandler}/>
-            </div>
-            <div>{cardsCount}</div>
-            <div>{updated}</div>
-            <div>{user_name}</div>
-            <div>
+            </td>
+            <td>{cardsCount}</td>
+            <td>{updated}</td>
+            <td>{user_name}</td>
+            <td>
                 <button onClick={deleteHandler} disabled={props.loading === 'loading'}>del</button>
                 <button onClick={updateHandler}> update</button>
                 <NavLink
@@ -58,7 +58,7 @@ export const Pack:FC<packPropType> = ({user_name, name,cardsCount,updated,create
                     to={'/cards'}>
                     cards
                 </NavLink>
-            </div>
-        </div>
+            </td>
+        </tr>
     )
 }

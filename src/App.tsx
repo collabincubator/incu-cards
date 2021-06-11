@@ -38,7 +38,7 @@ const App = (props: any) => {
 
 
     return (
-        <div>
+        <div className={'wrapper'}>
             <Header/>
 
             <Switch>
