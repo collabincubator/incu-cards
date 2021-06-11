@@ -1,24 +1,24 @@
 .pagination {
+  display: inline-block;
   width: auto;
-  font-size: 2rem;
-  line-height: 1.5;
-  margin: 1rem;
+  font-size: 1.2rem;
+  background-color: aquamarine;
   .pagePanel {
-    padding: 3.2rem 0;
+    padding: 0;
     margin: 0 auto;
-    font: normal normal 2.4rem/1 sans-serif;
     text-align: center;
     color: rgba(82, 82, 82, 1);
     > span {
       padding: 0 0.8rem;
       cursor: pointer;
-    }
-    .selectedPage {
-      font-size: 2.4rem;
-      font-weight: 600;
+      overflow: hidden;
     }
     .pageNumber {
-      width: auto;
+      line-height: 2.4rem;
     }
+    .selectedPage {
+      font-weight: 600;
+    }
+
   }
 }

@@ -43,15 +43,16 @@ const App = (props: any) => {
 
 
     return (
-        <div className={classNames(styles.app,({
-            [styles.appDark]: theme === 'dark',
-            [styles.app]: theme === 'light'
-        }))}>
+        <div className={'wrapper'}>
+            <div className={classNames(styles.app, ({
+                [styles.appDark]: theme === 'dark',
+                [styles.app]: theme === 'light'
+            }))}
+            />
             <Header/>
-
             <Switch>
                 <Route path={'/'} exact render={() => {
-                    if ( profile !== null && isLoggedIn) {
+                    if (profile !== null && isLoggedIn) {
                         return (<Redirect to={PATH.PROFILE}/>);
                     }
                     return (<Redirect to={PATH.LOGIN}/>)

@@ -91,3 +91,8 @@ p {
   font-size: 4rem;
   line-height: 1.2;
 }
+
+.wrapper {
+  min-height: 100vh;
+  background: $bgcolor;
+}

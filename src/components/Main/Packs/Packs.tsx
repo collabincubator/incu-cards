@@ -11,8 +11,9 @@ import {packType, ProfileResponseType} from "../../../api/cards-api";
 import {Pack} from "./pack/pack";
 import styles from './Packs.module.scss'
 import { RequestStatusType } from '../../../redux/appReducer/appReducer';
-import {Pagination} from './../../Pagination/Pagination';
 import {Redirect} from "react-router-dom";
+import {Pagination} from './../../Pagination/Pagination';
+import {Slider, Typography} from '@material-ui/core';
 
 type OrderType = '' | 'asc' | 'desc';
 type KeyType = 'updated' | 'cardsCount' | 'user_name' | 'name';
@@ -40,12 +41,13 @@ export const Packs = React.memo(() => {
         order: '',
         key: 'updated'
     })
-
+    const [range, setRange] = useState<number[]>([min, max]);
     const [ckeck, setCkeck] = useState(false);
 
 
     useEffect(() => {
          dispatch(requestPacksTC())
+        console.log('page changed ' + page)
     },[page, pageCount, sortPacks, min, max])
 
     const onClickHandler = () => {
@@ -70,6 +72,11 @@ export const Packs = React.memo(() => {
     const maxPacksSizeHandler = (maxSize: string): void => {
         const intMaxValue: number = (+maxSize > min && +maxSize < 1000) ? +maxSize : min;
         dispatch(packsActions.setMaxPacksCountAC(intMaxValue))
+    }
+
+    const onChangePacksSizeHandle = (e: ChangeEvent<{}>, newRange: number | number[]): void => {
+        console.log(newRange)
+        setRange(newRange as number[])
     }
 
     const onClickSortByHandle = (key: KeyType = 'updated') => {
@@ -113,88 +120,107 @@ export const Packs = React.memo(() => {
     }
 
     return (
-        <div className={styles.packs}>
-            <label htmlFor="check">
-                show only my cards
-                <input type="checkbox"
-                       id={'check'} checked={ckeck} onChange={onChangehandler}/>
-            </label>
+        <div className={styles.container}>
+            <div className={styles.box}>
+                <div className={styles.columnParams}>
+                    <label htmlFor="check">
+                        show only my cards
+                        <input type="checkbox"
+                               id={'check'}
+                               checked={ckeck}
+                               onChange={onChangehandler}
+                        />
 
-            <Pagination totalItemsCount={cardPacksTotalCount}
-                        pageSize={pageCount}
-                        portionSize={10}
-                        currentPage={page}
-                        onPageChanged={onPageChangedHandle}
-            />
-            {error && <div style={{width:'500px',height:'500px',background:'red',color:'black',fontSize:'60px'}}>{error} autorezzi pls</div>}
-            <div className={styles.paramsBox}>
-                <span className={styles.paramsName}>Select a Page size: </span>
-                <select id={'selectPageCount'} value={pageCount} onChange={onChangePageCountHandle}>
-                    {pageCounts.map((pcValue, i) => {
-                        return (
-                            <option key={`${i}`} value={pcValue}>{pcValue}</option>
-                        )
-                    })}
-                </select>
-                <input className={styles.paramsInput}
-                       onBlur={(e) => minPacksSizeHandler(e.currentTarget.value)}
-                       onKeyPress={(e) => (e.key === 'Enter' && minPacksSizeHandler(e.currentTarget.value))}
-                />
-                <span className={styles.paramsName}>{min}</span>
-                <input className={styles.paramsInput}
-                       onBlur={(e) => maxPacksSizeHandler(e.currentTarget.value)}
-                       onKeyPress={(e) => (e.key === 'Enter' && maxPacksSizeHandler(e.currentTarget.value))}
-                />
-                <span className={styles.paramsName}>{max}</span>
+                    </label>
+                    <Typography id="range-slider" gutterBottom>
+                        Number of cards
+                    </Typography>
+                    <Slider
+                        value={range}
+                        onChange={onChangePacksSizeHandle}
+                        min={0}
+                        max={120}
+                        valueLabelDisplay="auto"
+                        aria-labelledby="range-slider"
+                        // getAriaValueText={valuetext}
+                    />
+                </div>
+                <div className={styles.columnContent}>
+
+                    <div className={styles.packs}>
+                        <h1>Packs list</h1>
+                        <table className={styles.tableBox}>
+                            <tr>
+                                <th>
+                                    <button onClick={() => onClickSortByHandle('name')}>Name</button>
+                                </th>
+                                <th>
+                                    <button onClick={() => onClickSortByHandle('cardsCount')}>Stack</button>
+                                </th>
+                                <th>
+                                    <button onClick={() => onClickSortByHandle('updated')}> Update</button>
+                                </th>
+                                <th>
+                                    <button onClick={() => onClickSortByHandle('user_name')}> sort by author</button>
+                                </th>
+                                <th>
+                                    <button onClick={onClickHandler} disabled={loading === 'loading'}>add</button>
+                                </th>
+                            </tr>
+                            {packs.map(pack => {
+                                return (
+                                    <Pack
+                                        loading={loading}
+                                        key={pack._id}
+                                        __v={pack.__v}
+                                        _id={pack._id}
+                                        grade={pack.grade}
+                                        path={pack.path}
+                                        rating={pack.rating}
+                                        shots={pack.shots}
+                                        user_id={pack.user_id}
+                                        type={pack.type}
+                                        name={pack.name}
+                                        user_name={pack.user_name}
+                                        updated={pack.updated}
+                                        created={pack.created}
+                                        cardsCount={pack.cardsCount}/>
+                                )
+                            })}
+                        </table>
+                        <div className={styles.tableSettings}>
+                            <Pagination totalItemsCount={cardPacksTotalCount}
+                                        pageSize={pageCount}
+                                        portionSize={10}
+                                        currentPage={page}
+                                        onPageChanged={onPageChangedHandle}
+                            />
+                            <span className={styles.paramsName}>Select a Page size: </span>
+                            <select id={'selectPageCount'} value={pageCount} onChange={onChangePageCountHandle}>
+                                {pageCounts.map((pcValue, i) => {
+                                    return (
+                                        <option key={`${i}`} value={pcValue}>{pcValue}</option>
+                                    )
+                                })}
+                            </select>
+                        </div>
+                        <div>
+                            <input className={styles.paramsInput}
+                                   onBlur={(e) => minPacksSizeHandler(e.currentTarget.value)}
+                                   onKeyPress={(e) => (e.key === 'Enter' && minPacksSizeHandler(e.currentTarget.value))}
+                            />
+                            <span className={styles.paramsName}>{min}</span>
+                            <input className={styles.paramsInput}
+                                   onBlur={(e) => maxPacksSizeHandler(e.currentTarget.value)}
+                                   onKeyPress={(e) => (e.key === 'Enter' && maxPacksSizeHandler(e.currentTarget.value))}
+                            />
+                            <span className={styles.paramsName}>{max}</span>
+                        </div>
+
+                    </div>
+                </div>
 
             </div>
-            <div className={styles.packsHeader}>
-                <div>
-                    <div>Name</div>
-                    <button onClick={() => onClickSortByHandle('name')}>sort by Name</button>
-
-                </div>
-
-                <div>
-                    <div>Cards count</div>
-                    <div>sort by order</div>
-                    <button onClick={() => onClickSortByHandle('cardsCount')}> sort by Cards stack</button>
-                </div>
-                <div>
-                    <div>Updated</div>
-                    <div>sort by order</div>
-                    <button onClick={() => onClickSortByHandle('updated')}> sort by update</button>
-                </div>
-                <div>
-                    <div>Author</div>
-                    <div>sort by order</div>
-                    <button onClick={() => onClickSortByHandle('user_name')}> sort by author</button>
-                </div>
-                <div>
-                    <button onClick={onClickHandler} disabled={loading === 'loading'}>add</button>
-                </div>
-            </div>
-                {packs.map(pack => {
-                    return (
-                      <Pack
-                          loading={loading}
-                          key={pack._id}
-                          __v={pack.__v}
-                          _id={pack._id}
-                          grade={pack.grade}
-                          path={pack.path}
-                          rating={pack.rating}
-                          shots={pack.shots}
-                          user_id={pack.user_id}
-                          type={pack.type}
-                          name={pack.name}
-                          user_name={pack.user_name}
-                          updated={pack.updated}
-                          created={pack.created}
-                          cardsCount={pack.cardsCount}/>
-                    )
-                })}
         </div>
-
     )
 })
