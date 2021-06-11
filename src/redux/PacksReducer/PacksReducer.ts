@@ -10,6 +10,7 @@ export const SET_PAGE_COUNT = 'packsReducer/SET-PAGE-COUNT' as const;
 export const SET_PAGE_NUMBER = 'packsReducer/SET-PAGE-NUMBER' as const;
 export const SET_MIN_CARDS_COUNT = 'packsReducer/SET-MIN-CARDS-COUNT' as const;
 export const SET_MAX_CARDS_COUNT = 'packsReducer/SET-MAX-CARDS-COUNT' as const;
+export const SET_RANGE_SIZE_PACKS = 'packsReducer/SET-RANGE-SIZE-PACKS' as const;
 export const SET_PACKS_TOTAL_COUNT = 'packsReducer/SET-PACKS-TOTAL-COUNT' as const;
 export const SET_SORT_PACKS = 'packsReducer/SET-SORT-PACKS-ORDER' as const;
 
@@ -67,6 +68,12 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
             return ({
                 ...state,
                 packsParams: {...state.packsParams, max: action.payload.max}
+            })
+        }
+        case SET_RANGE_SIZE_PACKS: {
+            return ({
+                ...state,
+                packsParams: {...state.packsParams, ...action.payload}
             })
         }
         case SET_PAGE_COUNT: {
@@ -143,6 +150,15 @@ export const packsActions = {
             type: SET_MAX_CARDS_COUNT,
             payload: {
                 max
+            }
+        })
+    },
+    setRangeSizePacks (rangeSize: number[]) {
+        return ({
+            type: SET_RANGE_SIZE_PACKS,
+            payload: {
+                min: rangeSize[0],
+                max: rangeSize[1]
             }
         })
     },

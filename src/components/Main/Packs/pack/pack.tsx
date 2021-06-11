@@ -6,6 +6,7 @@ import {deletePackTC, updatePackTC} from "../../../../redux/PacksReducer/PacksRe
 import {RequestStatusType} from "../../../../redux/appReducer/appReducer";
 import {AppStateType} from "../../../../redux/store";
 import {requestCardsTC} from "../../../../redux/cardsReducer/CardsReducer";
+import {EditableSpan} from '../../../common/EditableSpan/EditableSpan';
 
 
 interface packPropType {
@@ -25,7 +26,7 @@ interface packPropType {
     loading:RequestStatusType
 }
 
-export const Pack:FC<packPropType> = ({user_name, name,cardsCount,updated,created,...props}) => {
+export const Pack: FC<packPropType> = ({user_name, name, cardsCount, updated, created, ...props}) => {
     const dispatch = useDispatch()
     const [packName, setPackName] = useState('');
 
@@ -33,17 +34,16 @@ export const Pack:FC<packPropType> = ({user_name, name,cardsCount,updated,create
         dispatch(deletePackTC(props._id))
     }
     const updateHandler = () => {
-        dispatch(updatePackTC(props._id,packName))
+        dispatch(updatePackTC(props._id, packName))
     }
-    const changeHandler = (e:any) => {
-        setPackName(e.currentTarget.value)
+    const changeHandler = (name: string) => {
+        setPackName(name)
     }
 
     return (
         <tr>
             <td>
-                <div>{name}</div>
-                <input type="text" className={styles.input} value={packName} onChange={changeHandler}/>
+                <EditableSpan value={name} onChange={changeHandler}/>
             </td>
             <td>{cardsCount}</td>
             <td>{updated}</td>

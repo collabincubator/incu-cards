@@ -59,9 +59,11 @@
             justify-self: start;
           }
           >th:nth-child(5), >td:nth-child(5) {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             grid-column: span 3;
             justify-self: stretch;
-            background-color: forestgreen;
           }
         }
         tr:nth-child(1) {

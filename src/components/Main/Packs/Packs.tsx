@@ -13,7 +13,11 @@ import styles from './Packs.module.scss'
 import { RequestStatusType } from '../../../redux/appReducer/appReducer';
 import {Redirect} from "react-router-dom";
 import {Pagination} from './../../Pagination/Pagination';
-import {Slider, Typography} from '@material-ui/core';
+import {FormControl, FormHelperText, Input, InputAdornment, InputBase, Slider, Typography} from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
+import clsx from 'clsx';
+import {SearchPacks} from './SearchPacks/SearchPacks';
+
 
 type OrderType = '' | 'asc' | 'desc';
 type KeyType = 'updated' | 'cardsCount' | 'user_name' | 'name';
@@ -41,8 +45,8 @@ export const Packs = React.memo(() => {
         order: '',
         key: 'updated'
     })
-    const [range, setRange] = useState<number[]>([min, max]);
-    const [ckeck, setCkeck] = useState(false);
+    const [range, setRange] = useState<number | number[]>([min, max]);
+    const [ckeck, setCkeck] = useState<boolean>(false);
 
 
     useEffect(() => {
@@ -75,8 +79,13 @@ export const Packs = React.memo(() => {
     }
 
     const onChangePacksSizeHandle = (e: ChangeEvent<{}>, newRange: number | number[]): void => {
-        console.log(newRange)
-        setRange(newRange as number[])
+        setRange(prev => (newRange))
+    }
+
+    const onClickPageSizeHandle = (): void => {
+        if (range instanceof Array) {
+            dispatch(packsActions.setRangeSizePacks(range))
+        }
     }
 
     const onClickSortByHandle = (key: KeyType = 'updated') => {
@@ -87,33 +96,6 @@ export const Packs = React.memo(() => {
         setSortByStateUI(prev => ( {order, key} ));
         console.log(intOrder + key + '')
     }
-
-    // const onClickPacksSortByName = () => {
-    //     setPacksUI(prevPacksUI => {
-    //         return prevPacksUI?.sort( (a, b) => {
-    //             if (sortByStateUI.byName) {
-    //                 setSortByStateUI(prev => ({...prev, byName: !prev.byName}))
-    //                 return ( (a.name < b.name) ? -1 : 1 )
-    //             } else {
-    //                 setSortByStateUI(prev => ({...prev, byName: !prev.byName}));
-    //                 return (a.name > b.name ? -1 : 1 )
-    //             }
-    //         })
-    //     })
-    // }
-    // const onClickPacksSortByCount = () => {
-    //     setPacksUI(prevPacksUI => {
-    //         return prevPacksUI?.sort( (a, b) => {
-    //             if (sortByStateUI.byCount) {
-    //                 setSortByStateUI(prev => ({...prev, byCount: !prev.byCount}))
-    //                 return ( (a.cardsCount < b.cardsCount) ? -1 : 1 )
-    //             } else {
-    //                 setSortByStateUI(prev => ({...prev, byCount: !prev.byCount}));
-    //                 return (a.cardsCount > b.cardsCount ? -1 : 1 )
-    //             }
-    //         })
-    //     })
-    // }
 
     if(user === null) {
         return <Redirect to={'/auth/login'}/>
@@ -144,11 +126,15 @@ export const Packs = React.memo(() => {
                         aria-labelledby="range-slider"
                         // getAriaValueText={valuetext}
                     />
+                    <button type={'button'} onClick={onClickPageSizeHandle}>Select</button>
                 </div>
                 <div className={styles.columnContent}>
 
-                    <div className={styles.packs}>
+                    <div>
                         <h1>Packs list</h1>
+                        <div className={styles.searchPacks}>
+                            <SearchPacks/>
+                        </div>
                         <table className={styles.tableBox}>
                             <tr>
                                 <th>
@@ -204,19 +190,6 @@ export const Packs = React.memo(() => {
                                 })}
                             </select>
                         </div>
-                        <div>
-                            <input className={styles.paramsInput}
-                                   onBlur={(e) => minPacksSizeHandler(e.currentTarget.value)}
-                                   onKeyPress={(e) => (e.key === 'Enter' && minPacksSizeHandler(e.currentTarget.value))}
-                            />
-                            <span className={styles.paramsName}>{min}</span>
-                            <input className={styles.paramsInput}
-                                   onBlur={(e) => maxPacksSizeHandler(e.currentTarget.value)}
-                                   onKeyPress={(e) => (e.key === 'Enter' && maxPacksSizeHandler(e.currentTarget.value))}
-                            />
-                            <span className={styles.paramsName}>{max}</span>
-                        </div>
-
                     </div>
                 </div>
 
