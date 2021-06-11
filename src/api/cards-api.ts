@@ -117,10 +117,12 @@ export const authAPI = {
 
 export const packsAPI = {
     getPacks(params?: PacksParamsType) {
+        debugger
         return cardsRequest.get<packsResponse>(`/cards/pack`, {
             params: {...params}
         })
             .then(res => res.data)
+        debugger
     },
     getUserPacks(pageCount: number = 100, page: number = 1, user_id: string | undefined) {
         return cardsRequest.get<packsResponse>(`/cards/pack?pageCount=${pageCount}&page=${page}&sortPacks=0updated&user_id=${user_id}`)

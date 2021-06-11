@@ -20,7 +20,19 @@
       grid-column: 1 / span 3;
       padding: 2.4rem;
       background-color: $optionsColumnColor;
-
+      h3 {
+        color: $primary;
+      }
+      >p {
+        font-weight: 600;
+      }
+      .onlyMyFilter {
+        display: flex;
+        margin: 2.4rem auto;
+        >button {
+          width: 100%;
+        }
+      }
     }
     .columnContent {
       width: 100%;
