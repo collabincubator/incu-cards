@@ -16,7 +16,6 @@ export const Cards = () => {
     // @ts-ignore
     const {id,name} = useParams()
     const cards = useSelector<AppStateType,cardType[]>(state => state.cardsReducer.cards)
-    debugger
     useEffect(() => {
         dispatch(requestCardsTC(id))
     },[dispatch,id])
