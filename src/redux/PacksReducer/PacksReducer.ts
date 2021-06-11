@@ -5,14 +5,12 @@ import { authActions } from "../authReducer/authReducer";
 import {AppStateType} from '../store';
 
 export const SET_PACKS = 'packsReducer/SET-PACKS' as const;
-export const SET_USER_PACKS = 'packsReducer/SET-USER-PACKS' as const;
 export const SET_PAGE_COUNT = 'packsReducer/SET-PAGE-COUNT' as const;
 export const SET_PAGE_NUMBER = 'packsReducer/SET-PAGE-NUMBER' as const;
-export const SET_MIN_CARDS_COUNT = 'packsReducer/SET-MIN-CARDS-COUNT' as const;
-export const SET_MAX_CARDS_COUNT = 'packsReducer/SET-MAX-CARDS-COUNT' as const;
 export const SET_RANGE_SIZE_PACKS = 'packsReducer/SET-RANGE-SIZE-PACKS' as const;
 export const SET_PACKS_TOTAL_COUNT = 'packsReducer/SET-PACKS-TOTAL-COUNT' as const;
 export const SET_SORT_PACKS = 'packsReducer/SET-SORT-PACKS-ORDER' as const;
+export const SET_ONLY_MY_MODE = 'packsReducer/SET-ONLY-MY-MODE' as const;
 
 
 export type PacksParamsType = {
@@ -30,6 +28,7 @@ type InitialStateType = {
     packsParams: PacksParamsType
     cardPacksTotalCount: number
     pageCounts: number[]
+    onlyMy: boolean
 }
 
 export const initialState: InitialStateType = {
@@ -39,10 +38,11 @@ export const initialState: InitialStateType = {
         max: 20,
         page: 1,
         pageCount: 10,
-        sortPacks: '0updated'
+        sortPacks: '0updated',
     },
     cardPacksTotalCount: 0,
-    pageCounts: [10, 20, 30, 50, 100]
+    pageCounts: [10, 20, 30, 50, 100],
+    onlyMy: false
 }
 
 
@@ -56,18 +56,6 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
             return ({
                 ...state,
                 cardPacks: action.payload.packs
-            })
-        }
-        case SET_MIN_CARDS_COUNT: {
-            return ({
-                ...state,
-                packsParams: {...state.packsParams, min: action.payload.min}
-            })
-        }
-        case SET_MAX_CARDS_COUNT: {
-            return ({
-                ...state,
-                packsParams: {...state.packsParams, max: action.payload.max}
             })
         }
         case SET_RANGE_SIZE_PACKS: {
@@ -100,13 +88,12 @@ export const packsReducer = (state: InitialStateType = initialState, action: Act
                 packsParams: {...state.packsParams, sortPacks: action.payload.sortPacks}
             })
         }
-        // case SET_USER_PACKS:{
-        //     return ({
-        //         ...state,
-        //         cardPacks: action.payload.cards
-        //     })
-        // }
-
+        case SET_ONLY_MY_MODE : {
+            return ({
+                ...state,
+                onlyMy: action.payload.onlyMy
+            })
+        }
         default:
             return state
     }
@@ -137,22 +124,7 @@ export const packsActions = {
             }
         })
     },
-    setMinPacksCountAC(min: number) {
-        return ({
-            type: SET_MIN_CARDS_COUNT,
-            payload: {
-                min
-            }
-        })
-    },
-    setMaxPacksCountAC(max: number) {
-        return ({
-            type: SET_MAX_CARDS_COUNT,
-            payload: {
-                max
-            }
-        })
-    },
+
     setRangeSizePacks (rangeSize: number[]) {
         return ({
             type: SET_RANGE_SIZE_PACKS,
@@ -178,11 +150,11 @@ export const packsActions = {
             }
         })
     },
-    setUserPacksAC(userId: string) {
+    setOnlyMyMode(onlyMy: boolean) {
         return ({
-            type: SET_USER_PACKS,
+            type: SET_ONLY_MY_MODE,
             payload: {
-                userId
+                onlyMy
             }
         })
     },
@@ -191,8 +163,12 @@ export const packsActions = {
 export const requestPacksTC = () => async (dispatch: Dispatch, getState: () => AppStateType) => {
     dispatch(appActions.setAppStatusAC('loading'));
     //названия параметров в стейте должно соответствовать параметрам get запроса
-    const params: PacksParamsType = getState().packsReducer.packsParams
+    let params: PacksParamsType = getState().packsReducer.packsParams;
+    delete params.user_id
+    params = getState().packsReducer.onlyMy ? {...params, user_id: getState().profileReducer.profile?._id} : {...params}
+
     try {
+
         const res = await packsAPI.getPacks(params)
         dispatch(packsActions.setPacks(res.cardPacks))
         dispatch(packsActions.setTotalPacksCountAC(res.cardPacksTotalCount))
@@ -205,18 +181,18 @@ export const requestPacksTC = () => async (dispatch: Dispatch, getState: () => A
 
     }
 }
-export const requestUserCardsTC = (user_id:string | undefined) => async (dispatch: Dispatch) => {
-    dispatch(appActions.setAppStatusAC('loading'))
-    let res = await packsAPI.getUserPacks(1000,4,user_id)
-    try {
-        dispatch(packsActions.setPacks(res.cardPacks))
-        dispatch(appActions.setAppStatusAC('succeeded'))
-    }
-    catch (err) {
-        dispatch(appActions.setAppErrorAC('error'))
-        dispatch(appActions.setAppStatusAC('failed'))
-    }
-}
+// export const requestUserCardsTC = (user_id:string | undefined) => async (dispatch: Dispatch) => {
+//     dispatch(appActions.setAppStatusAC('loading'))
+//     let res = await packsAPI.getUserPacks(1000,4,user_id)
+//     try {
+//         dispatch(packsActions.setPacks(res.cardPacks))
+//         dispatch(appActions.setAppStatusAC('succeeded'))
+//     }
+//     catch (err) {
+//         dispatch(appActions.setAppErrorAC('error'))
+//         dispatch(appActions.setAppStatusAC('failed'))
+//     }
+// }
 export const createPackTC = () => async (dispatch: Dispatch) => {
     dispatch(appActions.setAppStatusAC('loading'))
     let res = await packsAPI.createPack()

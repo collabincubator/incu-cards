@@ -4,7 +4,6 @@ import {
     createPackTC, packsActions,
     requestPacksTC,
     PacksParamsType,
-    requestUserCardsTC
 } from "../../../redux/PacksReducer/PacksReducer";
 import {AppStateType} from "../../../redux/store";
 import {packType, ProfileResponseType} from "../../../api/cards-api";
@@ -13,9 +12,8 @@ import styles from './Packs.module.scss'
 import { RequestStatusType } from '../../../redux/appReducer/appReducer';
 import {Redirect} from "react-router-dom";
 import {Pagination} from './../../Pagination/Pagination';
-import {FormControl, FormHelperText, Input, InputAdornment, InputBase, Slider, Typography} from '@material-ui/core';
+import {Button, ButtonGroup, Slider, Typography} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import clsx from 'clsx';
 import {SearchPacks} from './SearchPacks/SearchPacks';
 
 
@@ -30,12 +28,13 @@ export const Packs = React.memo(() => {
 
     const dispatch = useDispatch()
     const packs = useSelector<AppStateType,packType[]>(state => state.packsReducer.cardPacks)
+    const onlyMy = useSelector<AppStateType, boolean>(state => state.packsReducer.onlyMy)
     const user = useSelector<AppStateType,ProfileResponseType | null>(state => state.profileReducer.profile)
     const profileId = useSelector<AppStateType,string | undefined>(state => state.profileReducer.profile?._id)
     const error = useSelector<AppStateType,string >(state => state.appReducer.error)
 
     const {
-            page = 1, pageCount = 10, min = 1, max = 10, packName, user_id, sortPacks
+            page = 1, pageCount = 10, min = 1, max = 10, packName, sortPacks
     } = useSelector<AppStateType, PacksParamsType>(state => state.packsReducer.packsParams);
     const pageCounts = useSelector<AppStateType, number[]>(state => state.packsReducer.pageCounts);
     const cardPacksTotalCount = useSelector<AppStateType, number>(state => state.packsReducer.cardPacksTotalCount);
@@ -46,37 +45,35 @@ export const Packs = React.memo(() => {
         key: 'updated'
     })
     const [range, setRange] = useState<number | number[]>([min, max]);
-    const [ckeck, setCkeck] = useState<boolean>(false);
-
 
     useEffect(() => {
          dispatch(requestPacksTC())
         console.log('page changed ' + page)
-    },[page, pageCount, sortPacks, min, max])
+    },[page, pageCount, sortPacks, min, max, onlyMy])
 
     const onClickHandler = () => {
         dispatch(createPackTC())
     }
-    const onChangehandler = (e: ChangeEvent<HTMLInputElement>) => {
-            e.currentTarget.checked ? dispatch(requestUserCardsTC(profileId)) : dispatch(requestPacksTC())
-            setCkeck(e.currentTarget.checked)
-    }
+    // const onChangehandler = (e: ChangeEvent<HTMLInputElement>) => {
+    //         e.currentTarget.checked ? dispatch(requestUserCardsTC(profileId)) : dispatch(requestPacksTC())
+    //         setCkeck(e.currentTarget.checked)
+    // }
 
-    const onPageChangedHandle = (curPage: number): void => {
+        const onPageChangedHandle = (curPage: number): void => {
         dispatch(packsActions.setPageAC(curPage))
     }
     const onChangePageCountHandle = (e: ChangeEvent<HTMLSelectElement>): void => {
         const pageCount = Number(e.currentTarget.value)
         dispatch(packsActions.setPageCountAC(pageCount))
     }
-    const minPacksSizeHandler = (minSize: string): void => {
-        const intMinValue: number = (+minSize > 0 && +minSize < 1000) ? +minSize : 1;
-        dispatch(packsActions.setMinPacksCountAC(intMinValue))
-    }
-    const maxPacksSizeHandler = (maxSize: string): void => {
-        const intMaxValue: number = (+maxSize > min && +maxSize < 1000) ? +maxSize : min;
-        dispatch(packsActions.setMaxPacksCountAC(intMaxValue))
-    }
+    // const minPacksSizeHandler = (minSize: string): void => {
+    //     const intMinValue: number = (+minSize > 0 && +minSize < 1000) ? +minSize : 1;
+    //     dispatch(packsActions.setMinPacksCountAC(intMinValue))
+    // }
+    // const maxPacksSizeHandler = (maxSize: string): void => {
+    //     const intMaxValue: number = (+maxSize > min && +maxSize < 1000) ? +maxSize : min;
+    //     dispatch(packsActions.setMaxPacksCountAC(intMaxValue))
+    // }
 
     const onChangePacksSizeHandle = (e: ChangeEvent<{}>, newRange: number | number[]): void => {
         setRange(prev => (newRange))
@@ -97,6 +94,10 @@ export const Packs = React.memo(() => {
         console.log(intOrder + key + '')
     }
 
+    const onChangeOnlyMyHandle = (mode: string): void => {
+        dispatch(packsActions.setOnlyMyMode(mode === 'my'))
+    }
+
     if(user === null) {
         return <Redirect to={'/auth/login'}/>
     }
@@ -105,15 +106,17 @@ export const Packs = React.memo(() => {
         <div className={styles.container}>
             <div className={styles.box}>
                 <div className={styles.columnParams}>
-                    <label htmlFor="check">
-                        show only my cards
-                        <input type="checkbox"
-                               id={'check'}
-                               checked={ckeck}
-                               onChange={onChangehandler}
-                        />
+                    <h3>Show packs cards</h3>
+                    <ButtonGroup color={'primary'}
+                                 aria-label="OnlyMy mode button group"
+                                 className={styles.onlyMyFilter}
+                    >
+                        <Button onClick={()=>{onChangeOnlyMyHandle('all')}}
+                                variant={onlyMy ? 'outlined' : 'contained'}>All</Button>
+                        <Button onClick={()=>{onChangeOnlyMyHandle('my')}}
+                                variant={onlyMy ? 'contained' : 'outlined'}>My</Button>
+                    </ButtonGroup>
 
-                    </label>
                     <Typography id="range-slider" gutterBottom>
                         Number of cards
                     </Typography>
