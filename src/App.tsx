@@ -6,11 +6,12 @@ import {PageNotFounded} from "./components/Main/PageNotFounded/PageNotFounded";
 import Auth from './components/Main/Auth/Auth';
 import { useSelector} from "react-redux";
 import {AppStateType} from "./redux/store";
-
+import styles from './App.module.scss'
 import preloader from './assets/icons/preloaderAppleLight.svg';
 import { ProfileResponseType } from './api/cards-api';
 import {Packs} from "./components/Main/Packs/Packs";
 import {Cards} from "./components/Main/Cards/Cards";
+import classNames from "classnames";
 
 const PATH = {
     AUTH: '/auth',
@@ -24,7 +25,7 @@ const PATH = {
 const App = (props: any) => {
     const initializing = useSelector<AppStateType, boolean>(state => state.appReducer.initializing);
     const profile = useSelector<AppStateType, ProfileResponseType | null>(state => state.profileReducer.profile);
-
+    const theme = useSelector<AppStateType, 'light'|'dark'>(state => state.appReducer.theme);
 
 
 
@@ -36,7 +37,10 @@ const App = (props: any) => {
 
 
     return (
-        <div>
+        <div className={classNames(styles.app,({
+            [styles.appDark]: theme === 'dark',
+            [styles.app]: theme === 'light'
+        }))}>
             <Header/>
 
             <Switch>

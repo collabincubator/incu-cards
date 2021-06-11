@@ -1,6 +1,7 @@
 export const STATUS = 'appReducer/SET-STATUS' as const;
 export const ERROR = 'appReducer/SET-ERROR' as const;
 export const INITIALIZING = 'appReducer/SET-INITIALIZING' as const;
+export const THEME = 'appReducer/SET-THEME' as const;
 
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
@@ -9,13 +10,15 @@ export type InitialStateType = {
     status: RequestStatusType
     error: string
     initializing: boolean
+    theme:'light' | 'dark'
 }
 
 
 const initialState: InitialStateType = {
     status: 'idle',
     error: '',
-    initializing: false
+    initializing: false,
+    theme:'light'
 }
 
 
@@ -40,6 +43,12 @@ export const appReducer = (state: InitialStateType = initialState, action: Actio
             return ({
                 ...state,
                 status: action.payload.status
+            })
+        }
+        case THEME:{
+            return ({
+                ...state,
+                theme:action.payload.theme
             })
         }
         default:
@@ -69,6 +78,14 @@ export const appActions = {
             type: INITIALIZING,
             payload: {
                 value
+            }
+        })
+    },
+    setThemeAC(theme: 'light' | 'dark') {
+        return ({
+            type: THEME,
+            payload: {
+                theme
             }
         })
     },
