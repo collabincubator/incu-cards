@@ -1,10 +1,11 @@
 import React, {FC} from 'react'
 import {useFormik} from "formik";
 import {useDispatch} from "react-redux";
-import {Button, FormControl, FormHelperText, Input, InputLabel} from "@material-ui/core";
+import {Button, Checkbox, FormControl, FormControlLabel, FormHelperText, Input, InputLabel} from "@material-ui/core";
 import {FormikCustomInput} from "../../../common/Input/input";
 import {NavLink} from "react-router-dom";
 import {loginTC} from "../../../../redux/authReducer/authReducer";
+import {Favorite, FavoriteBorder} from "@material-ui/icons";
 
 type FormikErrorType = {
     email?: string
@@ -21,7 +22,8 @@ export const LoginForm:FC<FormPropsType> = ({styles}) => {
     const formik = useFormik({
         initialValues: {
             email: 'collabincubator@gmail.com',
-            password: 'collaborators'
+            password: 'collaborators',
+            rememberMe:true,
         },
         validate: values => {
             const errors: FormikErrorType = {};
@@ -69,6 +71,10 @@ export const LoginForm:FC<FormPropsType> = ({styles}) => {
                 {!!formik.errors.password &&
                 <FormHelperText id="password-error">{formik.errors.password}</FormHelperText>}
             </FormControl>
+            <FormControlLabel
+                control={<Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} name="rememberMe"  value={formik.values.rememberMe} />}
+                label="Remember me"
+            />
             <div className={styles.forgotBox}>
                 <NavLink className={styles.navLinkForgotBox} to={'/auth/restore-password'}>
                     <span>Forgot Password</span>
