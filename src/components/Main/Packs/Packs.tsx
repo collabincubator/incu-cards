@@ -8,15 +8,15 @@ import {
 import {AppStateType} from "../../../redux/store";
 import {packType, ProfileResponseType} from "../../../api/cards-api";
 import {Pack} from "./pack/pack";
+import avatar from '../../../assets/img/png/cybava.png';
 import styles from './Packs.module.scss'
 import { RequestStatusType } from '../../../redux/appReducer/appReducer';
 import {Redirect} from "react-router-dom";
 import {Pagination} from './../../Pagination/Pagination';
 import {Button, ButtonGroup, Slider, Typography} from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
 import {SearchPacks} from './SearchPacks/SearchPacks';
 
-
+import SearchIcon from '@material-ui/icons/Search';
 type OrderType = '' | 'asc' | 'desc';
 type KeyType = 'updated' | 'cardsCount' | 'user_name' | 'name';
 type SortByStateUIType = {
@@ -52,26 +52,15 @@ export const Packs = React.memo(() => {
     const onClickHandler = () => {
         dispatch(createPackTC())
     }
-    // const onChangehandler = (e: ChangeEvent<HTMLInputElement>) => {
-    //         e.currentTarget.checked ? dispatch(requestUserCardsTC(profileId)) : dispatch(requestPacksTC())
-    //         setCkeck(e.currentTarget.checked)
-    // }
 
-        const onPageChangedHandle = (curPage: number): void => {
+    const onPageChangedHandle = (curPage: number): void => {
         dispatch(packsActions.setPageAC(curPage))
     }
+
     const onChangePageCountHandle = (e: ChangeEvent<HTMLSelectElement>): void => {
         const pageCount = Number(e.currentTarget.value)
         dispatch(packsActions.setPageCountAC(pageCount))
     }
-    // const minPacksSizeHandler = (minSize: string): void => {
-    //     const intMinValue: number = (+minSize > 0 && +minSize < 1000) ? +minSize : 1;
-    //     dispatch(packsActions.setMinPacksCountAC(intMinValue))
-    // }
-    // const maxPacksSizeHandler = (maxSize: string): void => {
-    //     const intMaxValue: number = (+maxSize > min && +maxSize < 1000) ? +maxSize : min;
-    //     dispatch(packsActions.setMaxPacksCountAC(intMaxValue))
-    // }
 
     const onChangePacksSizeHandle = (e: ChangeEvent<{}>, newRange: number | number[]): void => {
         setRange(prev => (newRange))
@@ -104,30 +93,46 @@ export const Packs = React.memo(() => {
         <div className={styles.container}>
             <div className={styles.box}>
                 <div className={styles.columnParams}>
-                    <h3>Show packs cards</h3>
-                    <ButtonGroup color={'primary'}
-                                 aria-label="OnlyMy mode button group"
-                                 className={styles.onlyMyFilter}
-                    >
-                        <Button onClick={()=>{onChangeOnlyMyHandle('all')}}
-                                variant={onlyMy ? 'outlined' : 'contained'}>All</Button>
-                        <Button onClick={()=>{onChangeOnlyMyHandle('my')}}
-                                variant={onlyMy ? 'contained' : 'outlined'}>My</Button>
-                    </ButtonGroup>
+                    <div className={styles.profileContainer}>
+                        <div className={styles.profileBox}>
+                            <div className={styles.avatarBox}>
+                                <img src={avatar} alt={'profile avatar'} className={styles.profileAvatar}/>
+                            </div>
+                            <h3>
+                                John Doe
+                            </h3>
+                            <p>Front-end developer</p>
+                            <button type={'button'}>
+                                Edit profile
+                            </button>
+                        </div>
+                    </div>
+                    <div className={styles.paramsBox}>
+                        <h3>Show packs cards</h3>
+                        <ButtonGroup color={'primary'}
+                                     aria-label="OnlyMy mode button group"
+                                     className={styles.onlyMyFilter}
+                        >
+                            <Button onClick={()=>{onChangeOnlyMyHandle('all')}}
+                                    variant={onlyMy ? 'outlined' : 'contained'}>All</Button>
+                            <Button onClick={()=>{onChangeOnlyMyHandle('my')}}
+                                    variant={onlyMy ? 'contained' : 'outlined'}>My</Button>
+                        </ButtonGroup>
 
-                    <Typography id="range-slider" gutterBottom>
-                        Number of cards
-                    </Typography>
-                    <Slider
-                        value={range}
-                        onChange={onChangePacksSizeHandle}
-                        min={0}
-                        max={120}
-                        valueLabelDisplay="auto"
-                        aria-labelledby="range-slider"
-                        // getAriaValueText={valuetext}
-                    />
-                    <button type={'button'} onClick={onClickPageSizeHandle}>Select</button>
+                        <Typography id="range-slider" gutterBottom>
+                            Number of cards
+                        </Typography>
+                        <Slider
+                            value={range}
+                            onChange={onChangePacksSizeHandle}
+                            min={0}
+                            max={120}
+                            valueLabelDisplay="auto"
+                            aria-labelledby="range-slider"
+                            // getAriaValueText={valuetext}
+                        />
+                        <button type={'button'} onClick={onClickPageSizeHandle}>Select</button>
+                    </div>
                 </div>
                 <div className={styles.columnContent}>
 

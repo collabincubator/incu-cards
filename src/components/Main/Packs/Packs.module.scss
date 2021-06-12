@@ -18,19 +18,40 @@
     .columnParams {
       width: 100%;
       grid-column: 1 / span 3;
-      padding: 2.4rem;
+      padding: 0;
       background-color: $optionsColumnColor;
       h3 {
         color: $primary;
+        font: normal 600 1.8rem/2.4rem Poppins, sans-serif;
+
       }
       >p {
         font-weight: 600;
       }
-      .onlyMyFilter {
-        display: flex;
-        margin: 2.4rem auto;
-        >button {
-          width: 100%;
+      .profileBox {
+        padding: 2.4rem;
+        background: $profileBgColor;
+        text-align: center;
+        .avatarBox {
+          text-align: center;
+          margin: 0 auto 2.4rem;
+          .profileAvatar{
+            max-width: 9.6rem;
+            height: auto;
+            border: 0.2rem solid #fff;
+            border-radius: 50%;
+            margin: 0 auto;
+          }
+        }
+      }
+      .paramsBox {
+        padding: 2.4rem;
+        .onlyMyFilter {
+          display: flex;
+          margin: 2.4rem auto;
+          >button {
+            width: 100%;
+          }
         }
       }
     }
