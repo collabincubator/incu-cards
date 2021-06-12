@@ -30,11 +30,10 @@ export const Packs = React.memo(() => {
     const packs = useSelector<AppStateType,packType[]>(state => state.packsReducer.cardPacks)
     const onlyMy = useSelector<AppStateType, boolean>(state => state.packsReducer.onlyMy)
     const user = useSelector<AppStateType,ProfileResponseType | null>(state => state.profileReducer.profile)
-    const profileId = useSelector<AppStateType,string | undefined>(state => state.profileReducer.profile?._id)
     const error = useSelector<AppStateType,string >(state => state.appReducer.error)
 
     const {
-            page = 1, pageCount = 10, min = 1, max = 10, packName, sortPacks
+            page = 1, pageCount = 10, min = 0, max = 10, packName, sortPacks
     } = useSelector<AppStateType, PacksParamsType>(state => state.packsReducer.packsParams);
     const pageCounts = useSelector<AppStateType, number[]>(state => state.packsReducer.pageCounts);
     const cardPacksTotalCount = useSelector<AppStateType, number>(state => state.packsReducer.cardPacksTotalCount);
@@ -48,7 +47,6 @@ export const Packs = React.memo(() => {
 
     useEffect(() => {
          dispatch(requestPacksTC())
-        console.log('page changed ' + page)
     },[page, pageCount, sortPacks, min, max, onlyMy])
 
     const onClickHandler = () => {
@@ -134,11 +132,12 @@ export const Packs = React.memo(() => {
                 <div className={styles.columnContent}>
 
                     <div>
-                        <h1>Packs list</h1>
+                        <h2>Packs list</h2>
                         <div className={styles.searchPacks}>
                             <SearchPacks/>
                         </div>
                         <table className={styles.tableBox}>
+                            <thead>
                             <tr>
                                 <th>
                                     <button onClick={() => onClickSortByHandle('name')}>Name</button>
@@ -156,7 +155,9 @@ export const Packs = React.memo(() => {
                                     <button onClick={onClickHandler} disabled={loading === 'loading'}>add</button>
                                 </th>
                             </tr>
-                            {packs.map(pack => {
+                            </thead>
+                            <tbody>
+                                {packs.map(pack => {
                                 return (
                                     <Pack
                                         loading={loading}
@@ -174,8 +175,9 @@ export const Packs = React.memo(() => {
                                         updated={pack.updated}
                                         created={pack.created}
                                         cardsCount={pack.cardsCount}/>
-                                )
-                            })}
+                                    )
+                                })}
+                            </tbody>
                         </table>
                         <div className={styles.tableSettings}>
                             <Pagination totalItemsCount={cardPacksTotalCount}
