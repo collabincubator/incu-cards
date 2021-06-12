@@ -30,6 +30,8 @@ export const Pack: FC<packPropType> = ({user_name, name, cardsCount, updated, cr
     const dispatch = useDispatch()
     const [packName, setPackName] = useState('');
 
+
+
     const deleteHandler = () => {
         dispatch(deletePackTC(props._id))
     }
@@ -46,7 +48,7 @@ export const Pack: FC<packPropType> = ({user_name, name, cardsCount, updated, cr
                 <EditableSpan value={name} onChange={changeHandler}/>
             </td>
             <td>{cardsCount}</td>
-            <td>{updated}</td>
+            <td>{updated = new Date(updated).toLocaleDateString('ru', {day: '2-digit', month: '2-digit', year: 'numeric'})}</td>
             <td>{user_name}</td>
             <td>
                 <button onClick={deleteHandler} disabled={props.loading === 'loading'}>del</button>

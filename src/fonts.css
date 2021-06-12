@@ -124,3 +124,69 @@
     font-weight: 900;
     src: url('assets/fonts/Poppins/Poppins-BlackItalic.ttf') format('truetype');
 }
+
+
+/* San Francisco UI Display*/
+
+@font-face {
+    font-family: 'SFUIDisplay';
+    font-style: normal;
+    font-weight: 100;
+    src: url('assets/fonts/SFUIDisplay/SFUIDisplay-Ultralight.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'SFUIDisplay';
+    font-style: normal;
+    font-weight: 200;
+    src: url('assets/fonts/SFUIDisplay/SFUIDisplay-Thin.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'SFUIDisplay';
+    font-style: normal;
+    font-weight: 300;
+    src: url('assets/fonts/SFUIDisplay/SFUIDisplay-Light.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'SFUIDisplay';
+    font-style: normal;
+    font-weight: 400;
+    src: url('assets/fonts/SFUIDisplay/SFUIDisplay-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'SFUIDisplay';
+    font-style: normal;
+    font-weight: 500;
+    ssrc: url('assets/fonts/SFUIDisplay/SFUIDisplay-Medium.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'SFUIDisplay';
+    font-style: normal;
+    font-weight: 600;
+    src: url('assets/fonts/SFUIDisplay/SFUIDisplay-Semibold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'SFUIDisplay';
+    font-style: normal;
+    font-weight: 700;
+    src: url('assets/fonts/SFUIDisplay/SFUIDisplay-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'SFUIDisplay';
+    font-style: normal;
+    font-weight: 800;
+    src: url('assets/fonts/SFUIDisplay/SFUIDisplay-Heavy.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'SFUIDisplay';
+    font-style: normal;
+    font-weight: 900;
+    src: url('assets/fonts/SFUIDisplay/SFUIDisplay-Black.ttf') format('truetype');
+}

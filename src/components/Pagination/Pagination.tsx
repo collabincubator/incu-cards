@@ -31,7 +31,7 @@ export const Pagination: React.FC<PropsType> = ({totalItemsCount, pageSize, curr
         <div className={styles.pagePanel}>
             {portionNumber > 1 &&
             <button onClick={ () => { setPortionNumber(portionNumber - 1) } }
-            >Previus
+            >{'<'}
             </button>}
 
             {pages
@@ -46,7 +46,7 @@ export const Pagination: React.FC<PropsType> = ({totalItemsCount, pageSize, curr
                 })
             }
             {portionCount > portionNumber &&
-            <button onClick={() => { setPortionNumber(portionNumber + 1) }}>Next</button>
+            <button onClick={() => { setPortionNumber(portionNumber + 1) }}>{'>'}</button>
             }
         </div>
 

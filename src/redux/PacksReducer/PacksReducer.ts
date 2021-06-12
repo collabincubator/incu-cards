@@ -34,7 +34,7 @@ type InitialStateType = {
 export const initialState: InitialStateType = {
     cardPacks: [] as packType[],
     packsParams: {
-        min: 1,
+        min: 0,
         max: 20,
         page: 1,
         pageCount: 10,
@@ -165,10 +165,8 @@ export const requestPacksTC = () => async (dispatch: Dispatch, getState: () => A
     //названия параметров в стейте должно соответствовать параметрам get запроса
     let params: PacksParamsType = getState().packsReducer.packsParams;
     delete params.user_id
-    params = getState().packsReducer.onlyMy ? {...params, user_id: getState().profileReducer.profile?._id} : {...params}
-
+    params = getState().packsReducer.onlyMy ? {...params, user_id: getState().profileReducer.profile?._id} : params;
     try {
-
         const res = await packsAPI.getPacks(params)
         dispatch(packsActions.setPacks(res.cardPacks))
         dispatch(packsActions.setTotalPacksCountAC(res.cardPacksTotalCount))
@@ -181,18 +179,6 @@ export const requestPacksTC = () => async (dispatch: Dispatch, getState: () => A
 
     }
 }
-// export const requestUserCardsTC = (user_id:string | undefined) => async (dispatch: Dispatch) => {
-//     dispatch(appActions.setAppStatusAC('loading'))
-//     let res = await packsAPI.getUserPacks(1000,4,user_id)
-//     try {
-//         dispatch(packsActions.setPacks(res.cardPacks))
-//         dispatch(appActions.setAppStatusAC('succeeded'))
-//     }
-//     catch (err) {
-//         dispatch(appActions.setAppErrorAC('error'))
-//         dispatch(appActions.setAppStatusAC('failed'))
-//     }
-// }
 export const createPackTC = () => async (dispatch: Dispatch) => {
     dispatch(appActions.setAppStatusAC('loading'))
     let res = await packsAPI.createPack()
