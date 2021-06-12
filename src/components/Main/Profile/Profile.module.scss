@@ -1,0 +1,107 @@
+@import './../../../styles/variables.module';
+@import './../../../styles/mixins.module';
+
+.container {
+  @include gridContainer (100.8rem, transparent);
+  .box {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-column-gap: 1.2rem;
+    width: 100%;
+    background-color: #fff;
+    margin: 0 auto;
+    border-radius: 0.8rem;
+    grid-column: 1 /span 12;
+    font-size: 1.2rem;
+    line-height: 1;
+    overflow: hidden;
+    .columnParams {
+      width: 100%;
+      grid-column: 1 / span 3;
+      padding: 2.4rem;
+      background-color: $optionsColumnColor;
+      h3 {
+        color: $primary;
+      }
+      >p {
+        font-weight: 600;
+      }
+      .onlyMyFilter {
+        display: flex;
+        margin: 2.4rem auto;
+        >button {
+          width: 100%;
+        }
+      }
+    }
+    .columnContent {
+      width: 100%;
+      grid-column: 4 / span 9;
+      padding: 2.4rem 3.6rem;
+      overflow: hidden;
+      .tableBox {
+        display: block;
+        overflow: hidden;
+        margin: 2.4rem auto;
+        //*3-1-2-3-3
+        tr {
+          display: grid;
+          grid-template-columns: repeat(12, 1fr);
+          justify-items: stretch;
+          align-content: center;
+          grid-column-gap: 1.2rem;
+          padding: 1.2rem 2.4rem;
+
+          > th, > td {
+            display: block;
+            align-self: center;
+            white-space: nowrap;
+          }
+
+          > th:nth-child(1), > td:nth-child(1) {
+            grid-column: 1 / span 3;
+            justify-self: start;
+          }
+
+          > th:nth-child(2), > td:nth-child(2) {
+            grid-column: span 1;
+            text-align: center;
+            justify-self: center;
+          }
+
+          > th:nth-child(3), > td:nth-child(3) {
+            grid-column: span 2;
+            justify-self: start;
+            overflow: hidden;
+
+          }
+
+          > th:nth-child(4), > td:nth-child(4) {
+            grid-column: span 3;
+            justify-self: start;
+          }
+
+          > th:nth-child(5), > td:nth-child(5) {
+            grid-column: span 3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+        }
+        >thead {
+          >tr {
+            background-color: $optionsColumnColor;
+          }
+        }
+        >tbody {
+          >tr:nth-child(2n) {
+            background-color: $secondaryRowColor;
+          }
+        }
+      }
+      .tableSettings {
+        margin: 2.4rem auto;
+      }
+    }
+  }
+}
