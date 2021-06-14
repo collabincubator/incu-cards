@@ -82,7 +82,7 @@ export const Packs = React.memo(() => {
     }
 
     const onChangeOnlyMyHandle = (mode: string): void => {
-        dispatch(packsActions.setOnlyMyMode(mode === 'my'))
+        dispatch(packsActions.setOnlyMyMode((mode === 'my')))
     }
 
     if(user === null) {
