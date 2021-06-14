@@ -28,7 +28,13 @@ export const Auth: React.FC = (props) => {
                             return (<Login styles={styles}/>)
                         }}/>
                         <Route path={'/auth/registration'}
-                               render={(props) => <Registration styles={styles}/>}/>
+                               render={(props) => {
+                                   if (isLoggedIn) {
+                                       return (<Redirect to={'/profile'}/>)
+                                   }
+                                   return (<Registration styles={styles}/>)
+                               }}
+                        />
                         <Route path={'/auth/restore-password'}
                                render={(props) => <RestorePass styles={styles}/>}/>
                         <Route path={'/auth/change-password/:token?'}

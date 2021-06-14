@@ -82,7 +82,7 @@ export const authAPI = {
         return cardsRequest.post(`/auth/register/`, {email, password})
             .then(res => res.data)
     },
-    logIn(email: string, password: string, rememberMe: boolean = true) {
+    logIn(email: string, password: string, rememberMe: boolean) {
         return cardsRequest.post<ProfileResponseType>(`/auth/login`, {email, password, rememberMe})
             .then(res => res.data)
     },
