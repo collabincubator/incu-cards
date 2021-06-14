@@ -40,7 +40,7 @@ export const LoginForm:FC<FormPropsType> = ({styles}) => {
             return errors;
         },
         onSubmit: values => {
-            dispatch(loginTC(values.email, values.password))
+            dispatch(loginTC(values.email, values.password, values.rememberMe))
             formik.resetForm()
         }
     })

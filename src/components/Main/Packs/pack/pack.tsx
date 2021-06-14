@@ -7,9 +7,11 @@ import {RequestStatusType} from "../../../../redux/appReducer/appReducer";
 import {AppStateType} from "../../../../redux/store";
 import {requestCardsTC} from "../../../../redux/cardsReducer/CardsReducer";
 import {EditableSpan} from '../../../common/EditableSpan/EditableSpan';
+import {ProfileResponseType} from '../../../../api/cards-api';
 
 
 interface packPropType {
+
     _id: string
     user_id: string
     user_name: string
@@ -26,10 +28,10 @@ interface packPropType {
     loading:RequestStatusType
 }
 
-export const Pack: FC<packPropType> = ({user_name, name, cardsCount, updated, created, ...props}) => {
+export const Pack: FC<packPropType> = ({user_id, user_name, name, cardsCount, updated, created, ...props}) => {
     const dispatch = useDispatch()
     const [packName, setPackName] = useState('');
-
+    const user = useSelector<AppStateType, ProfileResponseType | null>(state => state.profileReducer.profile)
 
 
     const deleteHandler = () => {
@@ -41,18 +43,17 @@ export const Pack: FC<packPropType> = ({user_name, name, cardsCount, updated, cr
     const changeHandler = (name: string) => {
         setPackName(name)
     }
-
     return (
         <tr>
             <td>
                 <EditableSpan value={name} onChange={changeHandler}/>
             </td>
             <td>{cardsCount}</td>
-            <td>{updated = new Date(updated).toLocaleDateString('ru', {day: '2-digit', month: '2-digit', year: 'numeric'})}</td>
+            <td>{new Date(updated).toLocaleDateString('ru', {day: '2-digit', month: '2-digit', year: 'numeric'})}</td>
             <td>{user_name}</td>
             <td>
-                <button onClick={deleteHandler} disabled={props.loading === 'loading'}>del</button>
-                <button onClick={updateHandler}> update</button>
+                {user_id === user?._id && <button onClick={deleteHandler} disabled={props.loading === 'loading'}>del</button>}
+                {user_id === user?._id && <button onClick={updateHandler} disabled={props.loading === 'loading'}>update</button>}
                 <NavLink
                     to={`/cards/${props._id}/${name}`}>
                     cards
