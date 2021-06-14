@@ -115,12 +115,9 @@ export const authAPI = {
 
 }
 
-// 2.0/cards/pack?pageCount=1000&page=4&sortPacks=0updated&user_id=60b4d51e02174f47107778a6
-// 2.0/cards/pack?min=1&max=20&page=3&pageCount=10&sortPacks=0updated&user_id=60b4d51e02174f47107778a6
-
-
 export const packsAPI = {
     getPacks(params?: PacksParamsType) {
+
         return cardsRequest.get<packsResponse>('/cards/pack', {params})
             .then(res => res.data)
     },

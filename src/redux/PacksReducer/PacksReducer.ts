@@ -3,6 +3,8 @@ import {packType, packsAPI} from "../../api/cards-api";
 import {appActions} from "../appReducer/appReducer";
 import { authActions } from "../authReducer/authReducer";
 import {AppStateType} from '../store';
+import {batch} from 'react-redux';
+import {createSelector} from 'reselect';
 
 export const SET_PACKS = 'packsReducer/SET-PACKS' as const;
 export const SET_PAGE_COUNT = 'packsReducer/SET-PAGE-COUNT' as const;
@@ -160,61 +162,88 @@ export const packsActions = {
     },
 }
 
+//Reselect
+const params = (state: AppStateType) => state.packsReducer.packsParams;
+const onlyMyMode = (state: AppStateType) => state.packsReducer.onlyMy;
+const profileId = (state: AppStateType) => state.profileReducer.profile?._id;
+
+const getReqParams = createSelector(params, onlyMyMode, profileId, (params, onlyMy, id) => {
+    return onlyMy && id ? {...params, user_id: id} : params;
+})
+
+//Thunk Creators
 export const requestPacksTC = () => async (dispatch: Dispatch, getState: () => AppStateType) => {
     dispatch(appActions.setAppStatusAC('loading'));
     //названия параметров в стейте должно соответствовать параметрам get запроса
-    let params: PacksParamsType = getState().packsReducer.packsParams;
-    delete params.user_id
-    params = getState().packsReducer.onlyMy ? {...params, user_id: getState().profileReducer.profile?._id} : params;
     try {
-        const res = await packsAPI.getPacks(params)
-        dispatch(packsActions.setPacks(res.cardPacks))
-        dispatch(packsActions.setTotalPacksCountAC(res.cardPacksTotalCount))
-        dispatch(appActions.setAppStatusAC('succeeded'))
+        const res = await packsAPI.getPacks(getReqParams(getState()))
+        batch(()=>{
+            dispatch(packsActions.setPacks(res.cardPacks))
+            dispatch(packsActions.setTotalPacksCountAC(res.cardPacksTotalCount))
+            dispatch(appActions.setAppStatusAC('succeeded'))
+        })
+
     }
     catch (err) {
-        dispatch(appActions.setAppErrorAC('error'))
-        dispatch(appActions.setAppStatusAC('failed'))
-        dispatch(authActions.loginFlowAC(false))
+        batch(()=>{
+            dispatch(appActions.setAppErrorAC('error'))
+            dispatch(appActions.setAppStatusAC('failed'))
+            dispatch(authActions.loginFlowAC(false))
+        })
+    }
+}
+export const createPackTC = () => async (dispatch: Dispatch, getState: () => AppStateType) => {
+    dispatch(appActions.setAppStatusAC('loading'))
+
+    try {
+        await packsAPI.createPack()
+        let res1 = await packsAPI.getPacks(getReqParams(getState()))
+        batch(()=>{
+            dispatch(packsActions.setPacks(res1.cardPacks))
+            dispatch(appActions.setAppStatusAC('succeeded'))
+        })
+    }
+    catch (err) {
+        batch(()=>{
+            dispatch(appActions.setAppErrorAC('error'))
+            dispatch(appActions.setAppStatusAC('failed'))
+        })
 
     }
 }
-export const createPackTC = () => async (dispatch: Dispatch) => {
+export const deletePackTC = (packId:string) => async (dispatch: Dispatch, getState: () => AppStateType) => {
     dispatch(appActions.setAppStatusAC('loading'))
-    let res = await packsAPI.createPack()
-    let res1 = await packsAPI.getPacks()
     try {
-        dispatch(packsActions.setPacks(res1.cardPacks))
-        dispatch(appActions.setAppStatusAC('succeeded'))
+        await packsAPI.deletePack(packId)
+        let res1 = await packsAPI.getPacks(getReqParams(getState()))
+        batch(() => {
+            dispatch(packsActions.setPacks(res1.cardPacks))
+            dispatch(appActions.setAppStatusAC('succeeded'))
+        })
     }
     catch (err) {
-        dispatch(appActions.setAppErrorAC('error'))
-        dispatch(appActions.setAppStatusAC('failed'))
+        batch(() => {
+            dispatch(appActions.setAppErrorAC('error'))
+            dispatch(appActions.setAppStatusAC('failed'))
+        })
     }
 }
-export const deletePackTC = (packId:string) => async (dispatch: Dispatch) => {
+
+export const updatePackTC = (packId:string, name:string) => async (dispatch: Dispatch, getState: () => AppStateType) => {
     dispatch(appActions.setAppStatusAC('loading'))
-    let res = await packsAPI.deletePack(packId)
-    let res1 = await packsAPI.getPacks()
     try {
-        dispatch(packsActions.setPacks(res1.cardPacks))
-        dispatch(appActions.setAppStatusAC('succeeded'))
+        await packsAPI.updatePack(packId, name)
+        let res1 = await packsAPI.getPacks(getReqParams(getState()))
+        batch(()=> {
+            dispatch(packsActions.setPacks(res1.cardPacks))
+            dispatch(appActions.setAppStatusAC('succeeded'))
+        })
+
     }
     catch (err) {
-        dispatch(appActions.setAppErrorAC('error'))
-        dispatch(appActions.setAppStatusAC('failed'))
-    }
-}
-export const updatePackTC = (packId:string,name:string) => async (dispatch: Dispatch) => {
-    dispatch(appActions.setAppStatusAC('loading'))
-    let res = await packsAPI.updatePack(packId,name)
-    let res1 = await packsAPI.getPacks()
-    try {
-        dispatch(packsActions.setPacks(res1.cardPacks))
-        dispatch(appActions.setAppStatusAC('succeeded'))
-    }
-    catch (err) {
-        dispatch(appActions.setAppErrorAC('error'))
-        dispatch(appActions.setAppStatusAC('failed'))
+        batch(()=>{
+            dispatch(appActions.setAppErrorAC('error'))
+            dispatch(appActions.setAppStatusAC('failed'))
+        })
     }
 }
