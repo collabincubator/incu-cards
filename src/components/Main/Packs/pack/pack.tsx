@@ -7,7 +7,8 @@ import {RequestStatusType} from "../../../../redux/appReducer/appReducer";
 import {AppStateType} from "../../../../redux/store";
 import {requestCardsTC} from "../../../../redux/cardsReducer/CardsReducer";
 import {EditableSpan} from '../../../common/EditableSpan/EditableSpan';
-import {ProfileResponseType} from '../../../../api/cards-api';
+import {cardType, ProfileResponseType} from '../../../../api/cards-api';
+import {CardsPopup} from '../../CardsPopup/CardsPopup';
 
 
 interface packPropType {
@@ -31,7 +32,8 @@ interface packPropType {
 export const Pack: FC<packPropType> = ({user_id, user_name, name, cardsCount, updated, created, ...props}) => {
     const dispatch = useDispatch()
     const [packName, setPackName] = useState('');
-    const user = useSelector<AppStateType, ProfileResponseType | null>(state => state.profileReducer.profile)
+    let [packPopup, setPackPopup] = useState(false);
+    const user = useSelector<AppStateType, ProfileResponseType | null>(state => state.profileReducer.profile);
 
 
     const deleteHandler = () => {
@@ -43,8 +45,13 @@ export const Pack: FC<packPropType> = ({user_id, user_name, name, cardsCount, up
     const changeHandler = (name: string) => {
         setPackName(name)
     }
+
+    const onClickQuestionHandle = () => {
+        setPackPopup(prev => !prev)
+    }
+
     return (
-        <tr>
+        <tr onClick={onClickQuestionHandle}>
             <td>
                 <EditableSpan value={name} onChange={changeHandler}/>
             </td>
@@ -59,6 +66,11 @@ export const Pack: FC<packPropType> = ({user_id, user_name, name, cardsCount, up
                     cards
                 </NavLink>
             </td>
+            {packPopup && (<>
+                <CardsPopup onClick={onClickQuestionHandle} id={props._id} name={name} />
+            </>)
+            }
         </tr>
+
     )
 }

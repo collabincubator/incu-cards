@@ -1,3 +1,27 @@
 .input{
     width: 100%;
   }
+
+.popupQuestionContainer {
+  position: fixed;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.popupQuestionBox {
+  position: fixed;
+  z-index: 1;
+  width: 36rem;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: 18rem auto;
+  background-color: rgba(255, 255, 255, 1);
+}
