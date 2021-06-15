@@ -163,6 +163,7 @@ export const Packs = React.memo(() => {
                             </thead>
                             <tbody>
                                 {packs.map(pack => {
+
                                 return (
                                     <Pack
                                         loading={loading}
