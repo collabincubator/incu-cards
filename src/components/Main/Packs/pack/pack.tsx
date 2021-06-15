@@ -57,6 +57,7 @@ export const Pack: FC<packPropType> = ({user_id, user_name, name, cardsCount, up
             if (e.currentTarget === e.target) {
                 onClickQuestionHandle()
             }
+            e.stopPropagation()
         }
         }>
             <td>
@@ -73,7 +74,7 @@ export const Pack: FC<packPropType> = ({user_id, user_name, name, cardsCount, up
                     cards
                 </NavLink>
             </td>
-            {activePopupId === props._id && <CardsPopup onClick={onClickQuestionHandle} name={name} />}
+            {activePopupId === props._id && <CardsPopup onClick={onClickQuestionHandle} name={name} author={user_name} />}
         </tr>
 
     )

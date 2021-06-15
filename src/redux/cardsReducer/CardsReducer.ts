@@ -174,8 +174,12 @@ export const requestCardsTC = (cardsPackId: string ) => async (dispatch: Dispatc
         })
     }
 }
-export const requestCardsPopupTC = (cardsPackId: string) => async (dispatch: Dispatch) => {
+export const requestCardsPopupTC = (cardsPackId: string) => async (dispatch: Dispatch, getState: () => AppStateType) => {
     const params = {
+        min: 0,
+        max: 1000,
+        page: 1,
+        pageCount: 1000,
         cardsPack_id: cardsPackId
     }
     dispatch(appActions.setAppStatusAC('loading'));
