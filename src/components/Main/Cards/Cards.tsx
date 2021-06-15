@@ -8,13 +8,15 @@ import {useParams} from "react-router-dom";
 import {requestCardsTC} from "../../../redux/cardsReducer/CardsReducer";
 
 
-
+type ParamsType = {
+    id: string
+    name: string
+}
 
 export const Cards = () => {
 
     const dispatch = useDispatch()
-    // @ts-ignore
-    const {id,name} = useParams()
+    const {id, name} = useParams<ParamsType>()
     const cards = useSelector<AppStateType,cardType[]>(state => state.cardsReducer.cards)
     useEffect(() => {
         dispatch(requestCardsTC(id))

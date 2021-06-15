@@ -1,35 +1,47 @@
 import React, {useEffect} from 'react';
-import styles from '../Packs/pack/pack.module.scss';
+import styles from './CardsPopup.module.scss';
 import {useSelector} from 'react-redux';
 import {AppStateType} from '../../../redux/store';
-import {cardsResponseType, cardType} from '../../../api/cards-api';
+import {cardType} from '../../../api/cards-api';
 
 type PropsType = {
     onClick: () => void
     name: string
-    id: string
 }
 
-export const CardsPopup: React.FC<PropsType> = ({onClick, name, id, ...props}) => {
+export const CardsPopup: React.FC<PropsType> = ({onClick, name, ...props}) => {
 
     const cards = useSelector<AppStateType,cardType[]>(state => state.cardsReducer.cards)
 
+    const cardsPages = cards.map((card, i) => {
+
+        return (
+            <div key={`card${i}`}>
+                <h2>Learn {card.cardsPack_id}</h2>
+                <h3>author: {card.user_id}</h3>
+                <p><strong>Question: </strong>{card.question}</p>
+                <p><strong>Answer: </strong>{card.answer}</p>
+            </div>
+        )
+    })
+
     useEffect(()=>{
 
-    }, [name, id])
-
+    }, [])
     return(
         <>
-            <div className={styles.popupQuestionContainer} onClick={(e)=>onClick}>:&nbsp;</div>
-            <div className={styles.popupQuestionBox}>
-                <button onClick={(e)=>onClick}>
-                    close
-                </button>
-                <h2>Learn {name}</h2>
-                <p><strong>Question</strong>{}</p>
-                <p><strong>Answer</strong></p>
-
+            <div className={styles.popupQuestionContainer} onClick={(e)=>{
+                    if(e.currentTarget === e.target) {
+                        onClick()
+                    }
+                }
+            }>
+                <div className={styles.popupQuestionBox}>
+                    <p>pack name : {name}</p>
+                    {cardsPages[1]}
+                </div>
             </div>
+
         </>
         )
 

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {PacksParamsType} from '../redux/PacksReducer/PacksReducer';
+import {CardsParamsType} from '../redux/cardsReducer/CardsReducer';
 
 const cardsRequest = axios.create({
     baseURL: 'http://localhost:7542/2.0',
@@ -148,8 +149,8 @@ export const packsAPI = {
     }
 }
 export const cardsAPI = {
-    getCards(cardsPack_id:string) {
-        return cardsRequest.get<cardsResponseType>(`/cards/card?cardsPack_id=${cardsPack_id}`)
+    getCards(params: CardsParamsType) {
+        return cardsRequest.get<cardsResponseType>(`/cards/card`, {params})
             .then(res => res.data)
     },
     createCard(cardsPack_id: string) {
