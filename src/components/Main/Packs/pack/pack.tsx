@@ -11,7 +11,7 @@ import {cardType, ProfileResponseType} from '../../../../api/cards-api';
 import {CardsPopup} from '../../CardsPopup/CardsPopup';
 
 
-interface packPropType {
+type packPropType = {
 
     _id: string
     user_id: string

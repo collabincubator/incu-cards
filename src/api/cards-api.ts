@@ -162,7 +162,11 @@ export const cardsAPI = {
             .then(res =>res.data)
     },
     updateCard(_id:string,name:string) {
-        return cardsRequest.put(`/cards/card `,{_id,name})
+        return cardsRequest.put(`/cards/card`,{_id,name})
+            .then(res => res.data)
+    },
+    updateCardGrade(card_id: string, grade: number) {
+        return cardsRequest.put(`/cards/grade`, {card_id, grade})
             .then(res => res.data)
     }
 }

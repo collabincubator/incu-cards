@@ -213,6 +213,7 @@ export const createPackTC = () => async (dispatch: Dispatch, getState: () => App
 }
 export const deletePackTC = (packId:string) => async (dispatch: Dispatch, getState: () => AppStateType) => {
     dispatch(appActions.setAppStatusAC('loading'))
+
     try {
         await packsAPI.deletePack(packId)
         let res1 = await packsAPI.getPacks(getReqParams(getState()))
