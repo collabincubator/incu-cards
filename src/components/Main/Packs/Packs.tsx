@@ -75,10 +75,8 @@ export const Packs = React.memo(() => {
     const onClickSortByHandle = (key: KeyType = 'updated') => {
         const order: OrderType = sortByStateUI.order === 'asc' ? 'desc' : 'asc';
         const intOrder: number = order === 'desc' ? 1 : 0;
-
         dispatch(packsActions.setSortPacksAC(intOrder, key));
         setSortByStateUI(prev => ( {order, key} ));
-        console.log(intOrder + key + '')
     }
 
     const onChangeOnlyMyHandle = (mode: string): void => {
