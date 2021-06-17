@@ -71,7 +71,7 @@ export const Pack: FC<packPropType> = ({user_id, user_name, name, cardsCount, up
                 {user_id === user?._id && <button onClick={updateHandler} disabled={props.loading === 'loading'}>update</button>}
                 <NavLink
                     to={`/cards/${props._id}/${name}`}>
-                    cards
+                    learn
                 </NavLink>
             </td>
             {activePopupId === props._id && <CardsPopup onClick={onClickQuestionHandle} name={name} author={user_name} />}

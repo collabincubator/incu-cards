@@ -1,0 +1,18 @@
+.cardPage{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  padding: 2.4rem;
+  white-space: normal;
+  overflow-x: hidden;
+  overflow-y: auto;
+  h2 {
+    text-align: center;
+    font-weight: 600;
+  }
+  p {
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+  }
+}

@@ -18,23 +18,9 @@
   right: 0;
   bottom: 0;
   left: 0;
-  margin: 18rem auto;
+  margin: 12rem auto;
   border-radius: 0.8rem;
-  overflow: hidden;
   background-color: rgba(255, 255, 255, 1);
-  .cardPage{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    padding: 2.4rem;
-    h2 {
-      text-align: center;
-      font-weight: 600;
-    }
-    p {
-      font-size: 1.6rem;
-      line-height: 2.4rem;
-    }
-  }
+  overflow: hidden;
+  white-space: normal;
 }
