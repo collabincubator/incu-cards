@@ -198,4 +198,21 @@ export const requestCardsPopupTC = (cardsPackId: string) => async (dispatch: Dis
     }
 }
 
+export const updateCardRateTC = (card_id: string, grade: number) => async (dispatch: Dispatch, getState: () => AppStateType) => {
+    dispatch(appActions.setAppStatusAC('loading'));
+    try {
+        const res = await cardsAPI.updateCardGrade(card_id, grade)
+        console.log(res)
+    }
+    catch (err) {
+        batch(()=>{
+            dispatch(appActions.setAppErrorAC('error'))
+            dispatch(appActions.setAppStatusAC('failed'))
+        })
+    }
+    finally {
+        dispatch(appActions.setAppStatusAC('succeeded'))
+    }
+}
+
 export default cardsReducer;
