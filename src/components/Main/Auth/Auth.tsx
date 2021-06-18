@@ -8,6 +8,7 @@ import ChangePass from '../ChangePass/ChangePass/ChangePass';
 import {useSelector} from "react-redux";
 import { AppStateType } from '../../../redux/store';
 import classNames from "classnames";
+import {ProfileEdit} from '../ProfileEdit/ProfileEdit';
 
 
 export const Auth: React.FC = (props) => {
@@ -39,6 +40,8 @@ export const Auth: React.FC = (props) => {
                                render={(props) => <RestorePass styles={styles}/>}/>
                         <Route path={'/auth/change-password/:token?'}
                                render={(props) => <ChangePass styles={styles}/>}/>
+                        <Route path={'/auth/profile-edit'}
+                               render={(props) => <ProfileEdit styles={styles}/>}/>
                     </Switch>
                 </div>
             </div>

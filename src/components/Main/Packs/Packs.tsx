@@ -11,7 +11,7 @@ import {Pack} from "./pack/pack";
 import avatar from '../../../assets/img/png/cybava.png';
 import styles from './Packs.module.scss'
 import { RequestStatusType } from '../../../redux/appReducer/appReducer';
-import {Redirect} from "react-router-dom";
+import {NavLink, Redirect} from "react-router-dom";
 import {Pagination} from './../../Pagination/Pagination';
 import {Button, ButtonGroup, Slider, Typography} from '@material-ui/core';
 import {SearchPacks} from './SearchPacks/SearchPacks';
@@ -97,12 +97,13 @@ export const Packs = React.memo(() => {
                                 <img src={avatar} alt={'profile avatar'} className={styles.profileAvatar}/>
                             </div>
                             <h3>
-                                John Doe
+                                {user?.name}
                             </h3>
                             <p>Front-end developer</p>
-                            <button type={'button'}>
+                            <NavLink
+                                to={`/auth/profile-edit`}>
                                 Edit profile
-                            </button>
+                            </NavLink>
                         </div>
                     </div>
                     <div className={styles.paramsBox}>
