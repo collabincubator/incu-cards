@@ -58,7 +58,12 @@ export const changeProfileNameTC = (name: string) => (dispatch: Dispatch) => {
             profileActions.setProfileUpdateAC(data)
         })
 }
-
+export const updateProfileAvatarTC = (avatar: any) => (dispatch: Dispatch) => {
+    authAPI.updateAvatar(avatar)
+        .then(data => {
+            profileActions.setProfileUpdateAC(data)
+        })
+}
 
 
 export default profileReducer;

@@ -99,6 +99,10 @@ export const authAPI = {
         return cardsRequest.put(`/auth/me`, {name, avatar})
             .then(res => res.data)
     },
+    updateAvatar(avatar: string) {
+        return cardsRequest.put(`/auth/me`, {avatar})
+            .then(res => res.data)
+    },
     setNewPassword(password: string, resetPasswordToken: string) {
         return cardsRequest.post(`/auth/set-new-password`, {password, resetPasswordToken})
             .then(res => res.data)
