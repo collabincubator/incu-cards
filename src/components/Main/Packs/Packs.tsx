@@ -7,7 +7,7 @@ import {
 } from "../../../redux/PacksReducer/PacksReducer";
 import {AppStateType} from "../../../redux/store";
 import {packType, ProfileResponseType} from "../../../api/cards-api";
-import {Pack} from "./pack/pack";
+import {Pack} from "./Pack/Pack";
 import avatar from '../../../assets/img/png/cybava.png';
 import styles from './Packs.module.scss'
 import { RequestStatusType } from '../../../redux/appReducer/appReducer';

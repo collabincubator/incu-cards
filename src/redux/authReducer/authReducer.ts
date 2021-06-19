@@ -2,6 +2,7 @@ import {authAPI} from '../../api/cards-api';
 import {Dispatch} from "redux";
 import {profileActions} from '../profileReducer/profileReducer';
 import {appActions} from '../appReducer/appReducer';
+import {batch} from 'react-redux';
 
 export const LOGIN_FLOW = 'authReducer/SET-LOGIN-FLOW' as const;
 export const ERROR = 'authReducer/SET-ERROR' as const;
@@ -116,12 +117,16 @@ export const authMeTC = () => (dispatch: Dispatch) => {
     dispatch(appActions.setInitializingAC(true))
     authAPI.me()
         .then(data => {
-            dispatch(profileActions.setProfileDataAC(data))
-            dispatch(authActions.loginFlowAC(true))
+            batch(()=>{
+                dispatch(profileActions.setProfileDataAC(data))
+                dispatch(authActions.loginFlowAC(true))
+            })
         })
         .catch(err => {
-            dispatch(authActions.errorAC(err.message))
-            dispatch(authActions.loginFlowAC(false))
+            batch(()=>{
+                dispatch(authActions.errorAC(err.message))
+                dispatch(authActions.loginFlowAC(false))
+            })
         })
         .finally(() => {
             dispatch(appActions.setInitializingAC(false))
