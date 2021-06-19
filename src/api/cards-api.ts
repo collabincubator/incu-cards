@@ -123,7 +123,7 @@ export const authAPI = {
 export const packsAPI = {
     getPacks(params?: PacksParamsType) {
 
-        return cardsRequest.get<packsResponse>('/cards/pack', {params})
+        return cardsRequest.get<packsResponse>('/cards/Pack', {params})
             .then(res => res.data)
     },
     getUserPacks(pageCount: number = 100, page: number = 1, user_id: string | undefined) {
@@ -133,7 +133,7 @@ export const packsAPI = {
     createPack() {
         return cardsRequest.post<packsResponse>(`/cards/pack`, {
             cardsPack: {
-                name: "new pack 2.0",
+                name: "new Pack 2.0",
             }
         })
             .then(res => res.data)

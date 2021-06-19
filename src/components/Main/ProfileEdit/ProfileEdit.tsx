@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, RefObject, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useFormik} from 'formik';
 import {FormControl, FormHelperText, Input, InputLabel} from '@material-ui/core';
@@ -20,6 +20,9 @@ type FormikErrorType = {
 export const ProfileEdit: React.FC<PropsType> = ({styles, ...props}) => {
     const dispatch = useDispatch()
     const profile = useSelector<AppStateType, ProfileResponseType | null>(state => state.profileReducer.profile)
+    const updAvatarRef = useRef<HTMLInputElement>(null)
+    const [updAvatar, setUpdAvatar] = useState<File>();
+    const [updAvatarURL, setUpdAvatarURL] = useState<string>();
     const formik = useFormik({
         initialValues: {
             nicknameForUpdate: profile?.name,
@@ -46,21 +49,27 @@ export const ProfileEdit: React.FC<PropsType> = ({styles, ...props}) => {
     })
 
     const onClickUpdateAvatarHandle = (e: ChangeEvent<HTMLInputElement>) => {
-
-        if (e.target.files?.length) {
-            dispatch(updateProfileAvatarTC(e.target.files?.[0]))
-        }
         e.stopPropagation()
+        const newAvatar = e.target.files && e.target.files[0]
+
+        if (newAvatar) {
+            setUpdAvatar( prev => newAvatar)
+            setUpdAvatarURL( prev => window.URL.createObjectURL(newAvatar))
+            dispatch(updateProfileAvatarTC(window.URL.createObjectURL(newAvatar)))
+        }
 
     }
 
     return (<>
         <h2>Personal information</h2>
         <div className={styles.imgProfileAvatarBox}>
-            <img src={profileAvatar} alt={'profile avatar'} className={styles.imgProfileAvatar}/>
-            <div className={styles.imgUpdateAvatarBox} >
-                <img src={updateAvatarIcon} alt="update avatar" className={styles.imgUpdateAvatar}/>
-                <input type={'file'} onChange={onClickUpdateAvatarHandle}/>
+            <img src={updAvatarURL || profile?.avatar} alt={'profile avatar'} className={styles.imgProfileAvatar}/>
+            <div className={styles.imgUpdateAvatarBox}>
+                <img src={updateAvatarIcon}
+                     alt='update avatar'
+                     className={styles.imgUpdateAvatar}
+                     onClick={() => updAvatarRef && updAvatarRef.current && updAvatarRef.current.click()}/>
+                <input type={'file'} onChange={onClickUpdateAvatarHandle} style={{display: 'none'}} ref={updAvatarRef}/>
             </div>
         </div>
         <FormControl {...formik.getFieldProps('nicknameForUpdate')}

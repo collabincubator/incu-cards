@@ -1,12 +1,11 @@
-import React from 'react';
-import { useSelector} from 'react-redux';
+import React, {useEffect, useState} from 'react';
 import {NavLink} from 'react-router-dom';
-import {AppStateType} from '../../../redux/store';
 import {LoginForm} from "./LoginForm/loginForm";
-import {CustomCheckbox} from "../../common/checkbox/checkbox";
-import {Switch} from "../../common/switch/switch";
-import {Checkbox, FormControlLabel} from "@material-ui/core";
-import {Favorite, FavoriteBorder} from "@material-ui/icons";
+import {useDispatch, useSelector} from 'react-redux';
+import {authMeTC} from '../../../redux/authReducer/authReducer';
+import {AppStateType} from '../../../redux/store';
+import {ProfileResponseType} from '../../../api/cards-api';
+
 
 type PropsType = {
     styles: any

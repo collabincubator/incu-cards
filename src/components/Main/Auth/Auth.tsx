@@ -22,6 +22,12 @@ export const Auth: React.FC = (props) => {
             }))}>
                 <div className={styles.inner}>
                     <Switch>
+                        <Route path={'/auth'} exact render={(props) => {
+                            if (isLoggedIn) {
+                                return (<Redirect to={'/profile'}/>)
+                            }
+                            return (<Login styles={styles}/>)
+                        }}/>
                         <Route path={'/auth/login'} render={(props) => {
                             if (isLoggedIn) {
                                 return (<Redirect to={'/profile'}/>)

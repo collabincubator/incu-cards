@@ -23,7 +23,7 @@ export const LoginForm:FC<FormPropsType> = ({styles}) => {
         initialValues: {
             email: 'collabincubator@gmail.com',
             password: 'collaborators',
-            rememberMe:true,
+            rememberMe: false,
         },
         validate: values => {
             const errors: FormikErrorType = {};
@@ -72,8 +72,15 @@ export const LoginForm:FC<FormPropsType> = ({styles}) => {
                 <FormHelperText id="password-error">{formik.errors.password}</FormHelperText>}
             </FormControl>
             <FormControlLabel
-                control={<Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} name="rememberMe"  value={formik.values.rememberMe} />}
-                label="Remember me"
+                {...formik.getFieldProps('rememberMe')}
+                control={<Checkbox checked={formik.values.rememberMe}
+                                   value={formik.values.rememberMe}
+                                   onChange={formik.handleChange}
+                                   name='rememberMe'
+                                   id={'rememberMe'}
+                                   color={'primary'}
+                />}
+                label='RememberMe'
             />
             <div className={styles.forgotBox}>
                 <NavLink className={styles.navLinkForgotBox} to={'/auth/restore-password'}>

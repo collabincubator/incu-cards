@@ -28,10 +28,9 @@ const App = (props: any) => {
     const theme = useSelector<AppStateType, 'light'|'dark'>(state => state.appReducer.theme);
     const isLoggedIn = useSelector<AppStateType, boolean | null>( state => state.authReducer.isLoggedIn);
     const profile = useSelector<AppStateType, ProfileResponseType | null>(state => state.profileReducer.profile);
-    const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(authMeTC())
+        //dispatch(authMeTC())
     },[isLoggedIn])
 
 

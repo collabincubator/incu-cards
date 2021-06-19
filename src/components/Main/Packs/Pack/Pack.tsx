@@ -1,6 +1,6 @@
 import React, {FC, useEffect, useState} from 'react'
 import { NavLink } from 'react-router-dom'
-import styles from './pack.module.scss'
+import styles from './Pack.module.scss'
 import {useDispatch, useSelector} from "react-redux";
 import {deletePackTC, updatePackTC} from "../../../../redux/PacksReducer/PacksReducer";
 import {RequestStatusType} from "../../../../redux/appReducer/appReducer";
