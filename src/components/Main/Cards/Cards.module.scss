@@ -13,19 +13,37 @@
     font-size: 1.6rem;
     line-height: 1;
     overflow: hidden;
-    .inner {
+    .searchPacks {
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: stretch;
-      h1, h2 {
-        color: $primary
-      }
-      h1 {
-        line-height: 3.6rem;
-      }
-      h2 {
-        @include formHeader2();
+      justify-content: space-between;
+      padding-bottom: 10px;
+    }
+    .tableBox {
+      display: block;
+      thead, tbody {
+        display: block;
+        tr {
+          @include gridContainer(100%, transparent);
+          width: 100%;
+          >td, >th {
+            display: block;
+            text-align:left;
+            white-space: nowrap;
+          }
+          > th:nth-child(1), > td:nth-child(1) {
+            grid-column: 1 / span 4;
+
+          }
+          > th:nth-child(2), > td:nth-child(2) {
+            grid-column: span 4;
+          }
+          > th:nth-child(3), > td:nth-child(3) {
+            grid-column: span 2;
+          }
+          > th:nth-child(4), > td:nth-child(4) {
+            grid-column: -1 /span 2;
+          }
+        }
       }
     }
   }

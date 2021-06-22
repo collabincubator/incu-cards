@@ -1,4 +1,4 @@
-import React, {ChangeEvent, MouseEventHandler, useEffect, useState} from 'react';
+import React, {ChangeEvent, MouseEventHandler, useState} from 'react';
 import styles from './CardsPopup.module.scss';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppStateType} from '../../../redux/store';

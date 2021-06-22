@@ -1,9 +1,14 @@
 @import 'styles/mixins.module';
 
-.app {
+
+.wrapper{
   background: $bgcolor;
-  height: 100%;
+  .app {
+
+    height: 100%;
+  }
 }
+
 .appDark {
   background: linear-gradient(180deg, rgba(2, 18, 34, 0.89) 0%, rgba(86, 62, 74, 0.85) 100%);;
 }

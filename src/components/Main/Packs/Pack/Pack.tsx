@@ -1,18 +1,16 @@
-import React, {FC, useEffect, useState} from 'react'
+import React, {FC, useState} from 'react'
 import { NavLink } from 'react-router-dom'
-import styles from './Pack.module.scss'
 import {useDispatch, useSelector} from "react-redux";
 import {deletePackTC, updatePackTC} from "../../../../redux/PacksReducer/PacksReducer";
 import {RequestStatusType} from "../../../../redux/appReducer/appReducer";
 import {AppStateType} from "../../../../redux/store";
 import {cardsActions, requestCardsPopupTC} from "../../../../redux/cardsReducer/CardsReducer";
 import {EditableSpan} from '../../../common/EditableSpan/EditableSpan';
-import {cardType, ProfileResponseType} from '../../../../api/cards-api';
+import { ProfileResponseType} from '../../../../api/cards-api';
 import {CardsPopup} from '../../CardsPopup/CardsPopup';
 
 
 type packPropType = {
-
     _id: string
     user_id: string
     user_name: string
@@ -44,6 +42,7 @@ export const Pack: FC<packPropType> = ({user_id, user_name, name, cardsCount, up
     const changeHandler = (name: string) => {
         setPackName(name)
     }
+
 
     const onClickQuestionHandle = () => {
         if (activePopupId === props._id) {

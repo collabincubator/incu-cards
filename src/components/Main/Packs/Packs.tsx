@@ -10,13 +10,12 @@ import {packType, ProfileResponseType} from "../../../api/cards-api";
 import {Pack} from "./Pack/Pack";
 import avatar from '../../../assets/img/png/cybava.png';
 import styles from './Packs.module.scss'
-import { RequestStatusType } from '../../../redux/appReducer/appReducer';
+import {RequestStatusType} from '../../../redux/appReducer/appReducer';
 import {NavLink, Redirect} from "react-router-dom";
 import {Pagination} from './../../Pagination/Pagination';
 import {Button, ButtonGroup, Slider, Typography} from '@material-ui/core';
 import {SearchPacks} from './SearchPacks/SearchPacks';
 
-import SearchIcon from '@material-ui/icons/Search';
 type OrderType = '' | 'asc' | 'desc';
 type KeyType = 'updated' | 'cardsCount' | 'user_name' | 'name';
 type SortByStateUIType = {
@@ -27,17 +26,17 @@ type SortByStateUIType = {
 export const Packs = React.memo(() => {
 
     const dispatch = useDispatch()
-    const packs = useSelector<AppStateType,packType[]>(state => state.packsReducer.cardPacks)
+    const packs = useSelector<AppStateType, packType[]>(state => state.packsReducer.cardPacks)
     const onlyMy = useSelector<AppStateType, boolean>(state => state.packsReducer.onlyMy)
-    const user = useSelector<AppStateType,ProfileResponseType | null>(state => state.profileReducer.profile)
-    const error = useSelector<AppStateType,string >(state => state.appReducer.error)
+    const user = useSelector<AppStateType, ProfileResponseType | null>(state => state.profileReducer.profile)
+    const error = useSelector<AppStateType, string>(state => state.appReducer.error)
 
     const {
-            page = 1, pageCount = 10, min = 0, max = 10, packName, sortPacks
+        page = 1, pageCount = 10, min = 0, max = 10, packName, sortPacks
     } = useSelector<AppStateType, PacksParamsType>(state => state.packsReducer.packsParams);
     const pageCounts = useSelector<AppStateType, number[]>(state => state.packsReducer.pageCounts);
     const cardPacksTotalCount = useSelector<AppStateType, number>(state => state.packsReducer.cardPacksTotalCount);
-    const loading = useSelector<AppStateType,RequestStatusType>(state => state.appReducer.status);
+    const loading = useSelector<AppStateType, RequestStatusType>(state => state.appReducer.status);
 
     const [sortByStateUI, setSortByStateUI] = useState<SortByStateUIType>({
         order: '',
@@ -46,8 +45,8 @@ export const Packs = React.memo(() => {
     const [range, setRange] = useState<number | number[]>([min, max]);
 
     useEffect(() => {
-         dispatch(requestPacksTC())
-    },[page, pageCount, sortPacks, min, max, onlyMy])
+        dispatch(requestPacksTC())
+    }, [page, pageCount, sortPacks, min, max, onlyMy])
 
     const onClickHandler = () => {
         dispatch(createPackTC())
@@ -76,14 +75,14 @@ export const Packs = React.memo(() => {
         const order: OrderType = sortByStateUI.order === 'asc' ? 'desc' : 'asc';
         const intOrder: number = order === 'desc' ? 1 : 0;
         dispatch(packsActions.setSortPacksAC(intOrder, key));
-        setSortByStateUI(prev => ( {order, key} ));
+        setSortByStateUI(prev => ({order, key}));
     }
 
     const onChangeOnlyMyHandle = (mode: string): void => {
         dispatch(packsActions.setOnlyMyMode((mode === 'my')))
     }
 
-    if(user === null) {
+    if (user === null) {
         return <Redirect to={'/auth/login'}/>
     }
 
@@ -112,9 +111,13 @@ export const Packs = React.memo(() => {
                                      aria-label="OnlyMy mode button group"
                                      className={styles.onlyMyFilter}
                         >
-                            <Button onClick={()=>{onChangeOnlyMyHandle('all')}}
+                            <Button onClick={() => {
+                                onChangeOnlyMyHandle('all')
+                            }}
                                     variant={onlyMy ? 'outlined' : 'contained'}>All</Button>
-                            <Button onClick={()=>{onChangeOnlyMyHandle('my')}}
+                            <Button onClick={() => {
+                                onChangeOnlyMyHandle('my')
+                            }}
                                     variant={onlyMy ? 'contained' : 'outlined'}>My</Button>
                         </ButtonGroup>
 
@@ -134,7 +137,6 @@ export const Packs = React.memo(() => {
                     </div>
                 </div>
                 <div className={styles.columnContent}>
-
                     <div>
                         <h2>Packs list</h2>
                         <div className={styles.searchPacks}>
@@ -161,7 +163,7 @@ export const Packs = React.memo(() => {
                             </tr>
                             </thead>
                             <tbody>
-                                {packs.map(pack => {
+                            {packs.map(pack => {
 
                                 return (
                                     <Pack
@@ -180,8 +182,8 @@ export const Packs = React.memo(() => {
                                         updated={pack.updated}
                                         created={pack.created}
                                         cardsCount={pack.cardsCount}/>
-                                    )
-                                })}
+                                )
+                            })}
                             </tbody>
                         </table>
                         <div className={styles.tableSettings}>

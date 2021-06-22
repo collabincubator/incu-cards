@@ -5,7 +5,7 @@ import {Button, Checkbox, FormControl, FormControlLabel, FormHelperText, Input, 
 import {FormikCustomInput} from "../../../common/Input/input";
 import {NavLink} from "react-router-dom";
 import {loginTC} from "../../../../redux/authReducer/authReducer";
-import {Favorite, FavoriteBorder} from "@material-ui/icons";
+
 
 type FormikErrorType = {
     email?: string
